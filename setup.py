@@ -8,5 +8,6 @@ setup(name='aviary',
       author_email='ruthangus@gmail.com',
       license='MIT',
       packages=['aviary'],
+      include_package_data=True,
       install_requires=['numpy', 'tqdm', 'astropy', 'matplotlib'],
       zip_safe=False)
