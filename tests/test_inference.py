@@ -45,22 +45,16 @@ def test_lnlike():
     vz = test_galcen.velocity.d_xyz[2].value
 
     params = [vx, vy, vz, np.log(3.)]
-    start1 = time.time()
-    print(av.lnlike_one_star(params, pm, pm_err, pos, pos_err))
-    end1 = time.time()
+    best_lnlike = av.lnlike_one_star(params, pm, pm_err, pos, pos_err)
 
     params = [vx, vy, vz, np.log(10.)]
-    start2 = time.time()
-    print(av.lnlike_one_star(params, pm, pm_err, pos, pos_err))
-    end2 = time.time()
+    wrong_dist = av.lnlike_one_star(params, pm, pm_err, pos, pos_err)
 
     params = [vx, vy, vz, np.log(3.)]
-    start3 = time.time()
-    print(av.lnlike_one_star(params, pm+.5, pm_err, pos, pos_err))
-    end3 = time.time()
-    print(end1 - start1, "s")
-    print(end2 - start2, "s")
-    print(end3 - start3, "s")
+    wrong_pm = av.lnlike_one_star(params, pm+.5, pm_err, pos, pos_err)
+
+    assert best_lnlike > wrong_dist
+    assert best_lnlike > wrong_pm
 
 
 test_lnlike()
