@@ -48,23 +48,3 @@ def get_icrs_from_galactocentric(xyz, vxyz):
     rv = proj_dv[2]
 
     return pm, rv
-
-
-if __name__ == "__main__":
-
-    c = coord.SkyCoord(ra=61.342*u.deg,
-                    dec=17*u.deg,
-                    distance=3*u.kpc,
-                    pm_ra_cosdec=4.2*u.mas/u.yr,
-                    pm_dec=-7.2*u.mas/u.yr,
-                    radial_velocity=17*u.km/u.s)
-
-    test_galcen = c.transform_to(galcen_frame)
-
-    test_pm, test_rv = get_icrs_from_galactocentric(
-        test_galcen.data.xyz,
-        test_galcen.velocity.d_xyz)
-
-    assert u.allclose(test_pm[0], c.pm_ra_cosdec)
-    assert u.allclose(test_pm[1], c.pm_dec)
-    assert u.allclose(test_rv, c.radial_velocity)
