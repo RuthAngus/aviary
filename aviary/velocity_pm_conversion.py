@@ -6,17 +6,6 @@ import numpy as np
 from astropy.coordinates.builtin_frames.galactocentric \
     import get_matrix_vectors
 
-# Set up Solar position and motion.
-sun_xyz = [-8.122, 0, 0] * u.kpc
-sun_vxyz = [12.9, 245.6, 7.78] * u.km/u.s
-
-galcen_frame = coord.Galactocentric(galcen_distance=np.abs(sun_xyz[0]),
-                                    galcen_v_sun=sun_vxyz,
-                                    z_sun=0*u.pc)
-
-# Rotation matrix from Galactocentric to ICRS
-R_gal, _ = get_matrix_vectors(galcen_frame, inverse=True)
-
 
 def get_tangent_basis(ra, dec):
     """
@@ -31,11 +20,9 @@ def get_tangent_basis(ra, dec):
     return M
 
 
-def get_icrs_from_galactocentric(xyz, vxyz):
+def get_icrs_from_galactocentric(xyz, vxyz, R_gal, sun_xyz, sun_vxyz):
     dx = xyz - sun_xyz
     dv = vxyz - sun_vxyz
-
-    # galcen_frame, R_gal = get_rotation_matrix()
 
     x_icrs = coord.ICRS(
         coord.CartesianRepresentation(R_gal @ dx))

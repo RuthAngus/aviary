@@ -30,7 +30,7 @@ def test_convert_vel_to_pm():
 
     test_pm, test_rv = av.get_icrs_from_galactocentric(
         test_galcen.data.xyz,
-        test_galcen.velocity.d_xyz)
+        test_galcen.velocity.d_xyz, R_gal, sun_xyz, sun_vxyz)
 
     assert u.allclose(test_pm[0], c.pm_ra_cosdec)
     assert u.allclose(test_pm[1], c.pm_dec)
