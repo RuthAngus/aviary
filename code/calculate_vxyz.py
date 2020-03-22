@@ -1,4 +1,5 @@
 # Script for calculating vx, vy, vz for stars with RVs.
+# This is just for validating results.
 
 import numpy as np
 import pandas as pd
