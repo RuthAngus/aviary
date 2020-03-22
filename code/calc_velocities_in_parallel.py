@@ -17,6 +17,9 @@ sys.path.append(os.getcwd())
 
 def infer_velocity(df):
 
+    print(df)
+    print(df.ra)
+
     # Format parameter and data arrays.
     pos = [df.ra, df.dec, df.parallax]
     pos_err = [df.ra_error, df.dec_error, df.parallax_error]
