@@ -5,9 +5,9 @@ import pandas as pd
 import aviary as av
 
 
-df0 = pd.read_csv("../data/gaia_mc5.csv")
-m = df0.radial_velocity.values != 0
-df = df0.iloc[m]
+df = pd.read_csv("../data/gaia_mc5.csv")
+# m = df0.radial_velocity.values != 0
+# df = df0.iloc[m]
 
 # for i, row in enumerate(df):
 xyz, vxyz = av.simple_calc_vxyz(df.ra.values, df.dec.values,
@@ -26,4 +26,12 @@ df["x"] = x.value
 df["y"] = y.value
 df["z"] = z.value
 
-df.to_csv("gaia_mc5_velocities.csv")
+vx, vx_err, vy, vy_err, vz, vz_err = av.calc_vxyz(df)
+df["vx_cov"] = vx
+df["vx_cov_err"] = vx_err
+df["vy_cov"] = vy
+df["vy_cov_err"] = vy_err
+df["vz_cov"] = vz
+df["vz_cov_err"] = vz_err
+
+df.to_csv("../data/gaia_mc5_velocities.csv")
