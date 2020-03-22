@@ -69,7 +69,7 @@ def simple_calc_vxyz(ra, dec, D, pmra, pmdec, rv):
                        distance=D*u.kpc,
                        pm_ra_cosdec=pmra*u.mas/u.yr,
                        pm_dec=pmdec*u.mas/u.yr,
-                       radial_velocity=ra*u.km/u.s)
+                       radial_velocity=rv*u.km/u.s)
 
     galcen = c.transform_to(galcen_frame)
     return galcen.data.xyz, galcen.velocity.d_xyz
