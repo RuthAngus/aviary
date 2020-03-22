@@ -11,6 +11,7 @@ from multiprocessing import Pool
 
 # Path needed for SLURM
 import sys
+import os
 sys.path.append(os.getcwd())
 
 
