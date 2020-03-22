@@ -93,7 +93,7 @@ def lnprior(params):
         # And a Gaussian prior over X, Y and Z velocities
         return lnGauss(vx, 0, 100) \
              + lnGauss(vy, 0, 100) \
-             + lnGauss(vz, 0, 100)
+             + lnGauss(vz, 0.6, 11.5)
 
     else:
         return -np.inf

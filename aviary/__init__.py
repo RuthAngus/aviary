@@ -5,3 +5,4 @@ from .dispersion import *
 from .avr import *
 from .velocity_pm_conversion import *
 from .inference import *
+from .velocities import *

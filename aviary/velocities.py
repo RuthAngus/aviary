@@ -5,6 +5,8 @@ from astropy.table import Table
 import astropy.coordinates as coord
 import astropy.units as u
 
+from astropy.coordinates.builtin_frames.galactocentric \
+    import get_matrix_vectors
 
 # Set up Solar position and motion.
 sun_xyz = [-8.122, 0, 0] * u.kpc
