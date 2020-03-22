@@ -1,6 +1,8 @@
 # Functions needed for inferring velocities.
 
 import numpy as np
+import pandas as pd
+import astropy.stats as aps
 import astropy.coordinates as coord
 import astropy.units as u
 from astropy.coordinates.builtin_frames.galactocentric \
@@ -8,6 +10,7 @@ from astropy.coordinates.builtin_frames.galactocentric \
 
 import aviary as av
 
+# Solar coords
 sun_xyz = [-8.122, 0, 0] * u.kpc
 sun_vxyz = [12.9, 245.6, 7.78] * u.km/u.s
 
@@ -20,20 +23,28 @@ galcen_frame = coord.Galactocentric(galcen_distance=np.abs(sun_xyz[0]),
 R_gal, _ = get_matrix_vectors(galcen_frame, inverse=True)
 
 
-def proper_motion_model(params, pm, pm_err, pos, pos_err):
+# Calculate prior parameters from vx, vy, vz distributions.
+import pkg_resources
+vel_data = pkg_resources.resource_filename(__name__,
+                                           "../data/gaia_mc5_velocities.csv")
+vels = pd.read_csv(vel_data)
+mu_vx = np.median(vels.basic_vx.values)
+mu_vy = np.median(vels.basic_vy.values)
+mu_vz = np.median(vels.basic_vz.values)
+sigma_vx = 1.5*aps.median_absolute_deviation(vels.basic_vx.values)
+sigma_vy = 1.5*aps.median_absolute_deviation(vels.basic_vy.values)
+sigma_vz = 1.5*aps.median_absolute_deviation(vels.basic_vz.values)
+
+
+def proper_motion_model(params, pos):
     """
     The model. Calculates proper motion from velocities and positions.
 
     Args:
         params (list): A list of vx [km/s], vy [km/s], vz [km/s] and
             ln(distance [kpc]).
-        pm (list): Proper motion in RA and dec in mas/yr. [pmra, pmdec].
-        pm_err (list): Uncertainties on proper motion in RA and dec in
-            mas/yr. [pmra_err, pmdec_err]
         pos (list): Positional coordinates, RA [deg], dec [deg] and parallax
             [mas].
-        pos_err (list): Uncertainties on positional coordinates, RA_err
-            [deg], dec_err [deg] and parallax_err [mas].
 
     Returns:
         pm_from_v (list): The ra and dec proper motions, calculated from
@@ -86,8 +97,7 @@ def lnlike_one_star(params, pm, pm_err, pos, pos_err):
     vx, vy, vz, lnD = params
     D = np.exp(lnD)
 
-    pm_from_v, rv_from_v = proper_motion_model(params, pm, pm_err, pos,
-                                               pos_err)
+    pm_from_v, rv_from_v = proper_motion_model(params, pos)
 
     # Compare this proper motion with observed proper motion.
     return -.5*(pm_from_v[0].value - pm[0])**2/pm_err[0]**2 \
@@ -123,9 +133,12 @@ def lnprior(params):
     if lnD < 5 and -5 < lnD:
 
         # And a Gaussian prior over X, Y and Z velocities
-        return lnGauss(vx, 84, 33) \
-             + lnGauss(vy, 521, 14) \
-             + lnGauss(vz, 68, 24)
+        return lnGauss(vx, mu_vx, sigma_vx) \
+             + lnGauss(vy, mu_vy, sigma_vy) \
+             + lnGauss(vz, mu_vz, sigma_vz)
+        # return lnGauss(vx, 84, 33) \
+        #      + lnGauss(vy, 521, 14) \
+        #      + lnGauss(vz, 68, 24)
 
     else:
         return -np.inf
