@@ -10,6 +10,7 @@ import emcee
 from multiprocessing import Pool
 
 # Path needed for SLURM
+import sys
 sys.path.append(os.getcwd())
 
 
