@@ -59,7 +59,7 @@ def infer_velocity(df):
         "distance_inferred_err": std[3]
         }), index=[0])
 
-    df1.to_csv("{}.csv".format(df.kepid))
+    df1.to_csv("velocities/{}.csv".format(df.kepid))
 
 
 # Load the data
