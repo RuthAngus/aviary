@@ -65,7 +65,7 @@ def infer_velocity(df):
 
 
 # Load the data
-df0 = pd.read_csv("../../data/gaia_mc5_velocities.csv")
+df0 = pd.read_csv("../data/gaia_mc5_velocities.csv")
 
 # For now, just run on stars with RV measurements.
 m = np.isfinite(df0.vz.values)
