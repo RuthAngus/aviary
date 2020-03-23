@@ -32,10 +32,10 @@ def infer_velocity(df):
     p0 = np.random.randn(nwalkers, ndim) + inits
     sampler = emcee.EnsembleSampler(nwalkers, ndim, av.lnprob,
                                     args=(pm, pm_err, pos, pos_err))
-    sampler.run_mcmc(p0, 100, progress=True);
+    sampler.run_mcmc(p0, 10000, progress=True);
 
     # Extract inferred parameters and uncertainties.
-    flat_samples = sampler.get_chain(discard=50, thin=5, flat=True)
+    flat_samples = sampler.get_chain(discard=5000, thin=5, flat=True)
     params_inferred = np.median(flat_samples, axis=0)
     upper = np.percentile(flat_samples, 84, axis=0)
     lower = np.percentile(flat_samples, 16, axis=0)
