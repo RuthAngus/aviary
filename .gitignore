@@ -2,4 +2,9 @@
 aviary.egg-info
 __pycache__
 .ipynb_checkpoints
-
+*out
+*aux
+*bbl
+*blg
+*log
+*png
