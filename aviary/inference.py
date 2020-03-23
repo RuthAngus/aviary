@@ -7,6 +7,9 @@ import astropy.coordinates as coord
 import astropy.units as u
 from astropy.coordinates.builtin_frames.galactocentric \
     import get_matrix_vectors
+import warnings
+from astropy.utils.exceptions import AstropyWarning
+warnings.simplefilter('ignore', category=AstropyWarning)
 
 import aviary as av
 
@@ -21,7 +24,6 @@ galcen_frame = coord.Galactocentric(galcen_distance=np.abs(sun_xyz[0]),
 # Pre-compute the rotation matrix to go from Galactocentric to ICRS
 # (ra/dec) coordinates
 R_gal, _ = get_matrix_vectors(galcen_frame, inverse=True)
-
 
 # Calculate prior parameters from vx, vy, vz distributions.
 import pkg_resources
