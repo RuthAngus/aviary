@@ -1,0 +1,165 @@
+% zip files.zip ms63.tex CMD_cuts_double.pdf main_figure.pdf gap.pdf vb_vs_teff.pdf vb_vz.pdf field_comparison.pdf bib.bib ms.pdf
+
+\documentclass{aastex63}
+
+\newcommand{\ie}{{\it i.e.}}
+\newcommand{\eg}{{\it e.g.}}
+\newcommand{\etal}{{\it et al.}}
+
+\newcommand{\kepler}{{\it Kepler}}
+\newcommand{\Kepler}{{\it Kepler}}
+\newcommand{\corot}{{\it CoRoT}}
+\newcommand{\Ktwo}{{\it K2}}
+\newcommand{\ktwo}{\Ktwo}
+\newcommand{\TESS}{{\it TESS}}
+\newcommand{\tess}{{\it TESS}}
+\newcommand{\LSST}{{\it LSST}}
+\newcommand{\lsst}{{\it LSST}}
+\newcommand{\Wfirst}{{\it WFIRST}}
+\newcommand{\wfirst}{{\it WFIRST}}
+\newcommand{\SDSS}{{\it SDSS}}
+\newcommand{\PLATO}{{\it PLATO}}
+\newcommand{\plato}{{\it PLATO}}
+\newcommand{\Gaia}{{\it Gaia}}
+\newcommand{\gaia}{{\it Gaia}}
+\newcommand{\panstarrs}{{\it PanSTARRS}}
+\newcommand{\LAMOST}{{\it LAMOST}}
+
+\newcommand{\Teff}{$T_{\mathrm{eff}}$}
+\newcommand{\teff}{$T_{\mathrm{eff}}$}
+\newcommand{\FeH}{[Fe/H]}
+\newcommand{\feh}{[Fe/H]}
+\newcommand{\prot}{$P_{\mathrm{rot}}$}
+\newcommand{\pmega}{$\bar{\omega}$}
+\newcommand{\logg}{log(g)}
+\newcommand{\dnu}{$\Delta \nu$}
+\newcommand{\numax}{$\nu_{\mathrm{max}}$}
+\newcommand{\degrees}{$^\circ$}
+\newcommand{\vz}{$v_{\bf z}$}
+\newcommand{\vb}{$v_{\bf b}$}
+\newcommand{\kms}{kms$^{-1}$}
+\newcommand{\sigmavb}{$\sigma_{v{\bf b}}$}
+\newcommand{\sigmavz}{$\sigma_{v{\bf z}}$}
+
+\newcommand{\amnh}{1}
+\newcommand{\cca}{2}
+\newcommand{\columbia}{3}
+\newcommand{\cfa}{4}
+\newcommand{\dartmouth}{5}
+\newcommand{\hawaii}{6}
+\newcommand{\cuny}{7}
+\newcommand{\carnegie}{8}
+
+\newcommand{\sd}{{\tt stardate}}
+\newcommand{\gcolor}{$G_{BP} - G_{RP}$}
+\newcommand{\mcp}{\citep{mcquillan2014}}
+\newcommand{\mct}{\citet{mcquillan2014}}
+\newcommand{\bvector}{${\bf b}$}
+\newcommand{\python}{{\it Python}}
+
+\newcommand{\racomment}[1]{{\color{blue}#1}}
+
+% \received{June 1, 2019}
+% \revised{January 10, 2019}
+% \accepted{\today}
+% \submitjournal{AJ}
+
+%% The following command can be used to set the latex table counters.  It
+%% is needed in this document because it uses a mix of latex tabular and
+%% AASTeX deluxetables.  In general it should not be needed.
+%\setcounter{table}{1}
+
+% \shorttitle{Sample article}
+% \shortauthors{Schwarz et al.}
+
+\begin{document}
+
+\title{Calibrating gyrochronology using Galactic kinematics}
+
+%% The \author command is the same as before except it now takes an optional
+%% argument which is the 16 digit ORCID. The syntax is:
+%% \author[xxxx-xxxx-xxxx-xxxx]{Author Name}
+%%
+%% This will hyperlink the author name to the author's ORCID page. Note that
+%% during compilation, LaTeX will do some limited checking of the format of
+%% the ID to make sure it is valid. If the "orcid-ID.png" image file is
+%% present or in the LaTeX pathway, the OrcID icon will appear next to
+%% the authors name.
+%%
+%% Use \affiliation for affiliation information. The old \affil is now aliased
+%% to \affiliation. AASTeX v6.3 will automatically index these in the header.
+%% When a duplicate is found its index will be the same as its previous entry.
+%%
+%% Note that \altaffilmark and \altaffiltext have been removed and thus
+%% can not be used to document secondary affiliations. If they are used latex
+%% will issue a specific error message and quit. Please use multiple
+%% \affiliation calls for to document more than one affiliation.
+%%
+%% Use \email to set provide email addresses. Each \email will appear on its
+%% own line so you can put multiple email address in one \email call. A new
+%% \correspondingauthor command is available in V6.3 to identify the
+%% corresponding author of the manuscript. It is the author's responsibility
+%% to make sure this name is also in the author list.
+
+\correspondingauthor{Ruth Angus}
+\email{rangus@amnh.org}
+
+\author{Ruth Angus}
+\affiliation{Department of Astrophysics, American Museum of Natural History,
+200 Central Park West, Manhattan, NY, USA}
+\affiliation{Center for Computational Astrophysics, Flatiron Institute,
+162 5th Avenue, Manhattan, NY, USA}
+\affiliation{Department of Astronomy, Columbia University, Manhattan, NY, USA}
+
+\author{Yuxi (Lucy) Lu}
+\affiliation{Department of Astronomy, Columbia University, Manhattan, NY, USA}
+\affiliation{Department of Astrophysics, American Museum of Natural History,
+200 Central Park West, Manhattan, NY, USA}
+
+\author{Adrian M. Price-Whelan}
+\affiliation{Center for Computational Astrophysics, Flatiron Institute,
+162 5th Avenue, Manhattan, NY, USA}
+
+\author{Dan Foreman-Mackey}
+\affiliation{Center for Computational Astrophysics, Flatiron Institute,
+162 5th Avenue, Manhattan, NY, USA}
+
+\author{Jason Curtis}
+\affiliation{Department of Astrophysics, American Museum of Natural History,
+200 Central Park West, Manhattan, NY, USA}
+
+\begin{abstract}
+    \include{abstract}
+\end{abstract}
+
+%% Keywords should appear after the \end{abstract} command.
+%% See the online documentation for the full list of available subject
+%% keywords and the rules for their use.
+% \keywords{editorials, notices ---
+% miscellaneous --- catalogs --- surveys}
+
+\include{intro}
+
+\include{method}
+
+\include{results}
+
+\include{discussion}
+
+\include{conclusion}
+
+\include{acknowledgements}
+
+\bibliography{bib}{}
+\bibliographystyle{aasjournal}
+
+%% This command is needed to show the entire author+affiliation list when
+%% the collaboration and author truncation commands are used.  It has to
+%% go at the end of the manuscript.
+%\allauthors
+
+%% Include this line if you are using the \added, \replaced, \deleted
+%% commands to see a summary list of all changes at the end of the article.
+%\listofchanges
+
+\end{document}
