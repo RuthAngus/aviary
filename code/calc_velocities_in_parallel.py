@@ -17,19 +17,16 @@ sys.path.append(os.getcwd())
 
 def infer_velocity(df):
 
-    print(df)
-    print(df.ra)
-
     # Format parameter and data arrays.
-    pos = [df.ra, df.dec, df.parallax]
-    pos_err = [df.ra_error, df.dec_error, df.parallax_error]
-    pm = [df.pmra, df.pmdec]
-    pm_err = [df.pmra_error, df.pmdec_error]
+    pos = [df["ra"], df["dec"], df["parallax"]]
+    pos_err = [df["ra_error"], df["dec_error"], df["parallax_error"]]
+    pm = [df["pmra"], df["pmdec"]]
+    pm_err = [df["pmra_error"], df["pmdec_error"]]
 
     # Run MCMC.
     ndim, nwalkers = 4, 16
-    inits = [df1.basic_vx, df1.basic_vy, df1.basic_vz,
-             np.log(1./df1.parallax)]
+    inits = [df["basic_vx"], df["basic_vy"], df["basic_vz"],
+             np.log(1./df["parallax"])]
     p0 = np.random.randn(nwalkers, ndim) + inits
     sampler = emcee.EnsembleSampler(nwalkers, ndim, av.lnprob,
                                     args=(pm, pm_err, pos, pos_err))
@@ -71,7 +68,7 @@ def infer_velocity(df):
 df0 = pd.read_csv("../data/gaia_mc5_velocities.csv")
 
 # For now, just run on stars with RV measurements.
-m = np.isfinite(df0.vz.values)
+m = np.isfinite(df0["vz"].values)
 
 # Just the first 10 stars for now.
 df = df0.iloc[m][:10]
