@@ -44,7 +44,7 @@ def infer_velocity(df):
     std = np.std(flat_samples, axis=0)
 
     df1 = pd.DataFrame(dict({
-        "kepid": df.kepid,
+        "kepid": df["kepid"],
         "vx_inferred": params_inferred[0],
         "vx_inferred_errp": errp[0],
         "vx_inferred_errm": errm[0],
@@ -63,7 +63,7 @@ def infer_velocity(df):
         "distance_inferred_err": std[3]
         }), index=[0])
 
-    df1.to_csv("velocities/{}.csv".format(df.kepid))
+    df1.to_csv("velocities/{}.csv".format(df["kepid"]))
 
 
 # Load the data
