@@ -135,9 +135,12 @@ def lnprior(params):
     if lnD < 5 and -5 < lnD:
 
         # And a Gaussian prior over X, Y and Z velocities
-        return lnGauss(vx, mu_vx, sigma_vx) \
-             + lnGauss(vy, mu_vy, sigma_vy) \
-             + lnGauss(vz, mu_vz, sigma_vz)
+        return lnGauss(vx, mu_vx, 1e4) \
+             + lnGauss(vy, mu_vy, 1e4) \
+             + lnGauss(vz, mu_vz, 1e4)
+        # return lnGauss(vx, mu_vx, sigma_vx) \
+        #      + lnGauss(vy, mu_vy, sigma_vy) \
+        #      + lnGauss(vz, mu_vz, sigma_vz)
         # return lnGauss(vx, 84, 33) \
         #      + lnGauss(vy, 521, 14) \
         #      + lnGauss(vz, 68, 24)
