@@ -132,20 +132,20 @@ def lnprior(params):
     vx, vy, vz, lnD = params
 
     # A log uniform prior over distance
-    if lnD < 5 and -5 < lnD:
-    # if lnD < 5 and -5 < lnD \
-    #         and -1e4 < vx and vx < 1e4 \
-    #         and -1e4 < vy and vy < 1e4 \
-    #         and -1e4 < vz and vz < 1e4:
-    #     return 0
+    # if lnD < 5 and -5 < lnD:
+    if lnD < 5 and -5 < lnD \
+            and -1e4 < vx and vx < 1e4 \
+            and -1e4 < vy and vy < 1e4 \
+            and -1e4 < vz and vz < 1e4:
+        return 0
 
         # And a Gaussian prior over X, Y and Z velocities
         # return lnGauss(vx, mu_vx, 1e4) \
         #      + lnGauss(vy, mu_vy, 1e4) \
         #      + lnGauss(vz, mu_vz, 1e4)
-        return lnGauss(vx, mu_vx, sigma_vx) \
-             + lnGauss(vy, mu_vy, sigma_vy) \
-             + lnGauss(vz, mu_vz, sigma_vz)
+        # return lnGauss(vx, mu_vx, sigma_vx) \
+        #      + lnGauss(vy, mu_vy, sigma_vy) \
+        #      + lnGauss(vz, mu_vz, sigma_vz)
 
     else:
         return -np.inf
