@@ -102,7 +102,7 @@ def lnlike_one_star(params, pm, pm_err, pos, pos_err):
     pm_from_v, rv_from_v = proper_motion_model(params, pos)
 
     # Compare this proper motion with observed proper motion.
-    return -.5*(pm_from_v[0].value - pm[0])**2/pm_err[0]**2 \
+    return - .5*(pm_from_v[0].value - pm[0])**2/pm_err[0]**2 \
            - .5*(pm_from_v[1].value - pm[1])**2/pm_err[1]**2 \
            - .5*(1./D - pos[2])**2/pos_err[2]**2
 
@@ -133,17 +133,19 @@ def lnprior(params):
 
     # A log uniform prior over distance
     if lnD < 5 and -5 < lnD:
+    # if lnD < 5 and -5 < lnD \
+    #         and -1e4 < vx and vx < 1e4 \
+    #         and -1e4 < vy and vy < 1e4 \
+    #         and -1e4 < vz and vz < 1e4:
+    #     return 0
 
         # And a Gaussian prior over X, Y and Z velocities
-        return lnGauss(vx, mu_vx, 1e4) \
-             + lnGauss(vy, mu_vy, 1e4) \
-             + lnGauss(vz, mu_vz, 1e4)
-        # return lnGauss(vx, mu_vx, sigma_vx) \
-        #      + lnGauss(vy, mu_vy, sigma_vy) \
-        #      + lnGauss(vz, mu_vz, sigma_vz)
-        # return lnGauss(vx, 84, 33) \
-        #      + lnGauss(vy, 521, 14) \
-        #      + lnGauss(vz, 68, 24)
+        # return lnGauss(vx, mu_vx, 1e4) \
+        #      + lnGauss(vy, mu_vy, 1e4) \
+        #      + lnGauss(vz, mu_vz, 1e4)
+        return lnGauss(vx, mu_vx, sigma_vx) \
+             + lnGauss(vy, mu_vy, sigma_vy) \
+             + lnGauss(vz, mu_vz, sigma_vz)
 
     else:
         return -np.inf
