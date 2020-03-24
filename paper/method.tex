@@ -1,9 +1,12 @@
 \section{Method}
 
 \begin{equation}
-p(v_{\bf x}, v_{\bf y}, v_{\bf z}, D | \mu_{\alpha}, \mu_{\delta}, \alpha,
-\delta, \pi) = p(\mu_{\alpha}, \mu_{\delta}, \alpha, \delta, \pi | v_{\bf x},
-v_{\bf y}, v_{\bf z}, D) p(v_{\bf x}) p(v_{\bf y}) p(v_{\bf z}) p(D),
+% p(v_{\bf x}, v_{\bf y}, v_{\bf z}, D | \mu_{\alpha}, \mu_{\delta}, \alpha,
+% \delta, \pi) = p(\mu_{\alpha}, \mu_{\delta}, \alpha, \delta, \pi | v_{\bf x},
+% v_{\bf y}, v_{\bf z}, D) p(v_{\bf x}) p(v_{\bf y}) p(v_{\bf z}) p(D),
+p(v_{\bf xyz}, D | \mu_{\alpha}, \mu_{\delta}, \alpha, \delta, \pi) =
+    p(\mu_{\alpha}, \mu_{\delta}, \alpha, \delta, \pi | v_{\bf xyz}, D)
+    p(v_{\bf xyz}) p(D),
 \end{equation}
 where D is distance, $\alpha$ is Right Ascension (RA), $\delta$ is declination
 (dec), $\pi$ is parallax, $\mu_\alpha$ is proper motion in RA, and
