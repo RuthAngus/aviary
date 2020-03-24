@@ -33,8 +33,8 @@ def infer_velocity(df):
     sampler = emcee.EnsembleSampler(nwalkers, ndim, av.lnprob,
                                     args=(pm, pm_err, pos, pos_err))
 
-    # sampler.run_mcmc(p0, 10000, progress=True);
-    sampler.run_mcmc(p0, 1000, progress=True);
+    sampler.run_mcmc(p0, 10000, progress=True);
+    # sampler.run_mcmc(p0, 1000, progress=True);
 
     # Extract inferred parameters and uncertainties.
     # flat_samples = sampler.get_chain(discard=5000, flat=True)
