@@ -69,7 +69,8 @@ def proper_motion_model(params, pos):
     # Calculate XYZ position from ra, dec and parallax
     c = coord.SkyCoord(ra = pos[0]*u.deg,
                        dec = pos[1]*u.deg,
-                       distance = D*u.kpc)
+                       # distance = D*u.kpc)
+                       distance = (1./pos[2])*u.kpc)
     galcen = c.transform_to(galcen_frame)
 
     # Calculate pm and rv from XYZ and V_XYZ
@@ -104,10 +105,6 @@ def lnlike_one_star(params, pm, pm_err, pos, pos_err):
     # Unpack parameters and make distance linear.
     vx, vy, vz, lnD = params
     D = np.exp(lnD)
-
-    # Log uniform prior over distance:
-    if lnD < 5 and -5 < lnD:
-        return -np.inf
 
     pm_from_v, rv_from_v = proper_motion_model(params, pos)
 
@@ -153,7 +150,7 @@ def lnprior(params):
 
     Args:
         params (list): A list of vx [km/s], vy [km/s], vz [km/s] and
-            ln(distance [kpc]).
+           ln(distance [kpc]).
 
     Returns:
         The log-prior.
@@ -162,7 +159,7 @@ def lnprior(params):
 
     vx, vy, vz, lnD = params
 
-    # # A log uniform prior over distance
+    # A log uniform prior over distance
     # if lnD < 5 and -5 < lnD:
     # if lnD < 5 and -5 < lnD \
     #         and -1e4 < vx and vx < 1e4 \
@@ -180,7 +177,7 @@ def lnprior(params):
         #         + lnGauss(vz, mu_vz, sigma_vz)
 
     # else:
-    #     return -np.inf
+        # return -np.inf
 
 
 def lnprob(params, pm, pm_err, pos, pos_err):
@@ -205,4 +202,5 @@ def lnprob(params, pm, pm_err, pos, pos_err):
         The log-probability.
 
     """
+
     return lnlike_one_star(params, pm, pm_err, pos, pos_err) + lnprior(params)
