@@ -97,15 +97,30 @@ if __name__ == "__main__":
 
     # Draw parameters from the prior.
     Nstars = 10
-    # vxs = np.random.randn(Nstars)*sigma_vx + mu_vx
-    # vys = np.random.randn(Nstars)*sigma_vy + mu_vy
-    # vzs = np.random.randn(Nstars)*sigma_vz + mu_vz
-    vxs = np.random.randn(Nstars)*np.sqrt(cov[0, 0]) + mean[0]
-    vys = np.random.randn(Nstars)*np.sqrt(cov[1, 1]) + mean[1]
-    vzs = np.random.randn(Nstars)*np.sqrt(cov[2, 2]) + mean[2]
-    lnds = np.random.uniform(np.log(1e-5), np.log(2), Nstars)
-    ra = np.random.uniform(280, 300, Nstars)
-    dec = np.random.uniform(36, 52, Nstars)
+    # # vxs = np.random.randn(Nstars)*sigma_vx + mu_vx
+    # # vys = np.random.randn(Nstars)*sigma_vy + mu_vy
+    # # vzs = np.random.randn(Nstars)*sigma_vz + mu_vz
+    # vxs = np.random.randn(Nstars)*np.sqrt(cov[0, 0]) + mean[0]
+    # vys = np.random.randn(Nstars)*np.sqrt(cov[1, 1]) + mean[1]
+    # vzs = np.random.randn(Nstars)*np.sqrt(cov[2, 2]) + mean[2]
+    # lnds = np.random.uniform(np.log(1e-5), np.log(2), Nstars)
+    # ra = np.random.uniform(280, 300, Nstars)
+    # dec = np.random.uniform(36, 52, Nstars)
+    # parallax_error = np.ones(Nstars)*1e-5
+    # ra_error = np.ones(Nstars)*1e-5
+    # dec_error = np.ones(Nstars)*1e-5
+
+    # Replace with real data
+    vxs = df.basic_vx.values[:Nstars]
+    vys = df.basic_vy.values[:Nstars]
+    vzs = df.basic_vz.values[:Nstars]
+    lnds = 1./df.parallax.values[:Nstars]
+    ra = df.ra.values[:Nstars]
+    ra_error = df.ra_error.values[:Nstars]
+    dec = df.dec.values[:Nstars]
+    dec_error = df.dec_error.values[:Nstars]
+    parallax_error = df.parallax_error.values[:Nstars]
+    parallax = df.parallax.values[:Nstars]
 
     df = pd.DataFrame(dict({"ID": np.arange(Nstars),
                             "vx": vxs,
@@ -113,13 +128,14 @@ if __name__ == "__main__":
                             "vz": vzs,
                             "lnd": lnds,
                             "parallax": 1./np.exp(lnds),
-                            "parallax_error": 1e-5,
+                            "parallax_error": parallax_error,
                             "ra": ra,
-                            "ra_error": 1e-5,
+                            "ra_error": ra_error,
                             "dec": dec,
-                            "dec_error": 1e-5
+                            "dec_error": dec_error
                             }))
 
+    # Generate mock proper motion and RV.
     pmras, pmdecs, rvs = [], [], []
     for i in range(Nstars):
         pos = [ra[i], dec[i], 1./np.exp(lnds[i])]
@@ -130,11 +146,18 @@ if __name__ == "__main__":
         pmras.append(pm[0].value)
         pmdecs.append(pm[1].value)
         rvs.append(rv.value)
+    pmra_errs = np.ones(Nstars)*1e-5
+    pmdec_errs = np.ones(Nstars)*1e-5
+
+    # # Replace with real data
+    # pmras = df.pmra.values[:Nstars]
+    # pmdecs = df.pmdec.values[:Nstars]
+    # rvs = df.radial_velocity.values[:Nstars]
 
     df["pmra"] = np.array(pmras)
-    df["pmra_error"] = 1e-5
+    df["pmra_error"] = pmra_errs
     df["pmdec"] = np.array(pmdecs)
-    df["pmdec_error"] = 1e-5
+    df["pmdec_error"] = pmdec_errs
     df["rv"] = np.array(rvs)
 
     list_of_dicts = []
