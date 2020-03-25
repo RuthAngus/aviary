@@ -37,6 +37,12 @@ sigma_vx = 1.5*aps.median_absolute_deviation(vels.basic_vx.values)
 sigma_vy = 1.5*aps.median_absolute_deviation(vels.basic_vy.values)
 sigma_vz = 1.5*aps.median_absolute_deviation(vels.basic_vz.values)
 
+# Calculate covariance between velocities
+VX = np.stack((vels.basic_vx.values, vels.basic_vy.values,
+               vels.basic_vz.values), axis=0)
+mean = np.mean(VX, axis=1)
+cov = np.cov(VX)
+
 
 def proper_motion_model(params, pos):
     """
@@ -99,12 +105,16 @@ def lnlike_one_star(params, pm, pm_err, pos, pos_err):
     vx, vy, vz, lnD = params
     D = np.exp(lnD)
 
+    # Log uniform prior over distance:
+    if lnD < 5 and -5 < lnD:
+        return -np.inf
+
     pm_from_v, rv_from_v = proper_motion_model(params, pos)
 
     # Compare this proper motion with observed proper motion.
-    return - .5*(pm_from_v[0].value - pm[0])**2/pm_err[0]**2 \
-           - .5*(pm_from_v[1].value - pm[1])**2/pm_err[1]**2 \
-           - .5*(1./D - pos[2])**2/pos_err[2]**2
+    return -.5*(pm_from_v[0].value - pm[0])**2/pm_err[0]**2 \
+           -.5*(pm_from_v[1].value - pm[1])**2/pm_err[1]**2 \
+           -.5*(1./D - pos[2])**2/pos_err[2]**2
 
 
 def lnGauss(x, mu, sigma):
@@ -114,6 +124,27 @@ def lnGauss(x, mu, sigma):
     """
     ivar = 1./sigma**2
     return -.5*(x - mu)**2 * ivar
+
+
+def multivariate_lngaussian(pos, mu, Sigma):
+    """Return the multivariate Gaussian distribution on array pos.
+
+    pos is an array constructed by packing the meshed arrays of variables
+    x_1, x_2, x_3, ..., x_k into its _last_ dimension.
+
+    from scipython.com/blog/visualizing-the-bivariate-gaussian-distribution/
+
+    """
+
+    n = mu.shape[0]
+    Sigma_det = np.linalg.det(Sigma)
+    Sigma_inv = np.linalg.inv(Sigma)
+    N = np.sqrt((2*np.pi)**n * Sigma_det)
+    # This einsum call calculates (x-mu)T.Sigma-1.(x-mu) in a vectorized
+    # way across all the input variables.
+    fac = np.einsum('...k,kl,...l->...', pos-mu, Sigma_inv, pos-mu)
+
+    return -fac / 2 - np.log(N)
 
 
 def lnprior(params):
@@ -132,20 +163,24 @@ def lnprior(params):
     vx, vy, vz, lnD = params
 
     # # A log uniform prior over distance
-    if lnD < 5 and -5 < lnD:
+    # if lnD < 5 and -5 < lnD:
     # if lnD < 5 and -5 < lnD \
     #         and -1e4 < vx and vx < 1e4 \
     #         and -1e4 < vy and vy < 1e4 \
     #         and -1e4 < vz and vz < 1e4:
     #     return 0
 
-        # And a Gaussian prior over X, Y and Z velocities
-        return lnGauss(vx, mu_vx, sigma_vx) \
-                + lnGauss(vy, mu_vy, sigma_vy) \
-                + lnGauss(vz, mu_vz, sigma_vz)
+        # Multivariate Gaussian prior
+    pos = np.stack((vx, vy, vz))
+    return float(multivariate_lngaussian(pos, mean, cov))
 
-    else:
-        return -np.inf
+        # # And a Gaussian prior over X, Y and Z velocities
+        # return lnGauss(vx, mu_vx, sigma_vx) \
+        #         + lnGauss(vy, mu_vy, sigma_vy) \
+        #         + lnGauss(vz, mu_vz, sigma_vz)
+
+    # else:
+    #     return -np.inf
 
 
 def lnprob(params, pm, pm_err, pos, pos_err):
