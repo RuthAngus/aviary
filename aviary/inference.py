@@ -110,8 +110,8 @@ def lnlike_one_star(params, pm, pm_err, pos, pos_err):
 
     # Compare this proper motion with observed proper motion.
     return -.5*(pm_from_v[0].value - pm[0])**2/pm_err[0]**2 \
-           -.5*(pm_from_v[1].value - pm[1])**2/pm_err[1]**2 \
-           -.5*(1./D - pos[2])**2/pos_err[2]**2
+           -.5*(pm_from_v[1].value - pm[1])**2/pm_err[1]**2
+           # -.5*(1./D - pos[2])**2/pos_err[2]**2
 
 
 def lnGauss(x, mu, sigma):
