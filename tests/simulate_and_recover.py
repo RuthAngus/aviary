@@ -122,7 +122,7 @@ if __name__ == "__main__":
     parallax_error = df.parallax_error.values[:Nstars]
     parallax = df.parallax.values[:Nstars]
 
-    df = pd.DataFrame(dict({"ID": np.arange(Nstars),
+    df1 = pd.DataFrame(dict({"ID": np.arange(Nstars),
                             "vx": vxs,
                             "vy": vys,
                             "vz": vzs,
@@ -135,34 +135,36 @@ if __name__ == "__main__":
                             "dec_error": dec_error
                             }))
 
-    # Generate mock proper motion and RV.
-    pmras, pmdecs, rvs = [], [], []
-    for i in range(Nstars):
-        pos = [ra[i], dec[i], 1./np.exp(lnds[i])]
-        params = [vxs[i], vys[i], vzs[i], lnds[i]]
+    # # Generate mock proper motion and RV.
+    # pmras, pmdecs, rvs = [], [], []
+    # for i in range(Nstars):
+    #     pos = [ra[i], dec[i], 1./np.exp(lnds[i])]
+    #     params = [vxs[i], vys[i], vzs[i], lnds[i]]
 
-        # Calculate observables for these stars.
-        pm, rv = av.proper_motion_model(params, pos)
-        pmras.append(pm[0].value)
-        pmdecs.append(pm[1].value)
-        rvs.append(rv.value)
-    pmra_errs = np.ones(Nstars)*1e-5
-    pmdec_errs = np.ones(Nstars)*1e-5
+    #     # Calculate observables for these stars.
+    #     pm, rv = av.proper_motion_model(params, pos)
+    #     pmras.append(pm[0].value)
+    #     pmdecs.append(pm[1].value)
+    #     rvs.append(rv.value)
+    # pmra_errs = np.ones(Nstars)*1e-5
+    # pmdec_errs = np.ones(Nstars)*1e-5
 
-    # # Replace with real data
-    # pmras = df.pmra.values[:Nstars]
-    # pmdecs = df.pmdec.values[:Nstars]
-    # rvs = df.radial_velocity.values[:Nstars]
+    # Replace with real data
+    pmras = df.pmra.values[:Nstars]
+    pmra_errs = df.pmra_error.values[:Nstars]
+    pmdecs = df.pmdec.values[:Nstars]
+    pmdec_errs = df.pmdec_error.values[:Nstars]
+    rvs = df.radial_velocity.values[:Nstars]
 
-    df["pmra"] = np.array(pmras)
-    df["pmra_error"] = pmra_errs
-    df["pmdec"] = np.array(pmdecs)
-    df["pmdec_error"] = pmdec_errs
-    df["rv"] = np.array(rvs)
+    df1["pmra"] = np.array(pmras)
+    df1["pmra_error"] = pmra_errs
+    df1["pmdec"] = np.array(pmdecs)
+    df1["pmdec_error"] = pmdec_errs
+    df1["rv"] = np.array(rvs)
 
     list_of_dicts = []
-    for i in range(len(df)):
-        list_of_dicts.append(df.iloc[i].to_dict())
+    for i in range(len(df1)):
+        list_of_dicts.append(df1.iloc[i].to_dict())
 
     p = Pool(24)
     list(p.map(infer_velocity, list_of_dicts))
