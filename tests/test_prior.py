@@ -57,7 +57,7 @@ def test_model():
     assert np.isclose(rv.value, df0.radial_velocity, atol=1e-3)
 
 
-def test_prior():
+def plot_prior():
     vx = np.linspace(mu_vx - 100, mu_vx + 100, 1000)
     params = [vx, mu_vy, mu_vz, np.log(.5)]
     prior = np.exp(av.lnprior(params))
@@ -97,46 +97,9 @@ def plot_lnlike():
     plt.savefig("test_lnprob")
 
 
-def test_mcmc():
-    c = coord.SkyCoord(ra=61.342*u.deg,
-                       dec=17*u.deg,
-                       distance=3*u.kpc,
-                       pm_ra_cosdec=4.2*u.mas/u.yr,
-                       pm_dec=-7.2*u.mas/u.yr,
-                       radial_velocity=17*u.km/u.s)
-
-    test_galcen = c.transform_to(galcen_frame)
-
-    test_pm, test_rv = av.get_icrs_from_galactocentric(
-        test_galcen.data.xyz, test_galcen.velocity.d_xyz, R_gal, sun_xyz,
-        sun_vxyz)
-
-    pm = np.array([4.2, -7.2])
-    pm_err = np.array([.01, .01])
-    pos = np.array([61.342, 17., 1./3])
-    pos_err = np.array([.1, .1, .001])
-    vx = test_galcen.velocity.d_xyz[0].value
-    vy = test_galcen.velocity.d_xyz[1].value
-    vz = test_galcen.velocity.d_xyz[2].value
-
-    # # Run MCMC.
-    ndim, nwalkers = 4, 16
-    inits = [vx, vy, vz, np.log(3)]
-    p0 = np.random.randn(nwalkers, ndim)*1e-2 + inits
-    sampler = emcee.EnsembleSampler(nwalkers, ndim, av.lnprob,
-                                    args=(pm, pm_err, pos, pos_err))
-    sampler.run_mcmc(p0, 1000, progress=True);
-    flat_samples = sampler.get_chain(discard=500, flat=True)
-    params_inferred = np.median(flat_samples, axis=0)
-
-    print(inits)
-    params_inferred = [161.24323368, 117.5419518, 55.55548381, 1.09888655]
-    print(params_inferred)
-    print(av.lnprob(inits, pm, pm_err, pos, pos_err))
-    print(av.lnprob(params_inferred, pm, pm_err, pos, pos_err))
+def test_parallax_vs_distance():
 
 
 
-test_mcmc()
-# test_lnlike()
-# test_model()
+test_model()
+
