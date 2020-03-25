@@ -22,28 +22,35 @@ def infer_velocity(df):
     # Format parameter and data arrays.
     pos = [df["ra"], df["dec"], df["parallax"]]
     pos_err = [df["ra_error"], df["dec_error"], df["parallax_error"]]
-    pm = [df["pmra"], df["pmdec"]]
-    pm_err = [df["pmra_error"], df["pmdec_error"]]
+
+    # # Real data
+    # pm = [df["pmra"], df["pmdec"]]
+    # pm_err = [df["pmra_error"], df["pmdec_error"]]
+    # inits = [df["basic_vx"], df["basic_vy"], df["basic_vz"],
+    #          np.log(1./df["parallax"])]
+
+    # Mock data
+    pm = [df["mock_pmra"], df["mock_pmdec"]]
+    pm_err = [df["mock_pmra_error"], df["mock_pmdec_error"]]
+    inits = [df["mock_vx"], df["mock_vy"], df["mock_vz"],
+             np.log(1./df["parallax"])]
 
     # Run MCMC.
     ndim, nwalkers = 4, 16
-    inits = [df["basic_vx"], df["basic_vy"], df["basic_vz"],
-             np.log(1./df["parallax"])]
     p0 = np.random.randn(nwalkers, ndim)*1e-2 + inits
     sampler = emcee.EnsembleSampler(nwalkers, ndim, av.lnprob,
                                     args=(pm, pm_err, pos, pos_err))
 
-    sampler.run_mcmc(p0, 10000, progress=True);
-    # sampler.run_mcmc(p0, 1000, progress=True);
+    # nsteps = 10000
+    nsteps = 1000
+    sampler.run_mcmc(p0, 1000, progress=True);
 
     # Extract inferred parameters and uncertainties.
-    # flat_samples = sampler.get_chain(discard=5000, flat=True)
-    flat_samples = sampler.get_chain(discard=500, flat=True)
-    params_inferred = np.median(flat_samples, axis=0)
-
-    # labels = ["Vx", "Vy", "Vz", "D"]
-    # fig = corner.corner(flat_samples, truths=params_inferred, labels=labels);
+    flat_samples = sampler.get_chain(discard=int(nsteps/2), flat=True)
+    # fig = corner.corner(flat_samples)
     # fig.savefig("corner")
+
+    params_inferred = np.median(flat_samples, axis=0)
 
     upper = np.percentile(flat_samples, 84, axis=0)
     lower = np.percentile(flat_samples, 16, axis=0)
@@ -71,11 +78,13 @@ def infer_velocity(df):
         "lndistance_inferred_err": std[3]
         }), index=[0])
 
-    df1.to_csv("velocities/{}.csv".format(df["kepid"]))
+    # df1.to_csv("velocities/{}.csv".format(df["kepid"]))
+    df1.to_csv("velocities/mock/{}.csv".format(df["kepid"]))
 
 
 # Load the data
-df0 = pd.read_csv("../data/gaia_mc5_velocities.csv")
+# df0 = pd.read_csv("../data/gaia_mc5_velocities.csv")
+df0 = pd.read_csv("mock_df.csv")
 
 # For now, just run on stars with RV measurements.
 m = df0.radial_velocity.values != 0
