@@ -30,12 +30,8 @@ import pkg_resources
 vel_data = pkg_resources.resource_filename(__name__,
                                            "../data/gaia_mc5_velocities.csv")
 vels = pd.read_csv(vel_data)
-mu_vx = np.median(vels.basic_vx.values)
-mu_vy = np.median(vels.basic_vy.values)
-mu_vz = np.median(vels.basic_vz.values)
-sigma_vx = 1.5*aps.median_absolute_deviation(vels.basic_vx.values)
-sigma_vy = 1.5*aps.median_absolute_deviation(vels.basic_vy.values)
-sigma_vz = 1.5*aps.median_absolute_deviation(vels.basic_vz.values)
+m = vels.radial_velocity.values != 0
+vels = vels.iloc[m]
 
 # Calculate covariance between velocities
 VX = np.stack((vels.basic_vx.values, vels.basic_vy.values,
@@ -158,31 +154,12 @@ def lnprior(params):
 
     vx, vy, vz, lnD = params
 
-    # A log uniform prior over distance
-    # if lnD < 5 and -5 < lnD:
-    # if lnD < 5 and -5 < lnD \
-    #         and -1e4 < vx and vx < 1e4 \
-    #         and -1e4 < vy and vy < 1e4 \
-    #         and -1e4 < vz and vz < 1e4:
-    #     return 0
-
-        # Multivariate Gaussian prior
+    # Multivariate Gaussian prior
     pos = np.stack((vx, vy, vz, lnD))
     return float(multivariate_lngaussian(pos, mean, cov))
 
-        # # And a Gaussian prior over X, Y and Z velocities
-        # return lnGauss(vx, mu_vx, sigma_vx) \
-        #         + lnGauss(vy, mu_vy, sigma_vy) \
-        #         + lnGauss(vz, mu_vz, sigma_vz)
-
-    # else:
-        # return -np.inf
-
 
 def lnprob(params, pm, pm_err, pos, pos_err):
-           # , R_gal, galcen_frame,
-           # sun_xyz=[-8.122, 0, 0]*u.kpc,
-           # sun_vxyz=[12.9, 245.6, 7.78]*u.km/u.s):
     """
     log-probability of distance and velocity, given proper motion and position
 
