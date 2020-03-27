@@ -12,6 +12,8 @@ def get_tangent_basis(ra, dec):
     row vectors are the tangent-space basis at (alpha, delta, r)
     ra, dec in radians
     """
+
+    # Precompute this matrix and save for each star.
     M = np.array([
         [-np.sin(ra), np.cos(ra), 0.],
         [-np.sin(dec)*np.cos(ra), -np.sin(dec)*np.sin(ra), np.cos(dec)],
@@ -21,15 +23,22 @@ def get_tangent_basis(ra, dec):
 
 
 def get_icrs_from_galactocentric(xyz, vxyz, R_gal, sun_xyz, sun_vxyz):
+
+    # Parameters
     dx = xyz - sun_xyz
     dv = vxyz - sun_vxyz
 
+    # Don't need this as already have ra and dec.
     x_icrs = coord.ICRS(
         coord.CartesianRepresentation(R_gal @ dx))
 
     M = get_tangent_basis(x_icrs.ra, x_icrs.dec)
+
+    # M is precomputed for each star, R_gal is same matrix, so just do this
+    # dot product.
     proj_dv = M @ R_gal @ dv
 
+    # Calculate the unit conversion using 1kms/1km and transform.
     pm = (proj_dv[:2] / x_icrs.distance).to(u.mas/u.yr,
                                             u.dimensionless_angles())
     rv = proj_dv[2]
