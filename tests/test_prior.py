@@ -26,17 +26,6 @@ R_gal, _ = get_matrix_vectors(galcen_frame, inverse=True)
 
 # Calculate prior parameters from vx, vy, vz distributions
 df = pd.read_csv("../data/gaia_mc5_velocities.csv")
-mu_vx = np.median(df.basic_vx.values)
-mu_vy = np.median(df.basic_vy.values)
-mu_vz = np.median(df.basic_vz.values)
-sigma_vx = 1.5*aps.median_absolute_deviation(df.basic_vx.values)
-sigma_vy = 1.5*aps.median_absolute_deviation(df.basic_vy.values)
-sigma_vz = 1.5*aps.median_absolute_deviation(df.basic_vz.values)
-# print(mu_vx, sigma_vx)
-# print(mu_vy, sigma_vy)
-# print(mu_vz, sigma_vz)
-
-df = pd.read_csv("../data/gaia_mc5_velocities.csv")
 m = df.radial_velocity.values != 0
 df = df.iloc[m]
 
@@ -45,7 +34,6 @@ def test_model():
     df0 = df.iloc[0]
     xyz, vxyz = av.simple_calc_vxyz(df0.ra, df0.dec, 1./df0.parallax,
                                     df0.pmra, df0.pmdec, df0.radial_velocity)
-    print(vxyz)
     vx, vy, vz = vxyz.value
     pos = [df0.ra, df0.dec, df0.parallax]
 
@@ -114,7 +102,6 @@ def test_similar_distributions():
 
     Nstars = 1000
     vxs, vys, vzs, lnds = np.random.multivariate_normal(mean, cov, Nstars).T
-    # lnds = np.random.uniform(np.log(1e-5), np.log(2), Nstars)
 
     ra = np.random.uniform(280, 300, Nstars)
     dec = np.random.uniform(36, 52, Nstars)
@@ -127,8 +114,6 @@ def test_similar_distributions():
         pms[i, :] = pm.value
         rvs[i] = rv.value
 
-    # print(pms)
-
     assert np.isclose(np.mean(df.radial_velocity), np.mean(rvs), atol=2)
     assert np.isclose(np.mean(df.pmra), np.mean(pms[:, 0]), atol=2)
     assert np.isclose(np.mean(df.pmdec), np.mean(pms[:, 1]), atol=2)
@@ -137,24 +122,25 @@ def test_similar_distributions():
     assert np.isclose(np.std(df.pmra), np.std(pms[:, 0]), atol=2)
     assert np.isclose(np.std(df.pmdec), np.std(pms[:, 1]), atol=2)
 
-    # plt.hist(df.radial_velocity, 10, density=True, alpha=.5)
-    # plt.hist(rvs, 10, density=True, alpha=.5)
+    # n = 50
+    # plt.hist(df.radial_velocity, n, density=True, alpha=.5)
+    # plt.hist(rvs, n, density=True, alpha=.5)
     # plt.xlabel("RV")
     # plt.savefig("rv_test")
     # plt.close()
 
-    # plt.hist(df.pmra, 10, density=True, alpha=.5)
-    # plt.hist(pms[:, 0], 10, density=True, alpha=.5)
+    # plt.hist(df.pmra, n, density=True, alpha=.5)
+    # plt.hist(pms[:, 0], n, density=True, alpha=.5)
     # plt.xlabel("pmra")
     # plt.savefig("pmra_test")
     # plt.close()
 
-    # plt.hist(df.pmdec, 10, density=True, alpha=.5)
-    # plt.hist(pms[:, 1], 10, density=True, alpha=.5)
+    # plt.hist(df.pmdec, n, density=True, alpha=.5)
+    # plt.hist(pms[:, 1], n, density=True, alpha=.5)
     # plt.xlabel("pmdec")
     # plt.savefig("pmdec_test")
     # plt.close()
 
 
-# test_model()
+test_model()
 test_similar_distributions()
