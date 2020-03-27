@@ -22,8 +22,6 @@ def infer_velocity(df):
     # Format parameter and data arrays.
     pos = [df["ra"], df["dec"], df["parallax"]]
     pos_err = [df["ra_error"], df["dec_error"], df["parallax_error"]]
-
-    # Real data
     pm = [df["pmra"], df["pmdec"]]
     pm_err = [df["pmra_error"], df["pmdec_error"]]
     inits = [df["basic_vx"], df["basic_vy"], df["basic_vz"],
@@ -77,12 +75,8 @@ def infer_velocity(df):
 
 # Load the data
 df0 = pd.read_csv("../data/gaia_mc5_velocities.csv")
-
-# For now, just run on stars with RV measurements.
 m = df0.radial_velocity.values != 0
-
-# Just the first 10 stars for now.
-df = df0.iloc[m][:10]
+df = df0.iloc[m][:10]  # Just the first 10 stars.
 
 list_of_dicts = []
 for i in range(len(df)):
