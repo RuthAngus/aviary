@@ -23,16 +23,10 @@ def infer_velocity(df):
     pos = [df["ra"], df["dec"], df["parallax"]]
     pos_err = [df["ra_error"], df["dec_error"], df["parallax_error"]]
 
-    # # Real data
-    # pm = [df["pmra"], df["pmdec"]]
-    # pm_err = [df["pmra_error"], df["pmdec_error"]]
-    # inits = [df["basic_vx"], df["basic_vy"], df["basic_vz"],
-    #          np.log(1./df["parallax"])]
-
-    # Mock data
-    pm = [df["mock_pmra"], df["mock_pmdec"]]
-    pm_err = [df["mock_pmra_error"], df["mock_pmdec_error"]]
-    inits = [df["mock_vx"], df["mock_vy"], df["mock_vz"],
+    # Real data
+    pm = [df["pmra"], df["pmdec"]]
+    pm_err = [df["pmra_error"], df["pmdec_error"]]
+    inits = [df["basic_vx"], df["basic_vy"], df["basic_vz"],
              np.log(1./df["parallax"])]
 
     # Run MCMC.
@@ -43,7 +37,7 @@ def infer_velocity(df):
 
     # nsteps = 10000
     nsteps = 1000
-    sampler.run_mcmc(p0, 1000, progress=True);
+    sampler.run_mcmc(p0, nsteps, progress=True);
 
     # Extract inferred parameters and uncertainties.
     flat_samples = sampler.get_chain(discard=int(nsteps/2), flat=True)
@@ -78,13 +72,11 @@ def infer_velocity(df):
         "lndistance_inferred_err": std[3]
         }), index=[0])
 
-    # df1.to_csv("velocities/{}.csv".format(df["kepid"]))
-    df1.to_csv("velocities/mock/{}.csv".format(df["kepid"]))
+    df1.to_csv("velocities/{}.csv".format(df["kepid"]))
 
 
 # Load the data
-# df0 = pd.read_csv("../data/gaia_mc5_velocities.csv")
-df0 = pd.read_csv("mock_df.csv")
+df0 = pd.read_csv("../data/gaia_mc5_velocities.csv")
 
 # For now, just run on stars with RV measurements.
 m = df0.radial_velocity.values != 0
