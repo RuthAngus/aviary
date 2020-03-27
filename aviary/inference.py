@@ -39,7 +39,7 @@ sigma_vz = 1.5*aps.median_absolute_deviation(vels.basic_vz.values)
 
 # Calculate covariance between velocities
 VX = np.stack((vels.basic_vx.values, vels.basic_vy.values,
-               vels.basic_vz.values), axis=0)
+               vels.basic_vz.values, np.log(1./vels.parallax.values)), axis=0)
 mean = np.mean(VX, axis=1)
 cov = np.cov(VX)
 
@@ -69,8 +69,7 @@ def proper_motion_model(params, pos):
     # Calculate XYZ position from ra, dec and parallax
     c = coord.SkyCoord(ra = pos[0]*u.deg,
                        dec = pos[1]*u.deg,
-                       # distance = D*u.kpc)
-                       distance = (1./pos[2])*u.kpc)
+                       distance = D*u.kpc)
     galcen = c.transform_to(galcen_frame)
 
     # Calculate pm and rv from XYZ and V_XYZ
@@ -110,8 +109,8 @@ def lnlike_one_star(params, pm, pm_err, pos, pos_err):
 
     # Compare this proper motion with observed proper motion.
     return -.5*(pm_from_v[0].value - pm[0])**2/pm_err[0]**2 \
-           -.5*(pm_from_v[1].value - pm[1])**2/pm_err[1]**2
-           # -.5*(1./D - pos[2])**2/pos_err[2]**2
+           -.5*(pm_from_v[1].value - pm[1])**2/pm_err[1]**2 \
+           -.5*(1./D - pos[2])**2/pos_err[2]**2
 
 
 def lnGauss(x, mu, sigma):
@@ -168,7 +167,7 @@ def lnprior(params):
     #     return 0
 
         # Multivariate Gaussian prior
-    pos = np.stack((vx, vy, vz))
+    pos = np.stack((vx, vy, vz, lnD))
     return float(multivariate_lngaussian(pos, mean, cov))
 
         # # And a Gaussian prior over X, Y and Z velocities
