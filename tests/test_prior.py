@@ -97,9 +97,64 @@ def plot_lnlike():
     plt.savefig("test_lnprob")
 
 
-def test_parallax_vs_distance():
+def test_similar_distributions():
+
+    np.random.seed(42)
+
+    # Calculate prior parameters from vx, vy, vz distributions
+    df = pd.read_csv("../data/gaia_mc5_velocities.csv")
+    m = df.radial_velocity.values != 0
+    df = df.iloc[m]
+
+    # Calculate covariance between velocities
+    VX = np.stack((df.basic_vx.values, df.basic_vy.values,
+                   df.basic_vz.values, np.log(1./df.parallax.values)), axis=0)
+    mean = np.mean(VX, axis=1)
+    cov = np.cov(VX)
+
+    Nstars = 1000
+    vxs, vys, vzs, lnds = np.random.multivariate_normal(mean, cov, Nstars).T
+    # lnds = np.random.uniform(np.log(1e-5), np.log(2), Nstars)
+
+    ra = np.random.uniform(280, 300, Nstars)
+    dec = np.random.uniform(36, 52, Nstars)
+
+    pms, rvs = np.zeros((Nstars, 2)), np.zeros(Nstars)
+    for i in range(Nstars):
+        params = [vxs[i], vys[i], vzs[i], lnds[i]]
+        pos = [ra[i], dec[i], 1./np.exp(lnds[i])]
+        pm, rv = av.proper_motion_model(params, pos)
+        pms[i, :] = pm.value
+        rvs[i] = rv.value
+
+    # print(pms)
+
+    assert np.isclose(np.mean(df.radial_velocity), np.mean(rvs), atol=2)
+    assert np.isclose(np.mean(df.pmra), np.mean(pms[:, 0]), atol=2)
+    assert np.isclose(np.mean(df.pmdec), np.mean(pms[:, 1]), atol=2)
+
+    assert np.isclose(np.std(df.radial_velocity), np.std(rvs), atol=2)
+    assert np.isclose(np.std(df.pmra), np.std(pms[:, 0]), atol=2)
+    assert np.isclose(np.std(df.pmdec), np.std(pms[:, 1]), atol=2)
+
+    # plt.hist(df.radial_velocity, 10, density=True, alpha=.5)
+    # plt.hist(rvs, 10, density=True, alpha=.5)
+    # plt.xlabel("RV")
+    # plt.savefig("rv_test")
+    # plt.close()
+
+    # plt.hist(df.pmra, 10, density=True, alpha=.5)
+    # plt.hist(pms[:, 0], 10, density=True, alpha=.5)
+    # plt.xlabel("pmra")
+    # plt.savefig("pmra_test")
+    # plt.close()
+
+    # plt.hist(df.pmdec, 10, density=True, alpha=.5)
+    # plt.hist(pms[:, 1], 10, density=True, alpha=.5)
+    # plt.xlabel("pmdec")
+    # plt.savefig("pmdec_test")
+    # plt.close()
 
 
-
-test_model()
-
+# test_model()
+test_similar_distributions()

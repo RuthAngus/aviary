@@ -103,6 +103,11 @@ if __name__ == "__main__":
     # vxs = np.random.randn(Nstars)*np.sqrt(cov[0, 0]) + mean[0]
     # vys = np.random.randn(Nstars)*np.sqrt(cov[1, 1]) + mean[1]
     # vzs = np.random.randn(Nstars)*np.sqrt(cov[2, 2]) + mean[2]
+
+    # vxs, vys, vzs = np.random.multivariate_normal(mean, cov, Nstars).T
+    # print(np.shape(vxs))
+    # assert 0
+
     # lnds = np.random.uniform(np.log(1e-5), np.log(2), Nstars)
     # ra = np.random.uniform(280, 300, Nstars)
     # dec = np.random.uniform(36, 52, Nstars)
@@ -110,17 +115,17 @@ if __name__ == "__main__":
     # ra_error = np.ones(Nstars)*1e-5
     # dec_error = np.ones(Nstars)*1e-5
 
-    # Replace with real data
-    vxs = df.basic_vx.values[:Nstars]
-    vys = df.basic_vy.values[:Nstars]
-    vzs = df.basic_vz.values[:Nstars]
-    lnds = 1./df.parallax.values[:Nstars]
-    ra = df.ra.values[:Nstars]
-    ra_error = df.ra_error.values[:Nstars]
-    dec = df.dec.values[:Nstars]
-    dec_error = df.dec_error.values[:Nstars]
-    parallax_error = df.parallax_error.values[:Nstars]
-    parallax = df.parallax.values[:Nstars]
+    # # Replace with real data
+    # vxs = df.basic_vx.values[:Nstars]
+    # vys = df.basic_vy.values[:Nstars]
+    # vzs = df.basic_vz.values[:Nstars]
+    # lnds = 1./df.parallax.values[:Nstars]
+    # ra = df.ra.values[:Nstars]
+    # ra_error = df.ra_error.values[:Nstars]
+    # dec = df.dec.values[:Nstars]
+    # dec_error = df.dec_error.values[:Nstars]
+    # parallax_error = df.parallax_error.values[:Nstars]
+    # parallax = df.parallax.values[:Nstars]
 
     df1 = pd.DataFrame(dict({"ID": np.arange(Nstars),
                             "vx": vxs,
