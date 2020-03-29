@@ -2,10 +2,12 @@
 
 \documentclass{aastex63}
 
+% Latin
 \newcommand{\ie}{{\it i.e.}}
 \newcommand{\eg}{{\it e.g.}}
 \newcommand{\etal}{{\it et al.}}
 
+% Missions & Spacecraft
 \newcommand{\kepler}{{\it Kepler}}
 \newcommand{\Kepler}{{\it Kepler}}
 \newcommand{\corot}{{\it CoRoT}}
@@ -25,6 +27,7 @@
 \newcommand{\panstarrs}{{\it PanSTARRS}}
 \newcommand{\LAMOST}{{\it LAMOST}}
 
+% Units and Quantities
 \newcommand{\Teff}{$T_{\mathrm{eff}}$}
 \newcommand{\teff}{$T_{\mathrm{eff}}$}
 \newcommand{\FeH}{[Fe/H]}
@@ -35,19 +38,23 @@
 \newcommand{\dnu}{$\Delta \nu$}
 \newcommand{\numax}{$\nu_{\mathrm{max}}$}
 \newcommand{\degrees}{$^\circ$}
+\newcommand{\vx}{$v_{\bf x}$}
+\newcommand{\vy}{$v_{\bf y}$}
 \newcommand{\vz}{$v_{\bf z}$}
 \newcommand{\vb}{$v_{\bf b}$}
 \newcommand{\kms}{kms$^{-1}$}
 \newcommand{\sigmavb}{$\sigma_{v{\bf b}}$}
 \newcommand{\sigmavz}{$\sigma_{v{\bf z}}$}
 
-\newcommand{\sd}{{\tt stardate}}
+% Paper-specific and other
+\newcommand{\mura}{$\mu_\alpha$}
+\newcommand{\mudec}{$\mu_\delta$}
+\newcommand{\parallax}{$\pi$}
 \newcommand{\gcolor}{$G_{BP} - G_{RP}$}
 \newcommand{\mcp}{\citep{mcquillan2014}}
 \newcommand{\mct}{\citet{mcquillan2014}}
 \newcommand{\bvector}{${\bf b}$}
 \newcommand{\python}{{\it Python}}
-
 \newcommand{\racomment}[1]{{\color{blue}#1}}
 
 % \shorttitle{Calibrating gyrochronology with kinematics}
@@ -72,17 +79,21 @@
 \affiliation{Department of Astrophysics, American Museum of Natural History,
 200 Central Park West, Manhattan, NY, USA}
 
-\author{Adrian M. Price-Whelan}
+\author{Dan Foreman-Mackey}
 \affiliation{Center for Computational Astrophysics, Flatiron Institute,
 162 5th Avenue, Manhattan, NY, USA}
 
-\author{Dan Foreman-Mackey}
+\author{Adrian M. Price-Whelan}
 \affiliation{Center for Computational Astrophysics, Flatiron Institute,
 162 5th Avenue, Manhattan, NY, USA}
 
 \author{Jason Curtis}
 \affiliation{Department of Astrophysics, American Museum of Natural History,
 200 Central Park West, Manhattan, NY, USA}
+
+\author{Emily Cunningham}
+\affiliation{Center for Computational Astrophysics, Flatiron Institute,
+162 5th Avenue, Manhattan, NY, USA}
 
 \begin{abstract}
 Gyrochronology, the method of inferring the age of a star from its rotation
@@ -96,10 +107,10 @@ stars can be examined in detail.
 We demonstrate that kinematic ages, inferred from the velocity dispersions of
 groups of stars, beautifully illustrate the time and mass-dependence of the
 gyrochronology relations.
-We use kinematic ages of field stars, plus benchmark clusters and
-asteroseismic stars, to calibrate a new empirical, Gaussian process
-gyrochronology relation, that fully captures the complex rotational evolution
-of cool dwarfs over a range of masses and ages.
+We use the kinematic ages of field stars, plus benchmark clusters and
+    asteroseismic stars, to calibrate a new empirical Gaussian process
+    gyrochronology relation, that fully captures the complex rotational
+    evolution of cool dwarfs over a range of masses and ages.
 We use cross validation to demonstrate that this relation accurately predicts
 ages for FGKM dwarfs.
 \end{abstract}

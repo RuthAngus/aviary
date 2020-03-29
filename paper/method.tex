@@ -75,20 +75,25 @@ Figure \ref{fig:v_comparison} shows the velocities of these 3000 stars,
 calculated using RV measurements, compared with their inferred velocities.
 
 \begin{figure}[ht!]
-    % \plotone{testvz.pdf}
 \caption{Vertical velocities calculated with full 6D information vs vertical
     velocities inferred without RV, for all 3000 \mct\ stars with \gaia\ RV
     measurements.}
   \centering
-    \includegraphics[width=.5\textwidth]{testvz}
+    \includegraphics[width=1\textwidth]{v_comparison}
 \label{fig:v_comparison}
 \end{figure}
 
 \subsection{Calculating velocity dispersions}
-Kinematic are ages calculated from the velocity dispersion of a group of
-stars.
-A major
-
+A kinematic age can be calculated from the velocity dispersion (\eg\ the
+standard deviation or Median Absolute Deviation, MAD, of velocities) of a
+group of stars.
+Many empirical Age-Velocity dispersion Relations (AVRs) have been calibrated
+using stars with measured proper motions, radial velocities, and ages
+\citep[\eg][]{holberg2009, yu2019}.
+The major assumption underlying kinematic ages is that the stars used to
+calculate a velocity dispersion are {\it all the same age}.
+So, in order to calculate kinematic ages from velocity dispersions for
+\kepler\ stars, it is necessary to group them by age.
 
 \subsection{Converting velocity dispersion to age with an AVR}
 
