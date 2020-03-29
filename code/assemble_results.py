@@ -36,9 +36,9 @@ for i in range(len(df2)):
     # pos = [df2.ra.values[i], df2.dec.values[i],
     #        1./np.exp(df2.lndistance_inferred.values[i])]
     _pm, _rv = av.proper_motion_model(params, pos)
-    pmra_inf .append(_pm[0].value)
-    pmdec_inf .append(_pm[1].value)
-    rv_inf .append(_rv.value)
+    pmra_inf.append(_pm[0].value)
+    pmdec_inf.append(_pm[1].value)
+    rv_inf.append(_rv.value)
 
     xyz, vxyz = av.simple_calc_vxyz(df2.ra[i], df2.dec[i], 1./df2.parallax[i],
                                     df2.pmra[i], df2.pmdec[i],
@@ -46,6 +46,14 @@ for i in range(len(df2)):
     vx_true.append(vxyz.value[0])
     vy_true.append(vxyz.value[1])
     vz_true.append(vxyz.value[2])
+
+df2["vx_true"] = np.array(vx_true)
+df2["vy_true"] = np.array(vy_true)
+df2["vz_true"] = np.array(vz_true)
+df2["pmra_inferred"] = np.array(pmra_inf)
+df2["pmdec_inferred"] = np.array(pmdec_inf)
+df2["rv_inferred"] = np.array(rv_inf)
+df2.to_csv("all_stars.csv")
 
 xs = np.linspace(min(pmra_inf), max(pmra_inf), 100)
 plt.plot(xs, xs)
