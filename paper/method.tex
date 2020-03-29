@@ -87,13 +87,39 @@ calculated using RV measurements, compared with their inferred velocities.
 A kinematic age can be calculated from the velocity dispersion (\eg\ the
 standard deviation or Median Absolute Deviation, MAD, of velocities) of a
 group of stars.
-Many empirical Age-Velocity dispersion Relations (AVRs) have been calibrated
-using stars with measured proper motions, radial velocities, and ages
+These velocity dispersions can then be converted into an age using an AVR
 \citep[\eg][]{holberg2009, yu2019}.
-The major assumption underlying kinematic ages is that the stars used to
-calculate a velocity dispersion are {\it all the same age}.
+The major assumption underlying kinematic ages is that all stars used to
+calculate a velocity dispersion are {\it the same age}.
 So, in order to calculate kinematic ages from velocity dispersions for
 \kepler\ stars, it is necessary to group them by age.
+Fortunately, we can use the implicit assumption that underpins gyrochronology
+itself to group stars by age: that stars with the same rotation period and
+color are the same age.
+We discuss the implications of this assumption, and how our results would
+change if this assumption is false, in the Discussion of this paper (section
+\ref{sec:discussion}).
+
+To calculate a \vz\ velocity dispersion and therefore age for each \kepler\
+star, we grouped stars with their neighbors in
+\logp--\teff\ space.
+We experimented with two methods of grouping stars: using K-nearest neighbors,
+and using a fixed range in \logp\ and \teff.
+In the K-nearest neighbors method, each star was grouped with the K-nearest
+stars in \logp-\teff\ space.
+Groups created this way span a small range of \logp\ and \teff\ where the
+number density of stars is large, and a large range where the number density
+is small.
+However, all groups have the same number of stars.
+In the fixed range method, each star was grouped with stars whose \logp s and
+\teff s fell within a certain range of their own.
+This method created groups with large numbers of stars in densely populated
+regions of the \logp--\teff\ plane, and small numbers of stars in sparsely
+populated regions, \ie\ each group contains a different number of stars.
+However, the bin size was constant.
+To choose the best method, and to optimize for the parameters of each (K and
+\logp\ and \teff-range), we conducted a set of tests.
+
 
 \subsection{Converting velocity dispersion to age with an AVR}
 

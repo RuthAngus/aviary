@@ -21,7 +21,7 @@ R_gal, _ = get_matrix_vectors(galcen_frame, inverse=True)
 
 def test_lnlike():
 
-    # Test the function by transforming a coordinate to galactocentric
+    # Test the model function by transforming a coordinate to galactocentric
     # coords and back:
     c = coord.SkyCoord(ra=61.342*u.deg,
                        dec=17*u.deg,
