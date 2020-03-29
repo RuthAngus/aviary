@@ -1,9 +1,54 @@
 \section{Method}
 
+\subsection{Data}
+\label{sec:data}
+
+This study focuses on stellar rotation in the original \kepler\ field, partly
+because \kepler\ provides the largest sample of published rotation periods,
+and partly because its low Galactic latitude allows us to marginalize over
+missing RV measurements to approximate \vz.
+We combined three rotation period catalogs constructed from original \kepler\
+data: \citet{mcquillan2014}, \citet{santos2019} and \citet{garcia2014}.
+
+\subsection{Inferring 3D velocities (marginalizing over missing RV
+measurements)}
+
+It has been demonstrated that the dispersion in vertical velocity, \vz\, for a
+group of stars increases with the age of that group (citations).
+However, velocities in Galactocentric coordinates, \vx, \vy\ and \vz, can only
+be calculated with full 6-D position and velocity information, \ie\ proper
+motions, position and radial velocity.
+In \citet{angus2020} we introduced the idea that kinematic ages could be used
+to calibrate gyrochronology and showed, in the appendix of that paper, that
+velocity, \vb\ in the Galactic frame, which can be calculated without an RV
+measurement, can be used as an approximation to \vz\ for \kepler\ stars.
+This is because the \kepler\ field of view lies at relatively low Galactic
+latitudes, ($\sim 5-20$\degrees), so the $z$-direction is similar to the
+$b$-direction for \kepler\ stars.
+However, \vb\ is only a close approximation to \vz\ at extremely {\it low}
+latitudes, and even in the \kepler\ field, kinematic ages calculated with \vb\
+instead of \vz\ are systematically larger because of extra noise introduced by
+the imperfect translation between \vb\ and \vz\.
+In order to calculate accurate vertical velocities and therefore ages, the
+appropriate approach is to {\it infer} \vz\  by marginalizing over missing RV
+measurements.
+
+Three-dimensional velocities in galactocentric coordinates: \vx, \vy, and \vz\
+can only be directly computed via a transformation from 3D velocities in
+another coordinate system, like the equatorial coordinates provided by \gaia:
+\mura, \mudec, and RV.
+For stars with no measured RV in \gaia\ DR2, \vx, vy, and \vz\ can still be
+inferred from positions and proper motions alone, by marginalizing over
+missing RV measurements.
+For each star in our sample, we inferred \vx, \vy, and \vz\ from the 3D
+positions and proper motions provided in the \gaia\ DR2 catalog
+\citep{brown2011}.
+We also simultaneously inferred distance, instead of using 1/\parallax, to
+model velocities \citep{bailer-jones2016}.
+
+Using Bayes rule, the posterior probability of the parameters given the data
+can be written:
 \begin{equation}
-% p(v_{\bf x}, v_{\bf y}, v_{\bf z}, D | \mu_{\alpha}, \mu_{\delta}, \alpha,
-% \delta, \pi) = p(\mu_{\alpha}, \mu_{\delta}, \alpha, \delta, \pi | v_{\bf x},
-% v_{\bf y}, v_{\bf z}, D) p(v_{\bf x}) p(v_{\bf y}) p(v_{\bf z}) p(D),
 p(v_{\bf xyz}, D | \mu_{\alpha}, \mu_{\delta}, \alpha, \delta, \pi) =
     p(\mu_{\alpha}, \mu_{\delta}, \alpha, \delta, \pi | v_{\bf xyz}, D)
     p(v_{\bf xyz}) p(D),
@@ -11,4 +56,42 @@ p(v_{\bf xyz}, D | \mu_{\alpha}, \mu_{\delta}, \alpha, \delta, \pi) =
 where D is distance, $\alpha$ is Right Ascension (RA), $\delta$ is declination
 (dec), $\pi$ is parallax, $\mu_\alpha$ is proper motion in RA, and
 $\mu_\delta$ is proper motion in dec.
+The prior over $\log$(distance) and velocities was a multivariate Gaussian
+with mean and covariance determined from the distance and velocity
+distributions of \kepler\ targets with RV measurements.
 
+The posterior PDF was explored using {\tt emcee} \citep{forman-mackey2013}, an
+affine-invariant, ensemble MCMC sampler.
+
+Initialization.
+
+We found that 10,000 samples with 16 walkers was sufficient to calculate a
+converged autocorrelation time, and produce 150-500 independent samples per
+parameter.
+
+Over 3000 stars in the \mct\ sample do have RV measurements and provide an
+opportunity to test this method of inferring velocities.
+Figure \ref{fig:v_comparison} shows the velocities of these 3000 stars,
+calculated using RV measurements, compared with their inferred velocities.
+
+\begin{figure}[ht!]
+    % \plotone{testvz.pdf}
+\caption{Vertical velocities calculated with full 6D information vs vertical
+    velocities inferred without RV, for all 3000 \mct\ stars with \gaia\ RV
+    measurements.}
+  \centering
+    \includegraphics[width=.5\textwidth]{testvz}
+\label{fig:v_comparison}
+\end{figure}
+
+\subsection{Calculating velocity dispersions}
+Kinematic are ages calculated from the velocity dispersion of a group of
+stars.
+A major
+
+
+\subsection{Converting velocity dispersion to age with an AVR}
+
+\subsection{Comparing kinematic ages with asteroseismic and cluster ages}
+
+\subsection{A Gaussian process gyrochronology relation}
