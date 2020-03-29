@@ -7,6 +7,14 @@ import pandas as pd
 import glob
 import aviary as av
 
+plotpar = {'axes.labelsize': 20,
+           'font.size': 22,
+           'legend.fontsize': 15,
+           'xtick.labelsize': 20,
+           'ytick.labelsize': 20,
+           'text.usetex': True}
+plt.rcParams.update(plotpar)
+
 
 files = glob.glob("velocities/*csv")
 df = pd.read_csv(files[0])
@@ -69,6 +77,7 @@ plt.errorbar(vx_true, df2.vx_inferred,
 xs = np.linspace(min(vx_true), max(vx_true), 100)
 plt.plot(xs, xs)
 plt.savefig("testvx")
+plt.savefig("testvx.pdf")
 plt.close()
 
 plt.figure(figsize=(5, 4), dpi=200)
@@ -77,11 +86,13 @@ plt.plot(xs, xs, ls="--", color="k", lw=.8, zorder=0)
 plt.errorbar(vz_true, df2.vz_inferred,
              yerr=[df2.vz_inferred_errm, df.vz_inferred_errp],
              fmt=".", zorder=1)
-plt.xlabel("Vz from 6D [km/s]")
-plt.ylabel("Vz from 5D [km/s]")
+plt.xlabel("$\mathrm{V_z~from~6D~[kms^{-1}]}$")
+plt.ylabel("$\mathrm{V_z~from~5D~[kms^{-1}]}$")
 plt.xlim(-25, 25)
 plt.ylim(-25, 25)
+plt.tight_layout()
 plt.savefig("testvz")
+plt.savefig("testvz.pdf")
 plt.close()
 
 plt.errorbar(vy_true, df2.vy_inferred,
@@ -89,5 +100,8 @@ plt.errorbar(vy_true, df2.vy_inferred,
              fmt=".")
 xs = np.linspace(min(vy_true), max(vy_true), 100)
 plt.plot(xs, xs)
+plt.xlabel("$\mathrm{V_y~from~6D~[kms^{-1}]}$")
+plt.ylabel("$\mathrm{V_y~from~5D~[kms^{-1}]}$")
 plt.savefig("testvy")
+plt.savefig("testvy.pdf")
 plt.close()
