@@ -154,7 +154,7 @@ plt.ylabel("$\mathrm{G~[dex]}$")
 plt.colorbar(label="$\mathrm{Gyrochronal~age~[Gyr]}$")
 plt.ylim(11, 5.5)
 plt.xlim(.8, 2.7);
-plt.savefig("age_gradient.pdf")
+plt.savefig("age_gradient")
 
 print("Saving file")
 gaia_mc.to_csv("../data/gaia_mc.csv")
