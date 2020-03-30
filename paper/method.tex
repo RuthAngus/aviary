@@ -20,10 +20,10 @@ group of stars increases with the age of that group (citations).
 However, velocities in Galactocentric coordinates, \vx, \vy\ and \vz, can only
 be calculated with full 6-D position and velocity information, \ie\ proper
 motions, position and radial velocity.
-In \citet{angus2020} we introduced the idea that kinematic ages could be used
-to calibrate gyrochronology and showed, in the appendix of that paper, that
-velocity, \vb\ in the Galactic frame, which can be calculated without an RV
-measurement, can be used as an approximation to \vz\ for \kepler\ stars.
+In Angus \etal\ (2020) we introduced the idea that kinematic ages could be
+used to calibrate gyrochronology and showed, in the appendix of that paper,
+that velocity, \vb\ in the Galactic frame, which can be calculated without an
+RV measurement, can be used as an approximation to \vz\ for \kepler\ stars.
 This is because the \kepler\ field of view lies at relatively low Galactic
 latitudes, ($\sim 5-20$\degrees), so the $z$-direction is similar to the
 $b$-direction for \kepler\ stars.
@@ -46,7 +46,7 @@ For each star in our sample, we inferred \vx, \vy, and \vz\ from the 3D
 positions and proper motions provided in the \gaia\ DR2 catalog
 \citep{brown2011}.
 We also simultaneously inferred distance, instead of using 1/\parallax, to
-model velocities \citep{bailer-jones2016}.
+model velocities \citep{bailer-jones2015, bailer-jones2018}.
 
 Using Bayes rule, the posterior probability of the parameters given the data
 can be written:
@@ -62,8 +62,8 @@ The prior over $\log$(distance) and velocities was a multivariate Gaussian
 with mean and covariance determined from the distance and velocity
 distributions of \kepler\ targets with RV measurements.
 
-The posterior PDF was explored using {\tt emcee} \citep{forman-mackey2013}, an
-affine-invariant, ensemble MCMC sampler.
+The posterior PDF was explored using {\tt emcee} \citep{foreman-mackey2013},
+an affine-invariant, ensemble MCMC sampler.
 
 Initialization.
 
@@ -92,7 +92,7 @@ A kinematic age can be calculated from the velocity dispersion (\eg\ the
 standard deviation or Median Absolute Deviation, MAD, of velocities) of a
 group of stars.
 These velocity dispersions can then be converted into an age using an AVR
-\citep[\eg][]{holberg2009, yu2019}.
+\citep[\eg][]{holmberg2009, yu2018}.
 The major assumption underlying kinematic ages is that all stars used to
 calculate a velocity dispersion are {\it the same age}.
 So, in order to calculate kinematic ages from velocity dispersions for
