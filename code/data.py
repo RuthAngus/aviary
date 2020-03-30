@@ -157,4 +157,4 @@ plt.xlim(.8, 2.7);
 plt.savefig("age_gradient.pdf")
 
 print("Saving file")
-gaia_mc.to_csv("gaia_mc.csv")
+gaia_mc.to_csv("../data/gaia_mc.csv")
