@@ -13,6 +13,8 @@ calibrated gyrochronology model that captures the time and mass-dependence of
 stellar spin down could provide ages that are precise to within 20\% for
 millions of Milky Way stars in the time-domain era \citep{epstein2014,
 najita2016, angus2019}.
+However, gyrochronology models are not yet reliably calibrated, especially for
+low-mass and old stars.
 
 % What do we still not understand?
 % Gyro is still poorly calibrated
@@ -24,12 +26,12 @@ gyrochronology relation, applicable to GKM main-sequence stars of all ages.
 A lack of low-mass and old calibration stars has previously limited the mass
 and age coverage of gyrochronology relations, which can only be calibrated
 using stars with precise age and rotation period measurements.
-Historically, the calibration sample has been limited to open clusters and
-asteroseismic stars.
-Open clusters can be dated with isochrone fitting and identifying a main
-sequence turn off age, Solar-like oscillators can be dated by measuring their
-internal sound speed through frequency analysis, and the rotation periods of
-both cluster and asteroseismic stars can be measured with precise time-series
+Historically, the gyrochronology calibration sample has been limited to open
+clusters and asteroseismic stars.
+Open clusters can be precisely dated with isochrone fitting and main sequence
+turn off, Solar-like oscillators can be dated by measuring their internal
+sound speed through frequency analysis, and the rotation periods of both
+cluster and asteroseismic stars can be measured with precise time-series
 photometry.
 Magnetically active regions create inhomogeneous surface features with rotate
 in and out of view and produce periodic variability in their integrated,
@@ -60,9 +62,9 @@ Gyr.
 % low-mass stars.
 For this reason, the rotational evolution of cool dwarfs is not well
 understood.
-However, as we showed in Angus \etal\ (2020), {\it kinematic} ages can be used
-to turn field stars, observed by \kepler, into a calibration sample that
-provides good mass and age coverage.
+However, as we showed in Angus \etal\ (2020), the {\it kinematic} ages of
+field stars observed by \kepler, can provide a calibration sample with broad
+mass and age coverage.
 Although the \kepler\ sample does not include late M dwarfs, it can still be
 used to extend gyrochronology relations to much older ages for late K and
 early M dwarfs.
@@ -70,13 +72,6 @@ By adding the ages and rotation periods of thousands of field stars to the
 open cluster and asteroseismic calibration sample, we can calibrate a
 gyrochronology relation that is applicable to FGK and early M dwarfs between
 the ages of $\sim$500 Myr and 8 Gyr.
-
-\subsection{Other possible topics}
-\begin{itemize}
-\item{How are rotation periods measured?}
-\item{Core-envelope decoupling}
-\item{Gaussian processes}
-\end{itemize}
 
 % % Gyro 101
 % Stars with significant convective envelopes ($\lesssim$ 1.3 M$_\odot$) have
@@ -135,14 +130,57 @@ the ages of $\sim$500 Myr and 8 Gyr.
 % to reproduce the rotation periods in open clusters and the field
 % \citep{spada2019, angus2020}.
 
+\subsection{Core-envelope decoupling}
+
+% Describe previous paper
+In Angus \etal\ (2020) we demonstrated that Galactic kinematics can be used to
+explore the evolution of stellar rotation.
+We showed that velocity dispersion, an established age proxy in the Galactic
+thin disk, increases smoothly as a function of rotation period, indicating
+that rotation period increases with age as expected.
+Using velocity dispersion as an age proxy, we also showed that old K dwarfs
+spin down more slowly than G dwarfs: their rotational evolution appears to
+`stall' after around 1 Gyr, in a manner that reflects the behavior of K dwarfs
+observed in open clusters \citep{curtis2019}.
+At young ages ($\sim$ 0.5 -- 1 Gyr), K dwarfs spin more slowly than G dwarfs of
+the same age, because their deeper convection zones generate stronger magnetic
+fields, which leads to more efficient magnetic braking.
+However, at old ages ($\gtrsim$ 1 Gyr) K dwarfs rotate at the same rate or
+more rapidly than contemporary G dwarfs.
+The leading explanation for this phenomenon is that angular momentum is
+transferred from the core to the surface over longer timescales for lower-mass
+stars \citep{spada2019}, \ie\ they experience a more extended phase of
+`core-envelope decoupling'.
+
+% The angular momentum of the radiative cores and convective envelopes of stars
+% are thought to evolve separately at young ages \citep[\eg][]{mcdonald1995,
+% gallet2013}.
+A period of core-envelope decoupling is necessary to explain the observed
+rotation periods of stars in extremely young open clusters (1-10 Gyr)
+\citep[\eg][]{irwin2007, bouvier2008, denissenkov2010, spada2011, reiners2012,
+gallet2013}.
+During this phase there is little transfer of angular momentum between
+radiative core and convective envelope and, as wind-braking removes angular
+momentum from the envelope, it decelerates while the core continues to spin
+rapidly.
+Over time however, angular momentum is transported across the interface
+between the two zones, and momentum from the rapidly spinning interior
+surfaces, inhibiting the deceleration of the outer envelope.
+% With a mass-dependent timescale for core-envelope coupling semi-empirical
+% models are able to reproduce the
+Currently, the rotation periods of field and cluster stars can only be
+reproduced by semi-empirical models with a mass-dependent timescale for
+core-envelope coupling \citep[][Angus \etal, 2020]{spada2019, curtis2019}.
+
+
 % Summary of using velocity dispersions as an age proxy -- lit review
 \subsection{Using kinematics as an age proxy}
 
 The star forming molecular gas clouds observed in the Milky Way have a low
 out-of-plane, or vertical, velocity \citep[\eg][]{stark1989, stark2005,
 aumer2009, martig2014, aumer2016}.
-In contrast, the vertical velocities of older stars are, on average, observed
-to be larger in magnitude \citep{stromberg1946, wielen1977, nordstrom2004,
+In contrast, the vertical velocities of older stars are observed to be larger
+in magnitude on average \citep{stromberg1946, wielen1977, nordstrom2004,
 holmberg2007, holmberg2009, aumer2009, casagrande2011, ting2019, yu2018}.
 There are two possible explanations for this observed increase in velocity
 dispersion with age: either stars are born kinematically `cool' and their
@@ -151,83 +189,64 @@ orbits are heated over time via interactions with giant molecular clouds
 stars formed kinematically `hotter' in the past \citep[\eg][]{bird2013}.
 Either way, the vertical velocity dispersions of thin disk stars are observed
 to increase with stellar age.
-This behavior has been codified via Age-Velocity dispersion Relations (AVRs),
-which typically express the relationship between age and velocity dispersion
-as a power law: $\sigma_v \propto t^\beta$, with free parameter, $\beta$
+This behavior is codified by Age-Velocity dispersion Relations (AVRs), which
+typically express the relationship between age and velocity dispersion as a
+power law: $\sigma_v \propto t^\beta$, with free parameter, $\beta$
 \citep[\eg][]{holmberg2009, yu2018}.
 These expressions can be used to infer the ages of groups of stars from their
-velocity dispersions, as we do later in this paper (see section
-\ref{sec:avr}).
+velocity dispersions, as we do in this paper (see section \ref{sec:method}).
 
 Kinematic ages have been used to explore the evolution of cool dwarfs for over
 a decade.
-\citet{west2004, west2006} used the vertical distances of stars from the
-Galactic mid-plane as an age proxy and found that the fraction of magnetically
-active M dwarfs decreases over time.
-\citet{west2008} used kinematic ages to calculate the expected activity
-lifetime for M dwarfs of different spectral types.
+\citet{west2004, west2006} found that the fraction of magnetically active M
+dwarfs decreases over time, by using the vertical distances of stars from the
+Galactic mid-plane as an age proxy, and \citet{west2008} used kinematic ages
+to calculate the expected activity lifetime for M dwarfs of different spectral
+types.
 \citet{faherty2009} used tangential velocities to infer the ages of M, L and T
 dwarfs, and showed that dwarfs with lower surface gravities tended to be
 kinematically younger, and \citet{kiman2019} used velocity dispersion as an
 age proxy to explore the evolution of H$\alpha$ equivalent width (a magnetic
-activity proxy), in M dwarfs.
+activity indicator), in M dwarfs.
 
-% Describe previous paper
-In Angus \etal\ (2020) we demonstrated that Galactic kinematics can be used to
-explore the evolution of stellar rotation.
-We calculated the velocity dispersions of groups of stars with similar
-rotation periods and effective temperatures and used them as an age proxy to
-show that K dwarfs spin down more slowly than G dwarfs.
-Their rotational evolution appears to `stall' after around 1 Gyr, in a manner
-that reflects the behavior of K dwarfs observed in open clusters
-\citep{curtis2019}.
-At young ages ($\sim$ 0.5 -- 1 Gyr), K dwarfs spin more slowly than G dwarfs of
-the same age, because their deeper convection zones generate stronger magnetic
-fields, which leads to more efficient magnetic braking.
-However, at old ages ($\gtrsim$ 1 Gyr) K dwarfs rotate at the same rate, or
-more rapidly than G dwarfs of the same age.
-The leading explanation for this phenomenon is that the angular momentum of
-the radiative cores and convective envelopes of K dwarfs evolve separately at
-young ages \citep{spada2019}.
-The envelope loses angular momentum via magnetic braking while the core
-continues to spin rapidly.
-Over time however, angular momentum is transported across the interface
-between the two zones, and momentum from the rapidly spinning interior
-surfaces, inhibiting the deceleration of the outer envelope.
-With a mass-dependent timescale for core-envelope coupling, semi-empirical
-models are able to reproduce the rotation periods of field and cluster stars
-\citep[][Angus \etal, 2020]{spada2019, curtis2019}.
+% After the development of a radiative core, little angular momentum is
+% transported between the core and convective envelope and, if wind-braking
+% slows the surface substantially before the two zones recouple, the core may
+% rotate much more quickly than the envelope.
+% The Sun rotates almost as a solid body \citep[\eg][]{thompson1996}, so it is
+% expected that the cores and envelopes of Solar-like stars eventually
+% re-couple, with angular momentum efficiently transported between them.
+% The timescales for recoupling have been studied extensively and explored in
+% theoretical models for decades \citep[\eg][]{endal1981, macgregor1991,
+% denissenkov2010, gallet2013, lanzafame2015}.
 
-Most stars with rotation periods measured from \kepler\ data do not have RV
-measurements\footnote{Although RVs for most will be released in \gaia\ DR3},
-so in Angus \etal\ (2020), we used \vb, velocity in the direction of Galactic
-latitude as a stand-in for \vz.
-In the Galactic coordinate system, velocities can be calculated from 3D
-positions: RA ($\alpha$), dec ($\delta$) and parallax ($\pi$) and 2D proper
-motions, proper motion in RA (\mura) and dec (\mudec).
-So \vb\ can be calculated without RV measurements, but is still a close
-approximation to \vz\ for \kepler\ stars by virtue of its low Galactic
-latitude.
-Unfortunately however, given that AVRs are calibrated in {\it galactocentric}
+AVRs are usually calibrated in Galactocentric velocity coordinates (\vx, \vy,
+\vz\ or $UVW$), and these velocities can only be calculated with full 6D
+positional and velocity information, however most \kepler\ rotators do not
+have RV measurements\footnote{Although RVs for most will be released in \gaia\
+DR3}.
+In Angus \etal\ (2020) we used velocity in the direction of Galactic latitude
+(\vb) as a stand-in for \vz\ because, in the {\it Galactic} coordinate system,
+velocities can be calculated from 3D positions and {\it 2D} proper motions.
+The \kepler\ field lies at low Galactic latitude, so \vb\ is a close
+approximation to \vz.
+Though \vb\ velocity dispersion does not equal \vz\ velocity dispersion, it
+still increases monotonically over time and provides accurate age rankings for
+\kepler\ stars.
+Unfortunately however, given that AVRs are calibrated in {\it Galactocentric}
 coordinates (\vx, \vy, \vz), we could not directly translate \vb\ velocity
 dispersions to ages.
 
 In this paper, our aim was to use kinematic ages to calibrate a new
-gyrochronology relation.
-Three main technological improvements to the analysis applied in Angus \etal\
-(2020) were required to calibrate this new relation.
-Firstly, we calculated {\it vertical} velocity, \vz, rather than velocity in
-the Galactic latitude direction, \vb, for each star.
-We did this by inferring \vx, \vy, and \vz, while marginalizing over missing
-RV measurements, using a hierarchical Bayesian model (see section
-\ref{sec:velocity_inference}).
-Secondly, instead of making a single estimate of the velocity dispersion of a
-group of stars, we calculated the velocity dispersion of groups of stars,
-centered on each star, \ie\ we calculated a moving, or rolling dispersion (see
-section \ref{sec:velocity_dispersion}).
-These velocity dispersions were then converted into ages using an AVR
-\citep{yu2018} in section \ref{sec:avr}.
-Thirdly, we used a Gaussian process model to capture the complexities of
-stellar rotational evolution and calibrated a new GP-based gyrochronology
-relation using our new kinematic ages, plus benchmark cluster and
-asteroseismic stars in section \ref{sec:gp_model}.
+gyrochronology relation, for which four main steps were required.
+Firstly, we inferred {\it vertical} velocity, \vz, for each star without an RV
+measurement by marginalizing over missing RVs using a hierarchical Bayesian
+model (see section \ref{sec:velocity_inference}).
+Secondly, we calculated velocity dispersion for every star using a moving, or
+rolling dispersion method (see section \ref{sec:velocity_dispersion}).
+Thirdly, these velocity dispersions were converted into ages using an AVR
+\citep[][section \ref{sec:avr}]{yu2018}.
+Finally, we used a Gaussian process model to capture the complexities of
+stellar rotational evolution and calibrated a new gyrochronology relation
+using our kinematic ages, plus benchmark cluster and asteroseismic stars in
+section \ref{sec:gp_model}.
