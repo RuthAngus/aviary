@@ -57,28 +57,6 @@ def infer_velocity(df):
     df = pd.DataFrame(df)
     df.to_csv("{}.csv".format(int(df["ID"])))
 
-    # df1 = pd.DataFrame(dict({
-    #     "ID": df["ID"],
-    #     "vx_inferred": params_inferred[0],
-    #     "vx_inferred_errp": errp[0],
-    #     "vx_inferred_errm": errm[0],
-    #     "vx_inferred_err": std[0],
-    #     "vy_inferred": params_inferred[1],
-    #     "vy_inferred_errp": errp[1],
-    #     "vy_inferred_errm": errm[1],
-    #     "vy_inferred_err": std[1],
-    #     "vz_inferred": params_inferred[2],
-    #     "vz_inferred_errp": errp[2],
-    #     "vz_inferred_errm": errm[2],
-    #     "vz_inferred_err": std[2],
-    #     "lndistance_inferred": params_inferred[3],
-    #     "lndistance_inferred_errp": errp[3],
-    #     "lndistance_inferred_errm": errm[3],
-    #     "lndistance_inferred_err": std[3]
-    #     }), index=[0])
-
-    # df1.to_csv("{}.csv".format(int(df["ID"])))
-
 
 if __name__ == "__main__":
 
@@ -108,6 +86,8 @@ if __name__ == "__main__":
     parallax_error = np.ones(Nstars)*.1
     ra_error = np.ones(Nstars)*1e-10
     dec_error = np.ones(Nstars)*1e-10
+
+    # Find the coordinates of a star at the galactic pole.
 
     # # Replace with real data
     # vxs = df.basic_vx.values[:Nstars]
