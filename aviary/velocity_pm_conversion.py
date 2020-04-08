@@ -41,6 +41,17 @@ def get_icrs_from_galactocentric(xyz, vxyz, R_gal, sun_xyz, sun_vxyz):
     # Calculate the unit conversion using 1kms/1km and transform.
     pm = (proj_dv[:2] / x_icrs.distance).to(u.mas/u.yr,
                                             u.dimensionless_angles())
+
     rv = proj_dv[2]
 
     return pm, rv
+
+
+def cartesian_to_angular_no_units(km_s, kpc):
+    to_km_yr = 365.2425 * 24*3600
+    to_m_yr = 1000
+    to_kpc_yr = 1./3.0856775814671917e+19
+    to_rad_yr = 1./kpc
+    to_deg_yr = 360/(2*np.pi)
+    to_mas_yr = 3600*1000
+    return np.arcsin((km_s * to_km_yr) * to_m_yr * to_kpc_yr * to_rad_yr) * to_deg_yr * to_mas_yr
