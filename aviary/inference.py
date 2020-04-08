@@ -31,6 +31,9 @@ vel_data = pkg_resources.resource_filename(__name__,
                                            "../data/gaia_mc5_velocities.csv")
 vels = pd.read_csv(vel_data)
 m = vels.radial_velocity.values != 0
+m &= np.isfinite(vels.basic_vx.values)
+m &= np.isfinite(vels.basic_vy.values)
+m &= np.isfinite(vels.basic_vz.values)
 vels = vels.iloc[m]
 
 # Calculate covariance between velocities
