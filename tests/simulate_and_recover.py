@@ -6,6 +6,7 @@ import astropy.stats as aps
 import aviary as av
 from multiprocessing import Pool
 import emcee
+import corner
 
 def infer_velocity(df):
 
@@ -26,6 +27,9 @@ def infer_velocity(df):
     sampler.run_mcmc(p0, nsteps, progress=True);
 
     flat_samples = sampler.get_chain(discard=int(nsteps/2), flat=True)
+    fig = corner.corner(flat_samples)
+    fig.savefig("corner_degeneracy_test")
+
     params_inferred = np.median(flat_samples, axis=0)
     upper = np.percentile(flat_samples, 84, axis=0)
     lower = np.percentile(flat_samples, 16, axis=0)
@@ -82,38 +86,28 @@ if __name__ == "__main__":
 
     # Calculate prior parameters from vx, vy, vz distributions
     df = pd.read_csv("../data/gaia_mc5_velocities.csv")
-    mu_vx = np.median(df.basic_vx.values)
-    mu_vy = np.median(df.basic_vy.values)
-    mu_vz = np.median(df.basic_vz.values)
-    sigma_vx = 1.5*aps.median_absolute_deviation(df.basic_vx.values)
-    sigma_vy = 1.5*aps.median_absolute_deviation(df.basic_vy.values)
-    sigma_vz = 1.5*aps.median_absolute_deviation(df.basic_vz.values)
+    m = df.radial_velocity.values != 0
+    m &= np.isfinite(df.basic_vx.values)
+    m &= np.isfinite(df.basic_vy.values)
+    m &= np.isfinite(df.basic_vz.values)
+    df = df.iloc[m]
 
     # Calculate covariance between velocities
     VX = np.stack((df.basic_vx.values, df.basic_vy.values,
-                   df.basic_vz.values), axis=0)
+                   df.basic_vz.values, np.log(1./df.parallax.values)), axis=0)
     mean = np.mean(VX, axis=1)
     cov = np.cov(VX)
 
     # Draw parameters from the prior.
-    Nstars = 10
-    # # vxs = np.random.randn(Nstars)*sigma_vx + mu_vx
-    # # vys = np.random.randn(Nstars)*sigma_vy + mu_vy
-    # # vzs = np.random.randn(Nstars)*sigma_vz + mu_vz
-    # vxs = np.random.randn(Nstars)*np.sqrt(cov[0, 0]) + mean[0]
-    # vys = np.random.randn(Nstars)*np.sqrt(cov[1, 1]) + mean[1]
-    # vzs = np.random.randn(Nstars)*np.sqrt(cov[2, 2]) + mean[2]
+    Nstars = 1
+    vxs, vys, vzs, lnds = np.random.multivariate_normal(mean, cov, Nstars).T
 
-    # vxs, vys, vzs = np.random.multivariate_normal(mean, cov, Nstars).T
-    # print(np.shape(vxs))
-    # assert 0
-
-    # lnds = np.random.uniform(np.log(1e-5), np.log(2), Nstars)
-    # ra = np.random.uniform(280, 300, Nstars)
-    # dec = np.random.uniform(36, 52, Nstars)
-    # parallax_error = np.ones(Nstars)*1e-5
-    # ra_error = np.ones(Nstars)*1e-5
-    # dec_error = np.ones(Nstars)*1e-5
+    ra = np.random.uniform(280, 300, Nstars)
+    dec = np.random.uniform(36, 52, Nstars)
+    parallax = 1./np.exp(lnds) + (np.random.randn(Nstars) * .1)  # 0.1 mas
+    parallax_error = np.ones(Nstars)*.1
+    ra_error = np.ones(Nstars)*1e-10
+    dec_error = np.ones(Nstars)*1e-10
 
     # # Replace with real data
     # vxs = df.basic_vx.values[:Nstars]
@@ -140,26 +134,26 @@ if __name__ == "__main__":
                             "dec_error": dec_error
                             }))
 
-    # # Generate mock proper motion and RV.
-    # pmras, pmdecs, rvs = [], [], []
-    # for i in range(Nstars):
-    #     pos = [ra[i], dec[i], 1./np.exp(lnds[i])]
-    #     params = [vxs[i], vys[i], vzs[i], lnds[i]]
+    # Generate mock proper motion and RV.
+    pmras, pmdecs, rvs = [], [], []
+    for i in range(Nstars):
+        pos = [ra[i], dec[i], 1./np.exp(lnds[i])]
+        params = [vxs[i], vys[i], vzs[i], lnds[i]]
 
-    #     # Calculate observables for these stars.
-    #     pm, rv = av.proper_motion_model(params, pos)
-    #     pmras.append(pm[0].value)
-    #     pmdecs.append(pm[1].value)
-    #     rvs.append(rv.value)
-    # pmra_errs = np.ones(Nstars)*1e-5
-    # pmdec_errs = np.ones(Nstars)*1e-5
+        # Calculate observables for these stars.
+        pm, rv = av.proper_motion_model(params, pos)
+        pmras.append(pm[0].value)
+        pmdecs.append(pm[1].value)
+        rvs.append(rv.value)
+    pmra_errs = np.ones(Nstars)*1e-5
+    pmdec_errs = np.ones(Nstars)*1e-5
 
-    # Replace with real data
-    pmras = df.pmra.values[:Nstars]
-    pmra_errs = df.pmra_error.values[:Nstars]
-    pmdecs = df.pmdec.values[:Nstars]
-    pmdec_errs = df.pmdec_error.values[:Nstars]
-    rvs = df.radial_velocity.values[:Nstars]
+    # # Replace with real data
+    # pmras = df.pmra.values[:Nstars]
+    # pmra_errs = df.pmra_error.values[:Nstars]
+    # pmdecs = df.pmdec.values[:Nstars]
+    # pmdec_errs = df.pmdec_error.values[:Nstars]
+    # rvs = df.radial_velocity.values[:Nstars]
 
     df1["pmra"] = np.array(pmras)
     df1["pmra_error"] = pmra_errs
@@ -171,7 +165,8 @@ if __name__ == "__main__":
     for i in range(len(df1)):
         list_of_dicts.append(df1.iloc[i].to_dict())
 
-    p = Pool(24)
-    list(p.map(infer_velocity, list_of_dicts))
+    # p = Pool(24)
+    # list(p.map(infer_velocity, list_of_dicts))
     # for i in range(Nstars):
     #     infer_velocity(df.iloc[i])
+    infer_velocity(df1.iloc[0])
