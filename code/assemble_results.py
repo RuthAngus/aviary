@@ -31,7 +31,6 @@ df1 = vels.iloc[m]
 
 df2 = pd.merge(df1, df, on="kepid", how="right")
 
-
 # Calculate vx vz and vy from the data and rv and pm from the inferred params.
 vx_true, vy_true, vz_true = [], [], []
 pmra_inf, pmdec_inf, rv_inf = [], [], []
@@ -61,29 +60,29 @@ df2["pmdec_inferred"] = np.array(pmdec_inf)
 df2["rv_inferred"] = np.array(rv_inf)
 df2.to_csv("all_stars.csv")
 
-xs = np.linspace(min(pmra_inf), max(pmra_inf), 100)
-plt.plot(xs, xs)
-plt.plot(df2.pmra, np.array(pmra_inf), ".")
-plt.savefig("compare_pmra")
-plt.close()
+# xs = np.linspace(min(pmra_inf), max(pmra_inf), 100)
+# plt.plot(xs, xs)
+# plt.plot(df2.pmra, np.array(pmra_inf), ".")
+# plt.savefig("compare_pmra")
+# plt.close()
 
-xs = np.linspace(min(pmdec_inf), max(pmdec_inf), 100)
-plt.plot(xs, xs)
-plt.plot(df2.pmdec, pmdec_inf, ".")
-plt.savefig("compare_pmdec")
-plt.close()
+# xs = np.linspace(min(pmdec_inf), max(pmdec_inf), 100)
+# plt.plot(xs, xs)
+# plt.plot(df2.pmdec, pmdec_inf, ".")
+# plt.savefig("compare_pmdec")
+# plt.close()
 
-xs = np.linspace(min(rv_inf), max(rv_inf), 100)
-plt.plot(xs, xs)
-plt.plot(df2.radial_velocity, rv_inf, ".")
-plt.savefig("compare_rv")
-plt.close()
+# xs = np.linspace(min(rv_inf), max(rv_inf), 100)
+# plt.plot(xs, xs)
+# plt.plot(df2.radial_velocity, rv_inf, ".")
+# plt.savefig("compare_rv")
+# plt.close()
 
-xs = np.linspace(min(1./df2.parallax), max(1./df2.parallax), 100)
-plt.plot(xs, xs)
-plt.plot(1./df2.parallax, np.exp(df2.lndistance_inferred), ".")
-plt.savefig("compare_distance")
-plt.close()
+# xs = np.linspace(min(1./df2.parallax), max(1./df2.parallax), 100)
+# plt.plot(xs, xs)
+# plt.plot(1./df2.parallax, np.exp(df2.lndistance_inferred), ".")
+# plt.savefig("compare_distance")
+# plt.close()
 
 plt.errorbar(vx_true, df2.vx_inferred,
              yerr=[df2.vx_inferred_errm, df2.vx_inferred_errp],

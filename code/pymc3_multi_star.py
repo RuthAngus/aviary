@@ -41,7 +41,7 @@ errm = params_inferred - lower
 std = np.std(flat_samples, axis=0)
 
 df1 = pd.DataFrame(dict({
-    "kepid": df["kepid"],
+    "kepid": kepid,
     "vx_inferred": params_inferred[0],
     "vx_inferred_errp": errp[0],
     "vx_inferred_errm": errm[0],
