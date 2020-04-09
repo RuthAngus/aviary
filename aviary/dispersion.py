@@ -65,11 +65,17 @@ def calc_dispersion_nearest(x, y, z, N):
     return dispersions
 
 
-def calc_dispersion_bins(x, y, z, xrange, yrange):
+def calc_dispersion_bins(x, y, z, xrange, yrange, method="mad"):
 
     dispersions = np.zeros(len(x))
     for i in trange(len(x)):
         nx, ny, nz = make_bin(x[i], y[i], x, y, z, xrange, yrange)
-        dispersions[i] = 1.5*aps.median_absolute_deviation(nz, ignore_nan=True)
+
+        if method == "mad" or method == "MAD":
+            dispersions[i] = 1.5*aps.median_absolute_deviation(
+                nz, ignore_nan=True)
+
+        elif method == "std" or method == "STD":
+            dispersions[i] = np.nanstd(nz)
 
     return dispersions
