@@ -22,7 +22,13 @@ df = pd.read_csv(files[0])
 for i in range(1, len(files)):
     df = pd.concat([df, pd.read_csv(files[i])])
 
-df1 = pd.read_csv("../data/gaia_mc5_velocities.csv")
+vels = pd.read_csv("../data/gaia_mc5_velocities.csv")
+m = vels.radial_velocity.values != 0
+m &= np.isfinite(vels.basic_vx.values)
+m &= np.isfinite(vels.basic_vy.values)
+m &= np.isfinite(vels.basic_vz.values)
+df1 = vels.iloc[m]
+
 df2 = pd.merge(df1, df, on="kepid", how="right")
 
 
