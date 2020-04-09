@@ -1,0 +1,58 @@
+\textit{$\alpha$~Cen\,B}---According to SPOCS,
+the stellar properties for this nearby star are
+$\teff = 5178$~K, $\logg = 4.56$~dex, [Fe/H] = +0.23~dex \citep{valenti2005}.
+It has an age of $6 \pm 1$~Gyr
+\citep{Mamajek2014},\footnote{This is the mean calculated by \citet{Mamajek2014}
+from several studies including
+\citet{Thevenin2002}, \citet{Thoul2003}, \citet{Eggenberger2004}, \citet{Miglio2005}, \citet{Yildiz2007}, and \citet{Bazot2012},
+and is consistent with \citet{Spada2019alphaCen}.}
+and its rotation period is measured at
+$\prot = 39.8$, 37.8, and 36.7~days over three observing seasons \citep{Dumusque2012}
+and
+$\prot = 36.2 \pm 1.4$~days \citep{DeWarf2010},
+which we average to $\prot = 37$~days.
+
+\textit{94~Aqr\,B}---According to SPOCS,
+its stellar properties are
+$\teff = 5168$~K, $\logg = 4.59$~dex, [Fe/H] = +0.22~dex \citep{valenti2005},
+making it a near twin of $\alpha$~Cen\,B.
+The primary component of this visual binary is
+a subgiant,
+which has an age of $6.2 \pm 0.4$~Gyr
+measured recently using
+\textit{TESS} asteroseismology (Travis Metcalfe, private communication).
+The rotation period for 94~Aqr\,B is measured
+at $\prot = 38.9 \pm 1.9$~days from
+Mount Wilson Survey data (also Metcalfe;
+previously, \citet{Baliunas1996} reported $\prot = 43$~days).
+The similarity in stellar properties,
+age, and rotation period between
+94~Aqr\,B and $\alpha$~Cen\,B
+supports this point in the color--period--age diagram
+as an old-age anchor for gyrochronology.
+
+\textit{61~Cyg\,A and B}---These stars are two of four K~dwarfs in the \textit{Gaia} FGK Benchmark sample \citep{Heiter2015}.
+They are relatively metal-poor, with [Fe/H] = $-0.33$~dex,
+and are cooler than $\alpha$~Cen\,B and 94~Aqr\,B,
+with \teff\ = 4374~K and 4044~K, respectively.
+Since 61 Cyg A and B are so bright, they have been extensively studied and have interferometric radii measurements,
+which \citet{Kervella2008} used to constrain their ages to 6$\pm$1~Gyr.
+Their periods are \prot\ = 35.3 and 37.8~days \citep{Donahue1996, BoroSaikia2016}.
+
+We inverted our color--temperature relation to estimate \textit{Gaia} DR2 colors
+for these four stars based on their quoted \teff\ values:
+\gbr\ =  1.026, 1.030, 1.441, 1.719~mag,
+listed in the order the stars are introduced above.
+% kteff = [5178., 5168, 4374, 4044]
+% kbr = [1.026, 1.03, 1.441, 1.719]
+% kprot = [37,38.9, 35.3, 37.8]
+
+The last stars are from Lorenzo-Oliviera, and the Sun
+
+prot,prot_err,teff,age,age_err
+37,2,5178,6,1
+38.9,1.9,5168,6.2,0.4
+35.3,2,4374,6,1
+37.8,2,4044,6,1
+35.7,1.4,5718,8,0.4
+26,.2,5777,4.56,.01
