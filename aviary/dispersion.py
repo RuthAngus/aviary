@@ -79,3 +79,13 @@ def calc_dispersion_bins(x, y, z, xrange, yrange, method="mad"):
             dispersions[i] = np.nanstd(nz)
 
     return dispersions
+
+
+def calc_dispersion_bins_target(target_x, target_y, x, y, z, xrange, yrange):
+    dispersions = np.zeros(len(target_x))
+    for i in trange(len(target_x)):
+        nx, ny, nz = make_bin(target_x[i], target_y[i], x, y, z, xrange,
+                                 yrange)
+        dispersions[i] = 1.5*aps.median_absolute_deviation(nz,
+                                                           ignore_nan=True)
+    return dispersions
