@@ -6,6 +6,7 @@ import matplotlib.pyplot as plt
 import pandas as pd
 import glob
 import aviary as av
+from tqdm import trange
 
 plotpar = {'axes.labelsize': 20,
            'font.size': 22,
@@ -34,7 +35,7 @@ df2 = pd.merge(df1, df, on="kepid", how="right")
 # Calculate vx vz and vy from the data and rv and pm from the inferred params.
 vx_true, vy_true, vz_true = [], [], []
 pmra_inf, pmdec_inf, rv_inf = [], [], []
-for i in range(len(df2)):
+for i in trange(len(df2)):
     params = [df2.vx_inferred.values[i], df2.vy_inferred.values[i],
               df2.vz_inferred.values[i], df2.lndistance_inferred.values[i]]
     pos = [df2.ra.values[i], df2.dec.values[i], df2.parallax.values[i]]
