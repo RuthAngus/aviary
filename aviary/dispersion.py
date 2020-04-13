@@ -89,3 +89,12 @@ def calc_dispersion_bins_target(target_x, target_y, x, y, z, xrange, yrange):
         dispersions[i] = 1.5*aps.median_absolute_deviation(nz,
                                                            ignore_nan=True)
     return dispersions
+
+
+def calc_dispersion_nearest_target(target_x, target_y, x, y, z, N):
+    dispersions = np.zeros(len(target_x))
+    for i in trange(len(target_x)):
+        nx, ny, nz = n_nearest_points(target_x[i], target_y[i], x, y, z, N)
+        dispersions[i] = 1.5*aps.median_absolute_deviation(nz,
+                                                           ignore_nan=True)
+    return dispersions
