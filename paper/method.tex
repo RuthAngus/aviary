@@ -7,8 +7,8 @@
 This study focuses on stellar rotation in the original \kepler\ field.
 This is partly because \kepler\ provides the largest sample of published,
 homogeneously measured rotation periods, and partly because its low Galactic
-latitude allows us to more easily marginalize over missing RV measurements and
-approximate vertical velocity, \vz.
+latitude allows us to marginalize over missing RV measurements and approximate
+vertical velocity, \vz.
 
 We combined two large rotation period catalogs constructed from original
 \kepler\ data, from \citet{mcquillan2014} and \citet{santos2019}.
@@ -41,8 +41,8 @@ This is due to the faint limits of the \gaia\ DR2 and \lamost\ surveys
 DR3).
 Given that magneto-rotational evolution is poorly understood for M dwarfs, the
 cool stars with missing RVs are arguably the ones we care most about.
-For this reason, we attempt to compensate for the lack of RV measurements by
-inferring vertical velocities for stars without RVs, filling in the
+For this reason, we attempted to compensate for the lack of RV measurements by
+inferring vertical velocities for stars without RVs, to fill in the
 low-temperature region of figure \ref{fig:existing_rvs} in section
 \ref{sec:velocity_inference}.
 \begin{figure}[ht!]
@@ -69,19 +69,18 @@ group of stars increases with the age of that group (citations).
 However, velocities in Galactocentric coordinates, \vx, \vy\ and \vz, can only
 be calculated with full 6-D position and velocity information, \ie\ proper
 motions, position and radial velocity.
-In Angus \etal\ (2020) we introduced the idea that kinematic ages could be
-used to calibrate gyrochronology and showed, in the appendix of that paper,
-that velocity, \vb\ in the Galactic frame, which can be calculated without an
-RV measurement, can be used as an approximation to \vz\ for \kepler\ stars.
+In Angus \etal\ (2020) we showed that kinematic ages can be used to explore
+rotational evolution and showed, in the appendix of that paper, that velocity,
+\vb\ in the Galactic frame, which can be calculated without an RV measurement,
+can be used as an approximation to \vz\ for \kepler\ stars.
 This is because the \kepler\ field of view lies at relatively low Galactic
 latitudes, ($\sim 5-20$\degrees), so the $z$-direction is similar to the
 $b$-direction for \kepler\ stars.
 However, \vb\ is only a close approximation to \vz\ at extremely {\it low}
 latitudes, and even in the \kepler\ field, kinematic ages calculated with \vb\
 instead of \vz\ are systematically larger because of extra noise introduced by
-the imperfect translation between \vb\ and \vz\.
-In order to calculate accurate vertical velocities and therefore ages, the
-appropriate approach is to {\it infer} \vz\  by marginalizing over missing RV
+the imperfect translation between \vb\ and \vz .
+In this work, we {\it infer} \vz\ by marginalizing over missing RV
 measurements.
 
 % Three-dimensional velocities in galactocentric coordinates: \vx, \vy, and \vz\
@@ -92,10 +91,10 @@ measurements.
 % inferred from positions and proper motions alone, by marginalizing over
 % missing RV measurements.
 For each star in our sample, we inferred \vx, \vy, and \vz\ from the 3D
-positions and proper motions provided in the \gaia\ DR2 catalog
+positions and 2D proper motions provided in the \gaia\ DR2 catalog
 \citep{brown2011}.
-We also simultaneously inferred distance, instead of using 1/\parallax, to
-model velocities \citep{bailer-jones2015, bailer-jones2018}.
+We also simultaneously inferred distance, (instead of using inverse-parallax),
+to model velocities \citep[see \eg][]{bailer-jones2015, bailer-jones2018}.
 
 Using Bayes rule, the posterior probability of the parameters given the data
 can be written:
@@ -107,23 +106,22 @@ p(v_{\bf xyz}, D | \mu_{\alpha}, \mu_{\delta}, \alpha, \delta, \pi) =
 where D is distance, $\alpha$ is Right Ascension (RA), $\delta$ is declination
 (dec), $\pi$ is parallax, $\mu_\alpha$ is proper motion in RA, and
 $\mu_\delta$ is proper motion in dec.
-The prior over $\log$(distance) and velocities was a multivariate Gaussian
-with mean and covariance determined from the distance and velocity
-distributions of \kepler\ targets with RV measurements.
+For each star in the \kepler\ field, we explored the posteriors of these four
+parameters using the {\it PyMC3} Hamiltonion Monte Carlo (HMC) sampler
+\racomment{(citations)}.
 
-The posterior PDF was explored using {\tt emcee} \citep{foreman-mackey2013},
-an affine-invariant, ensemble MCMC sampler.
+We used the mean and covariance of the distance and velocity distributions of
+\kepler\ targets {\it with} RV measurements to determine the 4D multivariate
+Gaussian prior over $\log$(distance) and velocities.
 
-Initialization.
+We tuned the {\it PyMC3} model for 1500 steps, with a target acceptance
+fraction of 0.9.
+The model was then run for 1000 steps with 4 chains.
 
-We found that 10,000 samples with 16 walkers was sufficient to calculate a
-converged autocorrelation time, and produce 150-500 independent samples per
-parameter.
-
-Over 3000 stars in the \mct\ sample do have RV measurements and provide an
-opportunity to test this method of inferring velocities.
-Figure \ref{fig:v_comparison} shows the velocities of these 3000 stars,
-calculated using RV measurements, compared with their inferred velocities.
+Figure \ref{fig:v_comparison} shows the \vx, \vy\ and \vz\ velocities we
+inferred, compared with those calculated from measured RVs.
+2000 stars are shown, which were chosen at random from the \kepler\ rotators
+with RV measurements.
 \begin{figure}[ht!]
 \caption{Vertical velocities calculated with full 6D information vs vertical
     velocities inferred without RV, for all 3000 \mct\ stars with \gaia\ RV
@@ -132,48 +130,80 @@ calculated using RV measurements, compared with their inferred velocities.
     \includegraphics[width=1\textwidth]{v_comparison}
 \label{fig:v_comparison}
 \end{figure}
+The \kepler\ field is oriented almost along the \y\-axis of the Galactocentric
+coordinate system.
+As a result, \x\ and \z-direction velocities of \kepler\ stars are extremely
+well-constrained with proper motion alone, but \vy\ is almost completely
+unconstrained without an RV.
+Figure \ref{fig:v_comparison} shows that \vx\ and \vz\ velocities inferred
+without RV measurements are extremely similar to those calculated with RVs.
 
 \subsection{Calculating velocity dispersions}
 \label{sec:velocity_dispersion}
 
-A kinematic age can be calculated from the velocity dispersion of a group of
-stars (where `dispersion' is usually the standard deviation of velocities).
+A kinematic age can be calculated from the velocity dispersion, \ie\ standard
+deviation, of a group of stars.
 These velocity dispersions can then be converted into an age using an AVR
 \citep[\eg][]{holmberg2009, yu2018}.
-The major assumption underlying kinematic ages is that all stars used to
-calculate a velocity dispersion are {\it the same age}.
-So, in order to calculate kinematic ages from velocity dispersions for
-\kepler\ stars, it is necessary to group them by age.
-Fortunately, we can use the implicit assumption that underpins gyrochronology
-itself to group stars by age: that stars with the same rotation period and
-color are the same age.
-We discuss the implications of this assumption, and how our results would
-change if this assumption is false, in the Discussion of this paper (section
-\ref{sec:discussion}).
+Kinematic ages represent the {\it average age} of a group of stars and are
+most informative when stars are grouped by age.
+If a group of stars have similar ages, their kinematic age will be close
+the age of each individual.
+On the other hand, the kinematic age of a group with large age variance will
+not provide much information about the ages of individual stars.
+Velocity distributions themselves do not reveal whether a group of stars have
+similar or different ages, since either case the velocities are
+Gaussian-distributed.
+Fortunately however, we can group \kepler\ stars by age using the implicit
+assumption that underpins gyrochronology: that stars with the same rotation
+period and color are the same age.
+We discuss the implications of this assumption and cases where it doesn't
+apply in the Discussion of this paper (section \ref{sec:discussion}).
 
-To calculate a \vz\ velocity dispersion and therefore age for each \kepler\
-star, we grouped stars with their neighbors in
-\logp--\teff\ space.
-We experimented with two methods of grouping stars: using K-nearest neighbors,
-and using a fixed range in \logp\ and \teff.
+In this paper, we calculated the kinematic age of {\it each individual star}
+in our sample, by grouping it with its neighbors in \logp--\teff\ space.
+This method is similar to calculating a rolling, or running standard
+deviation and allowed us to assign a unique age to each star.
+However, ages calculated this way are tightly correlated, and their
+correlation depends strongly on window-size.
+
+% To calculate a \vz\ velocity dispersion and kinematic age for each \kepler\
+% rotator, we grouped stars with their neighbors in \logp--\teff\ space.
+We tested two methods of grouping stars: K-nearest neighbors, and bins in
+\logp\ and \teff .
 In the K-nearest neighbors method, each star was grouped with the K-nearest
 stars in \logp-\teff\ space.
-Groups created this way span a small range of \logp\ and \teff\ where the
-number density of stars is large, and a large range where the number density
-is small.
-However, all groups have the same number of stars.
-In the fixed range method, each star was grouped with stars whose \logp s and
-\teff s fell within a certain range of their own.
+Groups created this way spanned a small \logp -\teff\ range where the stellar
+number density was large, and a large range where the number density was
+small.
+In other words, the number of stars was fixed but the window-size changed.
+In the fixed range method, stars were grouped within a fixed \logp -\teff
+window.
 This method created groups with large numbers of stars in densely populated
 regions of the \logp--\teff\ plane, and small numbers of stars in sparsely
-populated regions, \ie\ each group contains a different number of stars.
-However, the bin size was constant.
+populated regions, \ie\ the number of stars changed but the window-size was
+fixed.
 To choose the best method, and to optimize for the parameters of each (K and
-\logp\ and \teff-range), we conducted a set of tests.
-
+window-size), we conducted a set of tests.
 
 \subsection{Converting velocity dispersion to age with an AVR}
 \label{sec:avr}
+We used the \citet{yu2018} AVR to convert velocity dispersion to age.
+This relation was calibrated using the ages and velocities of red clump stars.
+They divided their sample into metal rich and poor subsets, and calibrated
+separate AVRs for each, plus a global AVR.
+Their AVR is a power law:
+\begin{equation}
+    \sigma_{vz} = \alpha t ^\beta,
+\end{equation}
+where $\alpha$ and $\beta$ take values (6.38, 0.578) for metal rich stars
+(3.89, 1.01) for metal poor stars, and (5.47, 0.765) for all stars.
+
+We used 1.5$\times$ the Median Absolute Deviation (MAD) of velocities, which
+is a robust approximation to the standard deviation and is less sensitive to
+outliers.
+Velocity outliers could be binary stars or could be generated by
+underestimated parallax or proper motion uncertainties.
 
 \subsection{Comparing kinematic ages with asteroseismic and cluster ages}
 
