@@ -50,26 +50,71 @@ d_gc = np.abs(sun_xyz[0]).value
 zsun = 0
 
 
-def get_prior():
+# def get_prior():
+#     """
+#     Calculate mean and covariance of multivariate Gaussian prior.
+
+#     Returns:
+#         mean, cov
+#     """
+#     vel_data = pkg_resources.resource_filename(__name__,
+#                                            "../data/gaia_mc5_velocities.csv")
+#     vels = pd.read_csv(vel_data)
+#     m = vels.radial_velocity.values != 0
+#     m &= np.isfinite(vels.basic_vx.values)
+#     m &= np.isfinite(vels.basic_vy.values)
+#     m &= np.isfinite(vels.basic_vz.values)
+#     vels = vels.iloc[m]
+
+#     # Calculate covariance between velocities
+#     VX = np.stack((vels.basic_vx.values, vels.basic_vy.values,
+#                 vels.basic_vz.values, np.log(1./vels.parallax.values)), axis=0)
+#     return np.mean(VX, axis=1), np.cov(VX)
+
+
+def get_prior(cuts="all"):
     """
     Calculate mean and covariance of multivariate Gaussian prior.
 
     Returns:
         mean, cov
     """
-    vel_data = pkg_resources.resource_filename(__name__,
-                                           "../data/gaia_mc5_velocities.csv")
-    vels = pd.read_csv(vel_data)
-    m = vels.radial_velocity.values != 0
-    m &= np.isfinite(vels.basic_vx.values)
-    m &= np.isfinite(vels.basic_vy.values)
-    m &= np.isfinite(vels.basic_vz.values)
-    vels = vels.iloc[m]
+    vel_data = pkg_resources.resource_filename(
+        __name__, "../data/mcquillan_santos_gaia_lamost_velocities.csv")
 
-    # Calculate covariance between velocities
-    VX = np.stack((vels.basic_vx.values, vels.basic_vy.values,
-                vels.basic_vz.values, np.log(1./vels.parallax.values)), axis=0)
-    return np.mean(VX, axis=1), np.cov(VX)
+    df = pd.read_csv(vel_data)
+
+    lnD = np.log(1./df.parallax)
+    finite = np.isfinite(vx) & np.isfinite(vy) & np.isfinite(vz) \
+        & np.isfinite(lnD)
+    nsigma = 3
+    mx = ss.sigma_clip(vx[finite], nsigma=nsigma)
+    my = ss.sigma_clip(vx[finite], nsigma=nsigma)
+    mz = ss.sigma_clip(vx[finite], nsigma=nsigma)
+    md = ss.sigma_clip(lnD[finite], nsigma=nsigma)
+    m = mx & my & mz & md
+
+    gmag = df.phot_g_mean_mag.values[finite][m]
+    m_faint = gmag > 13.56
+    m_bright = gmag < 13.56
+
+    if cuts == "all":
+        mu, cov = mean_and_var(vx[finite][m], vy[finite][m], vz[finite][m],
+                            lnD[finite][m])
+    elif cuts == "faint":
+        mu, cov = mean_and_var(vx[finite][m][m_faint], vy[finite][m][m_faint],
+                               vz[finite][m][m_faint],
+                               lnD[finite][m][m_faint])
+    elif cuts == "bright":
+        mu, cov = mean_and_var(vx[finite][m][m_bright],
+                               vy[finite][m][m_bright],
+                               vz[finite][m][m_bright],
+                               lnD[finite][m][m_bright])
+    return mu, cov
+
+def mean_and_var(vx, vy, vz, lnD):
+    V = np.stack((vx, vy, vz, lnD), axis=0)
+    return np.mean(V, axis=1), np.cov(V)
 
 
 def get_tangent_basis(ra, dec):
