@@ -7,6 +7,8 @@ import theano.tensor as tt
 import pymc3 as pm
 import exoplanet as xo
 
+import starspot as ss
+
 import astropy.coordinates as coord
 import astropy.units as u
 from astropy.coordinates.builtin_frames.galactocentric \
@@ -85,12 +87,12 @@ def get_prior(cuts="all"):
     df = pd.read_csv(vel_data)
 
     lnD = np.log(1./df.parallax)
-    finite = np.isfinite(vx) & np.isfinite(vy) & np.isfinite(vz) \
-        & np.isfinite(lnD)
+    finite = np.isfinite(df.vx.values) & np.isfinite(df.vy.values) \
+        & np.isfinite(df.vz.values) & np.isfinite(lnD)
     nsigma = 3
-    mx = ss.sigma_clip(vx[finite], nsigma=nsigma)
-    my = ss.sigma_clip(vx[finite], nsigma=nsigma)
-    mz = ss.sigma_clip(vx[finite], nsigma=nsigma)
+    mx = ss.sigma_clip(df.vx.values[finite], nsigma=nsigma)
+    my = ss.sigma_clip(df.vy.values[finite], nsigma=nsigma)
+    mz = ss.sigma_clip(df.vz.values[finite], nsigma=nsigma)
     md = ss.sigma_clip(lnD[finite], nsigma=nsigma)
     m = mx & my & mz & md
 
@@ -98,17 +100,20 @@ def get_prior(cuts="all"):
     m_faint = gmag > 13.56
     m_bright = gmag < 13.56
 
-    if cuts == "all":
-        mu, cov = mean_and_var(vx[finite][m], vy[finite][m], vz[finite][m],
-                            lnD[finite][m])
+    if cuts == "all":  # No faint or bright cuts on the prior.
+        mu, cov = mean_and_var(df.vx.values[finite][m],
+                               df.vy.values[finite][m],
+                               df.vz.values[finite][m],
+                               lnD[finite][m])
     elif cuts == "faint":
-        mu, cov = mean_and_var(vx[finite][m][m_faint], vy[finite][m][m_faint],
-                               vz[finite][m][m_faint],
+        mu, cov = mean_and_var(df.vx.values[finite][m][m_faint],
+                               df.vy.values[finite][m][m_faint],
+                               df.vz.values[finite][m][m_faint],
                                lnD[finite][m][m_faint])
     elif cuts == "bright":
-        mu, cov = mean_and_var(vx[finite][m][m_bright],
-                               vy[finite][m][m_bright],
-                               vz[finite][m][m_bright],
+        mu, cov = mean_and_var(df.vx.values[finite][m][m_bright],
+                               df.vy.values[finite][m][m_bright],
+                               df.vz.values[finite][m][m_bright],
                                lnD[finite][m][m_bright])
     return mu, cov
 

@@ -16,11 +16,20 @@ import os
 sys.path.append(os.getcwd())
 
 if len(sys.argv) < 2:
-    raise RuntimeError("you must give a KIC number")
+    raise RuntimeError("you must provide a directory to save results and" \
+                       "a KIC number")
 
 kepid = int(sys.argv[1])
 
-vels = pd.read_csv("../data/gaia_mc5_velocities.csv")
+# Get that faint or bright prior.
+# prior = "bright"
+# prior = "all"
+prior = "faint"
+DIR = "{}_prior".format(prior)
+mu, cov = av.get_prior(cuts=prior)
+
+# Find the target star in the sample
+vels = pd.read_csv("../data/mcquillan_santos_gaia_lamost_velocities.csv")
 m = vels.kepid.values == kepid
 df = vels.iloc[m]
 
@@ -30,7 +39,7 @@ pos_err = [float(df["ra_error"]), float(df["dec_error"]),
 proper = [float(df["pmra"]), float(df["pmdec"])]
 proper_err = [float(df["pmra_error"]), float(df["pmdec_error"])]
 
-trace = av.run_pymc3_model(pos, pos_err, proper, proper_err)
+trace = av.run_pymc3_model(pos, pos_err, proper, proper_err, mu, cov)
 flat_samples = pm.trace_to_dataframe(trace)
 
 params_inferred = np.median(flat_samples, axis=0)
@@ -60,4 +69,4 @@ df1 = pd.DataFrame(dict({
     "lndistance_inferred_err": std[3]
     }), index=[0])
 
-df1.to_csv("velocities/{}.csv".format(int(df["kepid"])))
+df1.to_csv("velocities/{0}/{1}.csv".format(DIR, int(df["kepid"])))
