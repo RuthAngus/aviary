@@ -187,10 +187,10 @@ def tt_get_icrs_from_galactocentric(xyz, vxyz, ra, dec, distance, M):
     return proper, rv
 
 
-def run_pymc3_model(pos, pos_err, proper, proper_err):
+def run_pymc3_model(pos, pos_err, proper, proper_err, mean, cov):
 
     M = get_tangent_basis(pos[0] * 2*np.pi/360, pos[1] * 2*np.pi/360)
-    mean, cov = get_prior()
+    # mean, cov = get_prior()
 
     with pm.Model() as model:
 
