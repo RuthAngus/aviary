@@ -1,5 +1,5 @@
 from multiprocessing import Pool
-from subprocess import check_call
+from subprocess import check_call, CalledProcessError
 
 import numpy as np
 import pandas as pd
@@ -15,7 +15,13 @@ import starspot as ss
 def run_kepid(kepid):
     print("running {0}".format(kepid))
     os.environ["THEANO_FLAGS"] = "compiledir=./cache/{0}".format(os.getpid())
-    check_call("python pymc3_multi_star.py {0}".format(kepid), shell=True)
+    try:
+        check_call("python3 pymc3_multi_star.py {0}".format(kepid), shell=True)
+    except CalledProcessError as e:
+        print("running {0} failed:".format(kepid) + str(e))
+    else:
+        print("running {0} succeeded".format(kepid))
+
 
 # Load data.
 vels = pd.read_csv("../data/mcquillan_santos_gaia_lamost_velocities.csv")
