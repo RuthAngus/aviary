@@ -10,7 +10,8 @@ from astropy.coordinates.builtin_frames.galactocentric \
 
 # Set up Solar position and motion.
 sun_xyz = [-8.122, 0, 0] * u.kpc
-sun_vxyz = [12.9, 245.6, 7.78] * u.km/u.s
+# sun_vxyz = [12.9, 245.6, 7.78] * u.km/u.s
+sun_vxyz = coord.CartesianDifferential(12.9, 245.6, 7.78, u.km/u.s)
 
 galcen_frame = coord.Galactocentric(galcen_distance=np.abs(sun_xyz[0]),
                                     galcen_v_sun=sun_vxyz,
