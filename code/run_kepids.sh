@@ -5,5 +5,9 @@
 # Find out what nodes we were assigned.
 srun hostname
 
+module purge
+module add gcc python3
+echo "Using: $(which python3)"
+
 export PATH="$HOME/miniconda/bin:$PATH"
-python run_kepids.py
+python3 run_kepids.py
