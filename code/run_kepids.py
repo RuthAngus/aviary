@@ -45,7 +45,7 @@ gmag = vels.phot_g_mean_mag.values[finite][m]
 m_really_faint = gmag > 15.5
 
 vels = vels.iloc[finite][m][m_really_faint]
-kepids = vels.kepid.values
+kepids = vels.kepid.values[:2]
 
 with Pool(8) as pool:
     pool.map(run_kepid, kepids)
