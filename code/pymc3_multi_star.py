@@ -27,6 +27,8 @@ kepid = int(sys.argv[1])
 prior = "faint"
 DIR = "{}_prior".format(prior)
 mu, cov = av.get_prior(cuts=prior)
+print(mu)
+assert 0
 
 # Find the target star in the sample
 vels = pd.read_csv("../data/mcquillan_santos_gaia_lamost_velocities.csv")
