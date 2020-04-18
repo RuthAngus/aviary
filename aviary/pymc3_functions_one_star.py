@@ -83,7 +83,7 @@ def get_prior(cuts="all"):
         mean, cov
     """
     vel_data = pkg_resources.resource_filename(
-        __name__, "../data/mcquillan_santos_gaia_lamost_velocities.csv")
+        __name__, "mcquillan_santos_gaia_lamost_velocities.csv")
 
     df = pd.read_csv(vel_data)
 

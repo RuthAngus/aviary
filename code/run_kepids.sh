@@ -9,5 +9,4 @@ module purge
 module add gcc python3
 echo "Using: $(which python3)"
 
-export PATH="$HOME/miniconda/bin:$PATH"
 python3 run_kepids.py

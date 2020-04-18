@@ -28,7 +28,7 @@ R_gal, _ = get_matrix_vectors(galcen_frame, inverse=True)
 # Calculate prior parameters from vx, vy, vz distributions.
 import pkg_resources
 vel_data = pkg_resources.resource_filename(__name__,
-                                           "../data/gaia_mc5_velocities.csv")
+                                           "gaia_mc5_velocities.csv")
 vels = pd.read_csv(vel_data)
 m = vels.radial_velocity.values != 0
 m &= np.isfinite(vels.basic_vx.values)
