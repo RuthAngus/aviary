@@ -113,6 +113,39 @@ parameters using the {\it PyMC3} Hamiltonion Monte Carlo (HMC) sampler
 We used the mean and covariance of the distance and velocity distributions of
 \kepler\ targets {\it with} RV measurements to determine the 4D multivariate
 Gaussian prior over $\log$(distance) and velocities.
+3D velocities were calculated for every star with an RV measurement from
+either \gaia\ or \lamost.
+These velocities were then sigma-clipped at the 3-sigma level in all three
+dimensions to remove large velocity outliers which may be caused by proper
+motion or RV measurements with large errors.
+We then calculated the mean and covariance of the multivariate Gaussian
+distribution of \vx, \vy, \vz, and $\ln$(Distance).
+We used this mean and covariance to construct our multivariate Gaussian prior.
+
+We paid careful attention to the choice of prior.
+Our goal was to infer the velocities of stars without RV measurements using a
+prior calculated from stars {\it with} RV measurements.
+However, stars with and without RVs are likely to be slightly different
+populations, the parameters of which depend on the \gaia\ and \lamost\
+selection function.
+\racomment{Discuss selection functions.}
+In particular, stars without RV measurements are more likely to be faint, and
+therefore, less massive.
+Lower-mass stars are, on average, older, and have larger velocity dispersions.
+So a prior based on the velocity distributions of stars with RVs will not
+necessarily reflect the velocities of those without.
+
+For this reason, we tested how the choice of prior affected the velocities we
+inferred.
+We tested two priors: one calculated from the velocity distributions of the
+brightest half of the RV sample (\gaia\ $G$-band apparent magnitude $<$ 13.9),
+and one from the faintest half ($G > $ 13.9).
+We selected the 500 faintest stars from the \gaia-\lamost\ RV sample to test
+these two priors on.
+We chose the faintest stars as these are the most likely to be similar to the
+non-RV sample, and to enlarge the difference between the bright prior and the
+test sample.
+The results of this test are shown in figure \ref{fig:prior_test}
 
 We tuned the {\it PyMC3} model for 1500 steps, with a target acceptance
 fraction of 0.9.
