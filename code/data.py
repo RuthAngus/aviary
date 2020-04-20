@@ -208,27 +208,29 @@ def add_gyro_ages(df, plot=False):
 
 
 if __name__ == "__main__":
-    print("Load data")
+    print("Loading data...")
     # df = pd.read_pickle("../data/Mc_Gar_Sant")
     df = load_and_merge_data()
-    print(np.shape(df))
     print(len(df), "stars")
 
-    # S/N cuts
+    print("S/N cuts")
     df = sn_cuts(df)
+    print(len(df), "stars")
 
-    # Get dust and redenning.
+    print("Get dust and redenning...")
     df = deredden(df)
+    print(len(df), "stars")
 
-    # Flag subgiants and binaries.
+    print("Flag subgiants and binaries.")
     df = remove_nans_binaries_subgiants(df)
+    print(len(df), "stars")
 
-    # Calculate photometric temperatures.
+    print("Calculate photometric temperatures.")
     df = add_phot_teff(df)
+    print(len(df), "stars")
 
-    # Calculate gyro ages
+    print("Calculate gyro ages")
     df = add_gyro_ages(df)
-
     print(len(df), "stars")
 
     print("Saving file")
