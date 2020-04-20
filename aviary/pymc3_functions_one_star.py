@@ -41,7 +41,7 @@ def deg_to_rad(deg):
 # R_gal, _ = get_matrix_vectors(galcen_frame, inverse=True)
 
 from .velocities import get_solar_and_R_gal
-sun_xyz, sun_vxyz, R_gal = av.get_solar_and_R_gal()
+sun_xyz, sun_vxyz, R_gal, galcen_frame = get_solar_and_R_gal()
 
 
 # Coordinates of galactic centre

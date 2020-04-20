@@ -11,8 +11,13 @@ import warnings
 from astropy.utils.exceptions import AstropyWarning
 warnings.simplefilter('ignore', category=AstropyWarning)
 
+import aviary as av
+
 from .velocities import get_solar_and_R_gal
-sun_xyz, sun_vxyz, R_gal = get_solar_and_R_gal()
+sun_xyz, sun_vxyz, R_gal, galcen_frame = get_solar_and_R_gal()
+# print(_sun_xyz, _sun_vxyz)
+# assert 0
+# sun_xyz, sun_vxyz = _sun_xyz.value, _sun_vxyz.value
 
 # # Solar coords
 # sun_xyz = [-8.122, 0, 0] * u.kpc
@@ -25,6 +30,11 @@ sun_xyz, sun_vxyz, R_gal = get_solar_and_R_gal()
 # # Pre-compute the rotation matrix to go from Galactocentric to ICRS
 # # (ra/dec) coordinates
 # R_gal, _ = get_matrix_vectors(galcen_frame, inverse=True)
+
+# print(R_gal, "\n")
+# print(_R_gal, "\n")
+# print(galcen_frame, "\n")
+# print(_galcen_frame, "\n")
 
 # Calculate prior parameters from vx, vy, vz distributions.
 import pkg_resources
