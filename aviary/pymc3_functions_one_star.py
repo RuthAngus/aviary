@@ -17,7 +17,6 @@ from astropy.coordinates.builtin_frames.galactocentric \
 
 import pkg_resources
 
-
 def deg_to_rad(deg):
     """
     Convert angle in degrees to angle in radians
@@ -29,17 +28,21 @@ def deg_to_rad(deg):
 
 # Constants and global variables
 # Solar coords
-sun_xyz = [-8.122, 0, 0] * u.kpc
-sun_vxyz = [12.9, 245.6, 7.78] * u.km/u.s
-sun_vxyzCD = coord.CartesianDifferential(12.9, 245.6, 7.78, u.km/u.s)
+# sun_xyz = [-8.122, 0, 0] * u.kpc
+# sun_vxyz = [12.9, 245.6, 7.78] * u.km/u.s
+# sun_vxyzCD = coord.CartesianDifferential(12.9, 245.6, 7.78, u.km/u.s)
 
-galcen_frame = coord.Galactocentric(galcen_distance=np.abs(sun_xyz[0]),
-                                    galcen_v_sun=sun_vxyzCD,
-                                    z_sun=0*u.pc)
+# galcen_frame = coord.Galactocentric(galcen_distance=np.abs(sun_xyz[0]),
+#                                     galcen_v_sun=sun_vxyzCD,
+#                                     z_sun=0*u.pc)
 
-# Pre-compute the rotation matrix to go from Galactocentric to ICRS
-# (ra/dec) coordinates
-R_gal, _ = get_matrix_vectors(galcen_frame, inverse=True)
+# # Pre-compute the rotation matrix to go from Galactocentric to ICRS
+# # (ra/dec) coordinates
+# R_gal, _ = get_matrix_vectors(galcen_frame, inverse=True)
+
+from .velocities import get_solar_and_R_gal
+sun_xyz, sun_vxyz, R_gal = av.get_solar_and_R_gal()
+
 
 # Coordinates of galactic centre
 ra_gc_deg, dec_gc_deg = 266.4051, -28.936175
