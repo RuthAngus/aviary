@@ -67,6 +67,25 @@ def load_and_merge_data():
     return df
 
 
+def combine_rv_measurements(df):
+    rv, rv_err = [np.zeros(len(df)) for i in range(2)]
+
+    ml = np.isfinite(df.RV_lam.values)
+    rv[ml] = df.RV_lam.values[ml]
+    rv_err[ml] = df.e_RV_lam.values[ml]
+    print(sum(ml), "stars with LAMOST RVs")
+
+    mg = (df.radial_velocity.values != 0)
+    mg &= np.isfinite(df.radial_velocity.values)
+    rv[mg] = df.radial_velocity.values[mg]
+    rv_err[mg] = df.radial_velocity_error.values[mg]
+    print(sum(mg), "stars with Gaia RVs")
+
+    df["rv"] = rv
+    df["rv_err"] = rv_err
+    return df
+
+
 # S/N cuts
 def sn_cuts(df):
     sn = df.parallax.values/df.parallax_error.values
@@ -228,6 +247,10 @@ if __name__ == "__main__":
     df = load_and_merge_data()
     print(len(df), "stars")
 
+    print("Combining RV measurements...")
+    df = combine_rv_measurements(df)
+    print(len(df), "stars")
+
     print("S/N cuts")
     df = sn_cuts(df)
     print(len(df), "stars")
@@ -253,4 +276,6 @@ if __name__ == "__main__":
     print(len(df), "stars")
 
     print("Saving file")
-    df.to_csv("../aviary/mc_san_gaia_lam.csv")
+    fname = "../aviary/mc_san_gaia_lam.csv"
+    print(fname)
+    df.to_csv(fname)
