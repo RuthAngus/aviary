@@ -12,16 +12,16 @@ from astropy.coordinates.builtin_frames.galactocentric \
 def get_solar_and_R_gal():
     # Set up Solar position and motion.
     sun_xyz = [-8.122, 0, 0] * u.kpc
-    # sun_vxyz = [12.9, 245.6, 7.78] * u.km/u.s
-    sun_vxyz = coord.CartesianDifferential(12.9, 245.6, 7.78, u.km/u.s)
+    sun_vxyz = [12.9, 245.6, 7.78] * u.km/u.s
+    sun_vxyzCD = coord.CartesianDifferential(12.9, 245.6, 7.78, u.km/u.s)
 
     galcen_frame = coord.Galactocentric(galcen_distance=np.abs(sun_xyz[0]),
-                                        galcen_v_sun=sun_vxyz,
-                                        z_sun=0*u.pc)
+                                        galcen_v_sun=sun_vxyzCD,
+                                        z_sun=sun_xyz[2]*1e3*u.pc)
 
     # Rotation matrix from Galactocentric to ICRS
     R_gal, _ = get_matrix_vectors(galcen_frame, inverse=True)
-    return sun_xyz, sun_vxyz, R_gal
+    return sun_xyz, sun_vxyz, R_gal, galcen_frame
 
 
 def calc_vxyz(pandas_df, nsamples=1000):
@@ -51,6 +51,7 @@ def calc_vxyz(pandas_df, nsamples=1000):
            np.mean(vz, axis=1), np.std(vz, axis=1)
 
 
+sun_xyz, sun_vxyz, R_gal, galcen_frame = get_solar_and_R_gal()
 def simple_calc_vxyz(ra, dec, D, pmra, pmdec, rv):
     """
     Calculate vx, vy, vz using astropy.
