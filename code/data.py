@@ -3,21 +3,19 @@
 import numpy as np
 import pandas as pd
 import matplotlib.pyplot as plt
+
 from astropy.io import fits
-import astropy.utils as au
 from astropy.coordinates import SkyCoord
-from dustmaps.bayestar import BayestarQuery
 import astropy.units as units
-from tools import getDust
-from stardate.lhf import age_model
-from calc_velocities import calc_vb, calc_vz, calc_vl
-import astropy.units as u
-from astropy.coordinates import ICRS
-from astropy.coordinates import Galactic
-from astropy.table import Table
-from pyia import GaiaData
 import astropy.coordinates as coord
+
+from dustmaps.bayestar import BayestarQuery
+from stardate.lhf import age_model
+import aviary as av
+
+from tools import getDust
 from photometric_teff import bprp_to_teff
+
 
 plotpar = {'axes.labelsize': 30,
            'font.size': 30,
@@ -207,6 +205,23 @@ def add_gyro_ages(df, plot=False):
     return df
 
 
+def add_velocities(df):
+    xyz, vxyz = av.simple_calc_vxyz(df.ra.values, df.dec.values,
+                                    1./df.parallax.values, df.pmra.values,
+                                    df.pmdec.values,
+                                    df.radial_velocity.values)
+    vx, vy, vz = vxyz
+    x, y, z = xyz
+
+    df["vx"] = vxyz[0].value
+    df["vy"] = vxyz[1].value
+    df["vz"] = vxyz[2].value
+    df["x"] = xyz[0].value
+    df["y"] = xyz[1].value
+    df["z"] = xyz[2].value
+    return df
+
+
 if __name__ == "__main__":
     print("Loading data...")
     # df = pd.read_pickle("../data/Mc_Gar_Sant")
@@ -233,5 +248,9 @@ if __name__ == "__main__":
     df = add_gyro_ages(df)
     print(len(df), "stars")
 
+    print("Calculating velocities")
+    df = add_velocities(df)
+    print(len(df), "stars")
+
     print("Saving file")
-    df.to_csv("../data/mc_san_gaia_lam.csv")
+    df.to_csv("../aviary/mc_san_gaia_lam.csv")
