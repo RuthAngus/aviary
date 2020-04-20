@@ -18,6 +18,16 @@ The \citet{santos2019} study was specifically focused on cooler stars: K and M
 dwarfs, and includes a larger number of rotation periods for these stars.
 The combined catalogs provide a total of over 38,000 rotation periods.
 
+\begin{itemize}
+    \item{Describe cuts and Gaia crossmatch.}
+    \item{Reddening calculation.}
+    \item{Photometric temperatures.}
+    \item{Binary and subgiant cuts?}
+    \item{Gyro age cuts?}
+    \item{Radial velocity replacement.}
+    \item{Velocity calculation.}
+\end{itemize}
+
 To calculate kinematic ages, an estimate of vertical velocity, \vz, is
 required.
 The ideal way to calculated \vz\, and similarly, \vx\ and \vy, is to use 6D
@@ -146,6 +156,14 @@ We chose the faintest stars as these are the most likely to be similar to the
 non-RV sample, and to enlarge the difference between the bright prior and the
 test sample.
 The results of this test are shown in figure \ref{fig:prior_test}
+
+\begin{figure}[ht!]
+\caption{
+    }
+  \centering
+    \includegraphics[width=1\textwidth]{prior_distributions}
+\label{fig:prior_distributions}
+\end{figure}
 
 We tuned the {\it PyMC3} model for 1500 steps, with a target acceptance
 fraction of 0.9.
