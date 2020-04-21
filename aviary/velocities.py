@@ -17,7 +17,7 @@ def get_solar_and_R_gal():
 
     galcen_frame = coord.Galactocentric(galcen_distance=np.abs(sun_xyz[0]),
                                         galcen_v_sun=sun_vxyzCD,
-                                        z_sun=sun_xyz[2]*1e3*u.pc)
+                                        z_sun=sun_xyz[2].value*1e3*u.pc)
 
     # Rotation matrix from Galactocentric to ICRS
     R_gal, _ = get_matrix_vectors(galcen_frame, inverse=True)
