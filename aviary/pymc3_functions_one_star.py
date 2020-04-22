@@ -40,7 +40,7 @@ def deg_to_rad(deg):
 # # (ra/dec) coordinates
 # R_gal, _ = get_matrix_vectors(galcen_frame, inverse=True)
 
-from .velocities import get_solar_and_R_gal
+from velocities import get_solar_and_R_gal
 sun_xyz, sun_vxyz, R_gal, galcen_frame = get_solar_and_R_gal()
 
 
@@ -87,31 +87,30 @@ def get_prior(cuts="all"):
         mean, cov
     """
     vel_data = pkg_resources.resource_filename(
-        # __name__, "mc_san_gaia_lam.csv")
-    # CHANGE ME
-        __name__, "gaia_mc5_velocities.csv")
-
+        __name__, "mc_san_gaia_lam.csv")
     df = pd.read_csv(vel_data)
-
-    # CHANGE ME
-    df["vx"] = df.basic_vx.values
-    df["vy"] = df.basic_vy.values
-    df["vz"] = df.basic_vz.values
 
     lnD = np.log(1./df.parallax)
     finite = np.isfinite(df.vx.values) & np.isfinite(df.vy.values) \
         & np.isfinite(df.vz.values) & np.isfinite(lnD)
 
-    # CHANGE ME
-    m = np.isfinite(df.vx.values[finite])
+    nsigma = 3
+    mx = ss.sigma_clip(df.vx.values[finite], nsigma=nsigma)
+    my = ss.sigma_clip(df.vy.values[finite], nsigma=nsigma)
+    mz = ss.sigma_clip(df.vz.values[finite], nsigma=nsigma)
+    md = ss.sigma_clip(lnD[finite], nsigma=nsigma)
+    m = mx & my & mz & md
 
-    # nsigma = 3
-    # mx = ss.sigma_clip(df.vx.values[finite], nsigma=nsigma)
-    # my = ss.sigma_clip(df.vy.values[finite], nsigma=nsigma)
-    # mz = ss.sigma_clip(df.vz.values[finite], nsigma=nsigma)
-    # md = ss.sigma_clip(lnD[finite], nsigma=nsigma)
-    # m = mx & my & mz & md
-
+    # vel_data = pkg_resources.resource_filename(
+    #     __name__, "gaia_mc5_velocities.csv")
+    # df = pd.read_csv(vel_data)
+    # lnD = np.log(1./df.parallax)
+    # df["vx"] = df.basic_vx.values
+    # df["vy"] = df.basic_vy.values
+    # df["vz"] = df.basic_vz.values
+    # finite = np.isfinite(df.vx.values) & np.isfinite(df.vy.values) \
+    #     & np.isfinite(df.vz.values) & np.isfinite(lnD)
+    # m = np.isfinite(df.vx.values[finite])
 
     gmag = df.phot_g_mean_mag.values[finite][m]
     m_faint = gmag > 13.56
@@ -281,3 +280,7 @@ def run_pymc3_model(pos, pos_err, proper, proper_err, mean, cov):
                           step=xo.get_dense_nuts_step(target_accept=0.9))
 
     return trace
+
+
+# if __name__ == "__main__":
+#     print(get_prior())
