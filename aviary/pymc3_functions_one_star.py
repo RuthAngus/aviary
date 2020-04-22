@@ -88,25 +88,29 @@ def get_prior(cuts="all"):
     """
     vel_data = pkg_resources.resource_filename(
         # __name__, "mc_san_gaia_lam.csv")
+
+    # CHANGE ME
         __name__, "gaia_mc5_velocities.csv")
+    df["vx"] = df.basic_vx.values
+    df["vy"] = df.basic_vy.values
+    df["vz"] = df.basic_vz.values
 
     df = pd.read_csv(vel_data)
 
     lnD = np.log(1./df.parallax)
-    finite = np.isfinite(df.basic_vx.values)
-    finite &= np.isfinite(df.basic_vy.values)
-    finite &= np.isfinite(df.basic_vz.values) & np.isfinite(lnD)
-    m = np.isfinite(df.basic_vx.values[finite])
+    finite = np.isfinite(df.vx.values) & np.isfinite(df.vy.values) \
+        & np.isfinite(df.vz.values) & np.isfinite(lnD)
 
-    # lnD = np.log(1./df.parallax)
-    # finite = np.isfinite(df.vx.values) & np.isfinite(df.vy.values) \
-    #     & np.isfinite(df.vz.values) & np.isfinite(lnD)
+    # CHANGE ME
+    m = np.isfinite(df.vx.values[finite])
+
     # nsigma = 3
     # mx = ss.sigma_clip(df.vx.values[finite], nsigma=nsigma)
     # my = ss.sigma_clip(df.vy.values[finite], nsigma=nsigma)
     # mz = ss.sigma_clip(df.vz.values[finite], nsigma=nsigma)
     # md = ss.sigma_clip(lnD[finite], nsigma=nsigma)
     # m = mx & my & mz & md
+
 
     gmag = df.phot_g_mean_mag.values[finite][m]
     m_faint = gmag > 13.56
