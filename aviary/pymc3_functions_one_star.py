@@ -40,7 +40,7 @@ def deg_to_rad(deg):
 # # (ra/dec) coordinates
 # R_gal, _ = get_matrix_vectors(galcen_frame, inverse=True)
 
-from velocities import get_solar_and_R_gal
+from .velocities import get_solar_and_R_gal
 sun_xyz, sun_vxyz, R_gal, galcen_frame = get_solar_and_R_gal()
 
 
