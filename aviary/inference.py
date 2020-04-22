@@ -13,21 +13,21 @@ warnings.simplefilter('ignore', category=AstropyWarning)
 
 import aviary as av
 
-# from .velocities import get_solar_and_R_gal
-# sun_xyz, sun_vxyz, R_gal, galcen_frame = get_solar_and_R_gal()
+from .velocities import get_solar_and_R_gal
+sun_xyz, sun_vxyz, R_gal, galcen_frame = get_solar_and_R_gal()
 
-# Solar coords
-sun_xyz = [-8.122, 0, 0] * u.kpc
-sun_vxyz = [12.9, 245.6, 7.78] * u.km/u.s
-# sun_vxyzCD = coord.CartesianDifferential(12.9, 245.6, 7.78, u.km/u.s)
+# # Solar coords
+# sun_xyz = [-8.122, 0, 0] * u.kpc
+# sun_vxyz = [12.9, 245.6, 7.78] * u.km/u.s
+# # sun_vxyzCD = coord.CartesianDifferential(12.9, 245.6, 7.78, u.km/u.s)
 
-galcen_frame = coord.Galactocentric(galcen_distance=np.abs(sun_xyz[0]),
-                                    galcen_v_sun=sun_vxyz,
-                                    z_sun=0*u.pc)
+# galcen_frame = coord.Galactocentric(galcen_distance=np.abs(sun_xyz[0]),
+#                                     galcen_v_sun=sun_vxyz,
+#                                     z_sun=0*u.pc)
 
-# Pre-compute the rotation matrix to go from Galactocentric to ICRS
-# (ra/dec) coordinates
-R_gal, _ = get_matrix_vectors(galcen_frame, inverse=True)
+# # Pre-compute the rotation matrix to go from Galactocentric to ICRS
+# # (ra/dec) coordinates
+# R_gal, _ = get_matrix_vectors(galcen_frame, inverse=True)
 
 # Calculate prior parameters from vx, vy, vz distributions.
 import pkg_resources
