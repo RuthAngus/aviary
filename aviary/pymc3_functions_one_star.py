@@ -88,14 +88,15 @@ def get_prior(cuts="all"):
     """
     vel_data = pkg_resources.resource_filename(
         # __name__, "mc_san_gaia_lam.csv")
-
     # CHANGE ME
         __name__, "gaia_mc5_velocities.csv")
+
+    df = pd.read_csv(vel_data)
+
+    # CHANGE ME
     df["vx"] = df.basic_vx.values
     df["vy"] = df.basic_vy.values
     df["vz"] = df.basic_vz.values
-
-    df = pd.read_csv(vel_data)
 
     lnD = np.log(1./df.parallax)
     finite = np.isfinite(df.vx.values) & np.isfinite(df.vy.values) \
