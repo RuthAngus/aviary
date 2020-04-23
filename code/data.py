@@ -68,7 +68,7 @@ def load_and_merge_data():
 
 
 def combine_rv_measurements(df):
-    rv, rv_err = [np.zeros(len(df)) for i in range(2)]
+    rv, rv_err = [np.ones(len(df))*np.nan for i in range(2)]
 
     ml = np.isfinite(df.RV_lam.values)
     rv[ml] = df.RV_lam.values[ml]
@@ -228,7 +228,7 @@ def add_velocities(df):
     xyz, vxyz = av.simple_calc_vxyz(df.ra.values, df.dec.values,
                                     1./df.parallax.values, df.pmra.values,
                                     df.pmdec.values,
-                                    df.radial_velocity.values)
+                                    df.rv.values)
     vx, vy, vz = vxyz
     x, y, z = xyz
 
