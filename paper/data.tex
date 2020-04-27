@@ -1,4 +1,4 @@
-\section{Data}
+\section{The Data}
 \label{sec:data}
 
 This study focuses on stellar rotation in the original \kepler\ field.
@@ -8,22 +8,52 @@ latitude allows us to marginalize over missing RV measurements and approximate
 vertical velocity, \vz.
 
 We combined two large rotation period catalogs constructed from original
-\kepler\ data, from \citet{mcquillan2014} and \citet{santos2019}.
+\kepler\ data, from \mct\ and \sant.
 These two studies used different techniques to measure rotation periods from
 \kepler\ light curves: autocorrelation functions and wavelets respectively.
 The \citet{santos2019} study was specifically focused on cooler stars: K and M
 dwarfs, and includes a larger number of rotation periods for these stars.
 The combined catalogs provide a total of over 38,000 rotation periods.
 
-\begin{itemize}
-    \item{Describe cuts and Gaia crossmatch.}
-    \item{Reddening calculation.}
-    \item{Photometric temperatures.}
-    \item{Binary and subgiant cuts?}
-    \item{Gyro age cuts?}
-    \item{Radial velocity replacement.}
-    \item{Velocity calculation.}
-\end{itemize}
+We used the publicly available \kepler-\gaia\ DR2 crossmatched
+catalog\footnote{Available at gaia-kepler.fun} to combine the \mct\ and \sant\
+rotation catalogs with the \gaia\ DR2 catalog of parallaxes, proper motions
+and apparent magnitudes.
+Reddening and extinction from dust was calculated for each star using the
+Bayestar dust map implemented in the {\tt dustmaps} {\it Python} package
+\citep{green2018}, and {\tt astropy} \citep{astropy2013, astropy2018}.
+We used \gaia\ DR2 photometric color, $G_{\rm BP} - G_{\rm RP}$, to estimate
+effective temperatures for the stars in our sample, using the calibration in
+\citet{curtis2020}.
+
+Photometric binaries and subgiants were removed from the sample by applying
+cuts to the color-magnitude diagram (CMD), shown in figure \ref{fig:CMD}.
+A 6th-order polynomial was fit to the main sequence and raised by 0.27 dex to
+approximate the division between single stars and photometric binaries (shown
+as the curved dashed line in figure \ref{fig:CMD}).
+All stars above this line were removed from the sample.
+Potential subgiants were also removed by eliminating stars brighter than 4th
+absolute magnitude in \gaia\ G-band.
+This cut also removed a number of main sequence F stars from our sample,
+however these hot stars are not the focus of our gyrochronology study since
+their small convective zones inhibit the generation of a strong magnetic
+field.
+The removal of photometric binaries and evolved/hot stars reduced the total
+sample of around 38,000 stars by around 4,000.
+
+\gaia\ DR2 provided RV measurements for 3587 stars in our sample, with a
+median uncertainty of 1.88 \kms.
+RV measurements in \gaia\ DR2 were provided for stars with \gaia\ apparent
+magnitudes between around 4th and 13th, and 3550 K $\lesssim$ \teff\ $\gtrsim$
+6900 K \citep{brown2018}.
+We also crossmatched the \mct\ sample with the 5th \lamost\ data release
+\citep{cui2012, xiang2019}, adding a further 7466 RV measurements to the
+sample, and expanding the total number of stars with measured RVs to 11,053.
+The median uncertainty of the \lamost\ RV measurements is 4.71 \kms.
+Given that the \gaia\ RVs were more precise, on average, than the \lamost\
+RVs, we adopted the \gaia\ value in cases where both were available.
+\gaia\ DR3 will contain a large number of new RV measurements for stars in our
+sample.
 
 To calculate kinematic ages, an estimate of vertical velocity, \vz, is
 required.
