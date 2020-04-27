@@ -1,14 +1,13 @@
 \section{The Data}
 \label{sec:data}
 
-This study focuses on stellar rotation in the original \kepler\ field.
-This is partly because \kepler\ provides the largest sample of published,
-homogeneously measured rotation periods, and partly because its low Galactic
-latitude allows us to marginalize over missing RV measurements and approximate
-vertical velocity, \vz.
-
+This study focuses on stellar rotation in the original \kepler\ field, partly
+because \kepler\ provides the largest samples of homogeneously measured
+rotation periods, and partly because its low Galactic latitude allows us to
+marginalize over missing RV measurements and precisely infer vertical
+velocity, \vz.
 We combined two large rotation period catalogs constructed from original
-\kepler\ data, from \mct\ and \sant.
+\kepler\ data: \mct\ and \sant.
 These two studies used different techniques to measure rotation periods from
 \kepler\ light curves: autocorrelation functions and wavelets respectively.
 The \citet{santos2019} study was specifically focused on cooler stars: K and M
@@ -23,11 +22,16 @@ Reddening and extinction from dust was calculated for each star using the
 Bayestar dust map implemented in the {\tt dustmaps} {\it Python} package
 \citep{green2018}, and {\tt astropy} \citep{astropy2013, astropy2018}.
 We used \gaia\ DR2 photometric color, $G_{\rm BP} - G_{\rm RP}$, to estimate
-effective temperatures for the stars in our sample, using the calibration in
-\citet{curtis2020}.
+effective temperatures for the stars in our sample, using the calibrated
+relation in \citet{curtis2020}.
 
-Photometric binaries and subgiants were removed from the sample by applying
-cuts to the color-magnitude diagram (CMD), shown in figure \ref{fig:CMD}.
+Unlike isolated main-sequence stars, the rotation periods of binary stars and
+subgiants cannot always be determined by their mass and age (or at least they
+do not always follow the {\it same} gyrochronology relationship as isolated
+dwarfs).
+Visual binaries and subgiants were therefore removed from the sample by
+applying cuts to the color-magnitude diagram (CMD), shown in figure
+\ref{fig:CMD}.
 A 6th-order polynomial was fit to the main sequence and raised by 0.27 dex to
 approximate the division between single stars and photometric binaries (shown
 as the curved dashed line in figure \ref{fig:CMD}).
@@ -41,58 +45,16 @@ field.
 The removal of photometric binaries and evolved/hot stars reduced the total
 sample of around 38,000 stars by around 4,000.
 
-\gaia\ DR2 provided RV measurements for 3587 stars in our sample, with a
-median uncertainty of 1.88 \kms.
-RV measurements in \gaia\ DR2 were provided for stars with \gaia\ apparent
-magnitudes between around 4th and 13th, and 3550 K $\lesssim$ \teff\ $\gtrsim$
-6900 K \citep{brown2018}.
+3587 stars in our sample had RV measurements in \gaia\ DR2, with a median
+uncertainty of 1.88 \kms.
+\gaia\ DR2 included RVs for stars with \gaia\ apparent magnitudes between
+around 4th and 13th, and 3550 K $\lesssim$ \teff\ $\gtrsim$ 6900 K
+\citep{brown2018}.
 We also crossmatched the \mct\ sample with the 5th \lamost\ data release
 \citep{cui2012, xiang2019}, adding a further 7466 RV measurements to the
 sample, and expanding the total number of stars with measured RVs to 11,053.
-The median uncertainty of the \lamost\ RV measurements is 4.71 \kms.
-Given that the \gaia\ RVs were more precise, on average, than the \lamost\
+The median uncertainty of the \lamost\ RV measurements was 4.71 \kms\ and,
+given that the \gaia\ RVs were more precise, on average, than the \lamost\
 RVs, we adopted the \gaia\ value in cases where both were available.
 \gaia\ DR3 will contain a large number of new RV measurements for stars in our
 sample.
-
-To calculate kinematic ages, an estimate of vertical velocity, \vz, is
-required.
-The ideal way to calculated \vz\, and similarly, \vx\ and \vy, is to use 6D
-positional and velocity information.
-Many stars in the \kepler\ field do not have RV measurements and an
-alternative approach must be taken to infer their vertical velocities (see
-section \ref{sec:velocity_inference}).
-However, a large number of \kepler\ rotators, over 10,000 of 34,000 {\it do}
-have RV measurements from \gaia\ DR2 and \lamost.
-Figure \ref{fig:existing_rvs} shows rotation period vs effective temperature
-for all stars in the \mct\ and \citet{santos2019} catalogs, plotted in grey.
-Stars with RV measurements are colored by their vertical velocity dispersion
-(see section \ref{sec:velocity_dispersion} to see how we calculated velocity
-dispersion).
-\racomment{Discuss what this plot shows}.
-
-Although RVs are available for a significant number of \kepler\ rotators
-(almost one in three), few stars cooler than 4000 K have RV measurements.
-This is due to the faint limits of the \gaia\ DR2 and \lamost\ surveys
-(although RV measurements for fainter targets will be available in \gaia\
-DR3).
-Given that magneto-rotational evolution is poorly understood for M dwarfs, the
-cool stars with missing RVs are arguably the ones we care most about.
-For this reason, we attempted to compensate for the lack of RV measurements by
-inferring vertical velocities for stars without RVs, to fill in the
-low-temperature region of figure \ref{fig:existing_rvs} in section
-\ref{sec:velocity_inference}.
-\begin{figure}[ht!]
-\caption{
-Vertical velocity dispersion as a function of rotation period and effective
-    temperature for \kepler\ stars with measured rotation periods.
-Colored points show stars with RV measurements from \gaia\ or \lamost, with
-    their color indicating their velocity dispersion.
-Faint grey points show the combined \mct\ and \citet{santos2019} samples,
-    including stars without RV measurements.
-The coolest stars in this sample do not have RVs because they are faint.
-}
-  \centering \includegraphics[width=1\textwidth]{existing_rvs}
-\label{fig:existing_rvs}
-\end{figure}
-

@@ -1,6 +1,51 @@
+\section{Stellar Velocities}
+\label{sec:velocities}
+
+To calculate kinematic ages, an estimate of vertical velocity, \vz, is
+required.
+The ideal way to calculated \vz\, and similarly, \vx\ and \vy, is to use 6D
+positional and velocity information.
+Many stars in the \kepler\ field do not have RV measurements and an
+alternative approach must be taken to infer their vertical velocities (see
+section \ref{sec:velocity_inference}).
+However, a large number of \kepler\ rotators, over 10,000 of 34,000 {\it do}
+have RV measurements from \gaia\ DR2 and \lamost.
+Figure \ref{fig:existing_rvs} shows rotation period vs effective temperature
+for all stars in the \mct\ and \citet{santos2019} catalogs, plotted in grey.
+Stars with RV measurements are colored by their vertical velocity dispersion
+(see section \ref{sec:velocity_dispersion} to see how we calculated velocity
+dispersion).
+\racomment{Discuss what this plot shows}.
+
+Although RVs are available for a significant number of \kepler\ rotators
+(almost one in three), few stars cooler than 4000 K have RV measurements.
+This is due to the faint limits of the \gaia\ DR2 and \lamost\ surveys
+(although RV measurements for fainter targets will be available in \gaia\
+DR3).
+Given that magneto-rotational evolution is poorly understood for M dwarfs, the
+cool stars with missing RVs are arguably the ones we care most about.
+For this reason, we attempted to compensate for the lack of RV measurements by
+inferring vertical velocities for stars without RVs, to fill in the
+low-temperature region of figure \ref{fig:existing_rvs} in section
+\ref{sec:velocity_inference}.
+\begin{figure}[ht!]
+\caption{
+Vertical velocity dispersion as a function of rotation period and effective
+    temperature for \kepler\ stars with measured rotation periods.
+Colored points show stars with RV measurements from \gaia\ or \lamost, with
+    their color indicating their velocity dispersion.
+Faint grey points show the combined \mct\ and \citet{santos2019} samples,
+    including stars without RV measurements.
+The coolest stars in this sample do not have RVs because they are faint.
+}
+  \centering \includegraphics[width=1\textwidth]{existing_rvs}
+\label{fig:existing_rvs}
+\end{figure}
+
+
 \section{Inferring 3D velocities (marginalizing over missing RV
 measurements)}
-\label{sec:velocities}
+\label{sec:inference}
 
 It has been demonstrated that the dispersion in vertical velocity, \vz\, for a
 group of stars increases with the age of that group (citations).
