@@ -57,8 +57,8 @@ measurements than hot, bright ones.
 \end{figure}
 Given that rotational evolution is particularly poorly understood for M
 dwarfs, the cool stars with missing RVs are arguably the most interesting.
-To fill-in the low-temperature regime, we marginalized over missing RV
-measurements to infer velocities for stars without RVs.
+To fill-in the low-temperature regime, we inferred velocities for stars
+without RV measurements, by marginalizing over missing RVs.
 % \begin{figure}[ht!]
 % \caption{
 % Vertical velocity dispersion as a function of rotation period and effective
@@ -99,8 +99,9 @@ can be written:
     p({\bf v_{xyz}}) p(D),
 \end{equation}
 where $D$ is distance and ${\bf v_{xyz}}$ is the 3D vector of velocities.
-Our model predicted observable data from model parameters,
-\ie\ it converted \vx, \vy\, \vz\ and $D$ to \pmra, \pmdec\ and \parallax.
+To evaluate the likelihood function, our model predicted observable data from
+model parameters, \ie\ it converted \vx, \vy\, \vz\ and $D$ to \pmra, \pmdec\
+and \parallax.
 In the first step of the model, cartesian coordinates, \x, \y, and \z\, were
 calculated from \ra\ and \dec\ measurements and $D$ ($1/\pi$) for each star,
 by applying a series of matrix rotations, and a translation to account for the
@@ -116,8 +117,8 @@ This also happens to be the case for \vx, because the direction of the
 coordinate system and is almost perpendicular to both the \x\ and \z-axes (see
 figure \ref{fig:kepler_field}).
 For this reason, the \y-direction is similar to the radial direction for
-observers near the Sun, so \vy\ will be poorly constrained without an RV
-measurement for \kepler\ stars.
+observers near the Sun, so \vy\ will be poorly constrained for \kepler\ stars
+without RV measurements.
 On the other hand, \vx\ and \vz\ are almost perpendicular to the radial
 direction and can be precisely inferred with proper motions alone.
 \begin{figure}[ht!]
@@ -163,53 +164,106 @@ Our goal was to infer the velocities of stars {\it without} RV measurements
 using a prior calculated from stars {\it with} RV measurements.
 However, stars with and without RVs are likely to be different populations,
 with parameters that depend on the \gaia\ and \lamost\ selection functions.
-In particular, stars without RV measurements are more likely to be fainter and
-cooler (\eg\ figure \ref{fig:rv_histogram}).
-Lower-mass stars are, on average, older, and have larger velocity dispersions.
+In particular, stars without RV measurements are more likely to be fainter,
+cooler, and further away (\eg\ figure \ref{fig:rv_histogram}).
+Lower-mass stars are, on average, older, and have larger velocity dispersions,
+plus stars in different locations in the Galaxy have different orbital
+velocities.
 So a prior based on the velocity distributions of stars with RVs will not
 necessarily reflect the velocities of those without.
 However, given that \vx\ and \vz\ are likely to be relatively insensitive to
 the prior as they are mostly informed by proper motion measurements, the prior
-may impact our final vertical velocity dispersion measurements very little
-(and this is the real quantity we care about).
+may not impact our final vertical velocity dispersion measurements
+significantly (and this is the real quantity we care about).
 
 We tested the effect of the prior on the velocities we inferred.
 Three priors were tested: one calculated from the velocity distributions of
 the brightest half of the RV sample (\gaia\ $G$-band apparent magnitude $<$
 13.9), one from the faintest half ($G$ $>$ 13.9), and one from all stars with
 RVs.
+Figure \ref{fig:prior_distributions} shows the distributions of the faint
+(blue) and bright (orange) halves of the RV sample as kernel density estimates
+(KDEs).
+The distributions are different because bright stars are more massive,
+younger, and closer to the Sun on average than faint stars.
+As a result, these stars occupy slightly different Galactic orbits.
+The Gaussian fits to these distributions, which were used as prior PDFs, are
+shown in figure \ref{prior_distributions} as dashed, colored lines.
+The Gaussian fit to {\it all} the data, both bright and faint, is shown as a
+black solid line.
+The means of the faint and bright distributions differed by 6 \kms, 5 \kms, 1
+\kms\ and 0.21 kpc, for \vx\, \vy, \vz\ and $\ln(D)$, respectively.
+The \vx, \vy, and distance distributions of these stars are strongly dependent
+on brightness.
+However, the \vz\ distribution does not vary significantly with stellar
+brightness.
+Since \vz\ is the only velocity we will actually use to infer kinematic ages,
+this indicates that the choice of prior not strongly impact our final results.
+To confirm this, we tested the influence of the prior on the parameters.
+% The black Gaussian, fit to the entire RV sample, is the prior we ended up
+% using in our model.
+
+\begin{figure}[ht!]
+\caption{
+    Velocity and distance distributions of faint (blue) and bright (orange)
+    stars with RVs, shown as KDEs.
+    Gaussian fits to these distributions are shown as dashed lines in
+    corresponding colors.
+    The solid black line shows the Gaussian fit to all data (bright and faint
+    combined) and is the prior we ended up using in our model.
+}
+  \centering
+    \includegraphics[width=1\textwidth]{prior_distributions}
+\label{fig:prior_distributions}
+\end{figure}
 We inferred the velocities of 3000 stars chosen at random from the
 \gaia-\lamost\ RV sample using each of these three priors and compared the
 inferred velocity distributions.
-If the inferred velocities were highly prior-dependent, these distributions
-would look very different.
+If the inferred velocities were highly prior-dependent, the resulting
+distributions would look very different.
 The results of this test are shown in figure \ref{fig:prior_comparison}.
 From left to right, the three panels show the distributions of inferred \vx,
 \vz, and \vy.
-The blue dashed line shows a kernel density estimate, representing the
-distributions of velocities inferred using a prior calculated from the faint
+The blue dashed line shows a KDE, representing the
+distributions of velocities inferred using the prior calculated from the faint
 half of the RV sample.
-Similarly, the solid orange line shows the same thing for a prior calculated
-from the bright half of the RV sample, and the solid black line shows the
-results of a prior calculated from all stars with measured RVs.
-The \vx\ and \vz\ distributions are similar, regardless of the prior choice,
+Similarly, the solid orange line shows the distribution of inferred velocities
+using the prior calculated from the bright half of the RV sample, and the
+solid black line shows the results of the prior calculated from {\it all}
+stars with measured RVs.
+
+The median values of the \vy\ distributions, resulting from the faint and
+bright priors, differ by around 4 \kms.
+This is similar to the difference in means of the faint and bright populations
+(5 \kms, as quoted above).
+The inferred \vx\ and \vz\ distributions differ by 2 \kms\ and 0.3 \kms,
+respectively.
+Regardless of the prior choice, the \vx\ and \vz\ distributions are similar
 because velocities in the \x\ and \z-directions are not strongly prior
-dependent: they are tightly constrained with proper motion measurements.
-However, the distribution of inferred \vy\ velocities does depend on the
+dependent: they are tightly constrained with proper motion measurements alone.
+However, the distribution of inferred \vy\ velocities {\it does} depend on the
 prior.
 This is because the \y-direction is close to the radial direction for \kepler\
-stars (figure \ref{fig:kepler_field}), and \vy\ cannot be tightly constrained
-without an RV measurement.
+stars (see figure \ref{fig:kepler_field}), and \vy\ cannot be tightly
+constrained without an RV measurement.
 It is therefore highly dependent on the prior.
 \begin{figure}[ht!]
 \caption{
+The distributions of velocity and distance parameters, inferred using three
+    different priors.
+The orange line is a KDE that represents the distribution of parameters
+    inferred with a Gaussian prior, estimated from the bright half of the RV
+    sample ($G < $ 13.9).
+The blue dashed line shows the results from a prior estimated from the faint
+    half of the RV sample ($G > 13.9$.
+The black line shows the results from a prior calculated from all stars with
+    RV measurements and is the prior we adopt in our final analysis.
     }
   \centering
     \includegraphics[width=1\textwidth]{prior_comparison}
 \label{fig:prior_comparison}
 \end{figure}
 
-% The mean values of the \vy\ distributions differ by around 4 \kms.
 % Fainter stars have smaller y-velocities than brighter stars because they are,
 % on average, further from the Sun
 
@@ -223,7 +277,8 @@ The difference in the dispersions of \vz\ velocities, calculated with the
 three different priors tested above was smaller than 0.5 \kms.
 We therefore conclude that vertical velocity dispersion is relatively
 insensitive to prior choice, and we adopt a prior calculated from the
-distributions of all stars with RV measurements.
+distributions of all stars with RV measurements (black Gaussians in figure
+\ref{fig:prior_comparison}).
 
 % \begin{figure}[ht!]
 % \caption{
@@ -235,7 +290,7 @@ distributions of all stars with RV measurements.
 
 \subsection{Inferred velocities}
 
-For each star in the \kepler\ field, we explored the posteriors of these four
+For each star in the \kepler\ field, we explored the posteriors of the four
 parameters using the {\it PyMC3} No U-Turn Sampler (NUTS) algorithm, and the
 {\tt exoplanet} \python\ library \racomment{(citations)}.
 We tuned the {\it PyMC3} sampler for 1500 steps, with a target acceptance
@@ -243,7 +298,7 @@ fraction of 0.9, then ran four chains of 1000 steps for a total of 4000 steps.
 Using PyMC3 made the inference procedure exceptionally fast -- taking just a
 few seconds per star on a laptop.
 
-To validate this method, we inferred velocities for stars in our sample with
+To validate our method, we inferred velocities for stars in our sample with
 measured RVs and compared those inferred values with velocities calculated
 directly from 6D position, proper motion, and RV measurements.
 Figure \ref{fig:residuals} shows the \vx, \vy\ and \vz\ velocities we
