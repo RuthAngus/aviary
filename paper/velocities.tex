@@ -1,26 +1,27 @@
 \section{Stellar Velocities}
 \label{sec:velocities}
 
-It has been demonstrated that the dispersion in vertical velocity, \vz\, for a
-group of stars increases with the age of that group (citations).
+It has been demonstrated that the dispersion in vertical velocity, \vz, of a
+population of stars increases with the age of that population
+\citep[\eg][]{stromberg1946, wielen1977, nordstrom2004, holmberg2007,
+holmberg2009, aumer2009, casagrande2011, ting2019, yu2018}.
 However, velocities in Galactocentric coordinates, \vx, \vy\ and \vz, can only
 be calculated with full 6-D position and velocity information, \ie\ proper
 motions, position and radial velocity.
 In Angus \etal\ (2020) we used velocity dispersions to explore rotational
-evolution and showed, in the appendix of that paper, that velocity in the
-direction of Galactic latitude, \vb, which can be calculated without an RV
-measurement, is a close approximation to \vz\ for \kepler\ stars.
-This is because the \kepler\ field of view lies at relatively low Galactic
-latitudes, ($\sim 5-20$\degrees), so the ${\bf z}$-direction is similar to the
-${\bf b}$-direction for \kepler\ stars.
-However, \vb\ is only a close approximation to \vz\ at extremely {\it low}
-latitudes, and even in the \kepler\ field which lies at b $\approx$
-5-20\degrees, kinematic ages calculated with \vb\ instead of \vz\ are
-systematically larger because of mixing between \vz, \vx\ and \vy.
+evolution, however we used velocity in the direction of Galactic latitude,
+\vb, instead of \vz\ because it can be calculated without an RV measurement
+but is a close approximation to \vz\ for \kepler\ stars.
+This is because the \kepler\ field lies at low Galactic latitudes, ($\sim
+5-20$\degrees), so the ${\bf z}$-direction is similar to the ${\bf
+b}$-direction for \kepler\ stars.
+However, even at such low latitudes, kinematic ages calculated with \vb\
+instead of \vz\ are likely to be systematically larger because of mixing
+between \vz, \vx\ and \vy.
 A direct measurement or precise estimate of \vz\ is necessary to calculate
 accurate kinematic ages.
 Less than 1 in 3 stars in our sample of \kepler\ rotators had a directly
-measured RV, but for these $\sim$11,000 stars we calculated vertical
+measured RV available, and for these $\sim$11,000 stars we calculated vertical
 velocities, \vz, using the {\tt coordinates} library of {\tt astropy}
 \citep{astropy2013, astropy2018}.
 
@@ -33,14 +34,15 @@ velocities, \vz, using the {\tt coordinates} library of {\tt astropy}
 % \racomment{Discuss what this plot shows.
 % Perhaps combine into a multi-panelled plot?}
 
-Although RVs are available for almost one in three \kepler\ rotators, few late
-K and early M dwarfs have RV measurements due to the selection functions of
-the \gaia\ and \lamost\ surveys.
+Although RVs were available for almost one in three stars in our \kepler\
+rotation sample, few cool dwarfs had RV measurements because of the selection
+functions of the \gaia\ and \lamost\ surveys.
 In our sample, one in 2.5 stars hotter than 5000 K had RV measurements,
 whereas only one in six stars cooler than 5000 K had RVs.
 \gaia\ DR2 only includes RVs for stars brighter than around 13th magnitude,
 and \lamost\ only provides RVs for \kepler\ stars brighter than around 17th
 magnitude in \gaia\ $G$-band.
+\racomment{Ruth, check the actual LAMOST selection function.}
 Figure \ref{fig:rv_histogram} shows the apparent magnitude and temperature
 distributions of the stars in our sample, with and without RVs.
 This figure reveals the combined selection functions of the \gaia\ DR2 and
@@ -107,7 +109,7 @@ calculated from \ra\ and \dec\ measurements and $D$ ($1/\pi$) for each star,
 by applying a series of matrix rotations, and a translation to account for the
 Solar position.
 The cartesian Galactocentric velocity parameters, \vx, \vy, and \vz, were then
-converted to equatorial coordinates \pmra\ and \pmdec\ via another rotation.
+converted to equatorial coordinates, \pmra\ and \pmdec, via another rotation.
 
 As mentioned previously, the specific positioning of the \kepler\ field (at
 low Galactic latitude) allows \vz\ to be well-constrained from proper motion
@@ -127,7 +129,7 @@ direction and can be precisely inferred with proper motions alone.
     orientation of the \kepler\ field.
 The direction of the field is almost aligned with the \y-axis and almost
     perpendicular to the \x\ and \z-axes, which is why \vx\ and \vz\ can be
-    tightly constrained for stars without RVs, but \vy\ cannot.
+    tightly constrained for \kepler\ stars without RVs, but \vy\ cannot.
 }
   \centering
     \includegraphics[width=.7\textwidth]{kepler_field}
@@ -171,12 +173,21 @@ plus stars in different locations in the Galaxy have different orbital
 velocities.
 So a prior based on the velocity distributions of stars with RVs will not
 necessarily reflect the velocities of those without.
-However, given that \vx\ and \vz\ are likely to be relatively insensitive to
-the prior as they are mostly informed by proper motion measurements, the prior
-may not impact our final vertical velocity dispersion measurements
-significantly (and this is the real quantity we care about).
+However, given that \vx\ and \vz\ are strongly informed by proper motion
+measurements, and therefore likely to be relatively prior-insensitive, the
+prior may not impact our final vertical velocity, and subsequent kinematic
+ages, significantly.
+Remember, we are mainly interested in the \vz\ parameter because {\it
+vertical} velocity dispersion is a well-studied age indicator.
 
-We tested the effect of the prior on the velocities we inferred.
+We tested the influence of the prior on the velocities we inferred.
+One of the main features of the \gaia\ and \lamost\ RV selection functions is
+brightness: \gaia\ DR2 RVs are only available for stars brighter than around
+13th magnitude, and \lamost\ RVs for stars brighter than around 17th
+magnitude.
+\racomment{Ruth, check the actual LAMOST selection function.}
+For this reason, we tested priors based on stellar populations with different
+apparent magnitudes.
 Three priors were tested: one calculated from the velocity distributions of
 the brightest half of the RV sample (\gaia\ $G$-band apparent magnitude $<$
 13.9), one from the faintest half ($G$ $>$ 13.9), and one from all stars with
@@ -197,8 +208,8 @@ The \vx, \vy, and distance distributions of these stars are strongly dependent
 on brightness.
 However, the \vz\ distribution does not vary significantly with stellar
 brightness.
-Since \vz\ is the only velocity we will actually use to infer kinematic ages,
-this indicates that the choice of prior not strongly impact our final results.
+Since \vz\ is the only velocity we actually used to infer kinematic ages, this
+indicates that the choice of prior does not strongly impact our final results.
 To confirm this, we tested the influence of the prior on the parameters.
 % The black Gaussian, fit to the entire RV sample, is the prior we ended up
 % using in our model.
@@ -220,10 +231,10 @@ We inferred the velocities of 3000 stars chosen at random from the
 \gaia-\lamost\ RV sample using each of these three priors and compared the
 inferred velocity distributions.
 If the inferred velocities were highly prior-dependent, the resulting
-distributions would look very different.
+distributions, obtained from different priors, would look very different.
 The results of this test are shown in figure \ref{fig:prior_comparison}.
 From left to right, the three panels show the distributions of inferred \vx,
-\vz, and \vy.
+\vy, and \vz.
 The blue dashed line shows a KDE, representing the
 distributions of velocities inferred using the prior calculated from the faint
 half of the RV sample.
@@ -246,7 +257,7 @@ prior.
 This is because the \y-direction is close to the radial direction for \kepler\
 stars (see figure \ref{fig:kepler_field}), and \vy\ cannot be tightly
 constrained without an RV measurement.
-It is therefore highly dependent on the prior.
+% It is therefore highly dependent on the prior.
 \begin{figure}[ht!]
 \caption{
 The distributions of velocity and distance parameters, inferred using three
@@ -291,12 +302,15 @@ distributions of all stars with RV measurements (black Gaussians in figure
 \subsection{Inferred velocities}
 
 For each star in the \kepler\ field, we explored the posteriors of the four
-parameters using the {\it PyMC3} No U-Turn Sampler (NUTS) algorithm, and the
-{\tt exoplanet} \python\ library \racomment{(citations)}.
+parameters, \vx, \vy, \vz, and $\ln(D)$ using the {\it PyMC3} No U-Turn
+Sampler (NUTS) algorithm, and the {\tt exoplanet} \python\ library
+\racomment{(citations)}.
 We tuned the {\it PyMC3} sampler for 1500 steps, with a target acceptance
 fraction of 0.9, then ran four chains of 1000 steps for a total of 4000 steps.
 Using PyMC3 made the inference procedure exceptionally fast -- taking just a
 few seconds per star on a laptop.
+\racomment{Check what convergence criteria you should use, or justify these
+choices.}
 
 To validate our method, we inferred velocities for stars in our sample with
 measured RVs and compared those inferred values with velocities calculated
@@ -306,7 +320,7 @@ inferred, for 3000 stars chosen at random, compared with those calculated from
 measured RVs.
 \begin{figure}[ht!]
 \caption{Vertical velocities calculated with full 6D information vs vertical
-    velocities inferred without RV, for 3000 \mct\ stars with \gaia\ RV
+    velocities inferred without RVs, for 3000 \mct\ stars with \gaia\ RV
     measurements.}
   \centering
     \includegraphics[width=1\textwidth]{residuals}
