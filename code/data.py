@@ -6,7 +6,7 @@ import matplotlib.pyplot as plt
 
 from astropy.io import fits
 from astropy.coordinates import SkyCoord
-import astropy.units as units
+import astropy.units as u
 import astropy.coordinates as coord
 
 from dustmaps.bayestar import BayestarQuery
@@ -67,6 +67,33 @@ def load_and_merge_data():
     return df
 
 
+def load_and_merge_aperiodic():
+
+    # Load Gaia-Kepler crossmatch.
+    with fits.open("../data/kepler_dr2_1arcsec.fits") as data:
+        gaia = pd.DataFrame(data[1].data, dtype="float64")
+    m = gaia.parallax.values > 0
+    gaia = gaia.iloc[m]
+
+    # Load McQuillan stars
+    mc2 = pd.read_csv("../data/Table_2_Non_Periodic.txt")
+    mc2["kepid"] = mc2.KID.values
+    mc2 = mc2.iloc[np.isfinite(mc2.Prot.values)]
+
+    # Merge mcquillan and Gaia
+    mc_gaia = pd.merge(mc2, gaia, how="left", on="kepid",
+                       suffixes=["KIC", ""])
+    df0 = mc_gaia.drop_duplicates(subset="kepid")
+
+    # Add LAMOST RVs
+    lamost = pd.read_csv("../data/KeplerRot-LAMOST.csv")
+    lamost["kepid"] = lamost.KIC.values
+    lam = pd.merge(df0, lamost, on="kepid", how="left",
+                   suffixes=["", "_lamost"])
+    df = lam.drop_duplicates(subset="kepid")
+    return df
+
+
 def combine_rv_measurements(df):
     rv, rv_err = [np.ones(len(df))*np.nan for i in range(2)]
 
@@ -113,8 +140,8 @@ def deredden(df):
     bayestar = BayestarQuery(max_samples=2, version='bayestar2019')
 
     print("Calculating Ebv")
-    coords = SkyCoord(df.ra.values*units.deg, df.dec.values*units.deg,
-                    distance=df.r_est.values*units.pc)
+    coords = SkyCoord(df.ra.values*u.deg, df.dec.values*u.deg,
+                    distance=df.r_est.values*u.pc)
 
     ebv, flags = bayestar(coords, mode='percentile', pct=[16., 50., 84.],
                         return_flags=True)
@@ -241,9 +268,24 @@ def add_velocities(df):
     return df
 
 
+def calc_vb(df):
+    d = coord.Distance(parallax=df.parallax.values*u.mas)
+    vra = (df.pmra.values*u.mas/u.yr * d).to(u.km/u.s,
+                                             u.dimensionless_angles())
+    vdec = (df.pmdec.values*u.mas/u.yr * d).to(u.km/u.s,
+                                               u.dimensionless_angles())
+
+    c = coord.SkyCoord(ra=df.ra.values*u.deg, dec=df.dec.values*u.deg,
+                       distance=d, pm_ra_cosdec=df.pmra.values*u.mas/u.yr,
+                       pm_dec=df.pmdec.values*u.mas/u.yr)
+    gal = c.galactic
+    v_b = (gal.pm_b * gal.distance).to(u.km/u.s, u.dimensionless_angles())
+    df["vb"] = v_b
+    return df
+
+
 if __name__ == "__main__":
     print("Loading data...")
-    # df = pd.read_pickle("../data/Mc_Gar_Sant")
     df = load_and_merge_data()
     print(len(df), "stars")
 
@@ -275,7 +317,49 @@ if __name__ == "__main__":
     df = add_velocities(df)
     print(len(df), "stars")
 
+    print("Calculating vb velocities")
+    df = calc_vb(df)
+    print(len(df), "stars")
+
     print("Saving file")
     fname = "../aviary/mc_san_gaia_lam.csv"
     print(fname)
     df.to_csv(fname)
+
+    ##-APERIODIC-STARS---------------------------------------------------------
+    #print("Loading data...")
+    #df = load_and_merge_aperiodic()
+    #print(len(df), "stars")
+
+    #print("Combining RV measurements...")
+    #df = combine_rv_measurements(df)
+    #print(len(df), "stars")
+
+    #print("S/N cuts")
+    #df = sn_cuts(df)
+    #print(len(df), "stars")
+
+    #print("Get dust and redenning...")
+    #df = deredden(df)
+    #print(len(df), "stars")
+
+    #print("Calculate photometric temperatures.")
+    #df = add_phot_teff(df)
+    #print(len(df), "stars")
+
+    #print("Calculate gyro ages")
+    #df = add_gyro_ages(df)
+    #print(len(df), "stars")
+
+    #print("Calculating velocities")
+    #df = add_velocities(df)
+    #print(len(df), "stars")
+
+    #print("Calculating vb velocities")
+    #df = calc_vb(df)
+    #print(len(df), "stars")
+
+    #print("Saving file")
+    #fname = "../data/aperiodic.csv"
+    #print(fname)
+    #df.to_csv(fname)
