@@ -324,7 +324,7 @@ if __name__ == "__main__":
     print("Saving file")
     fname = "../aviary/mc_san_gaia_lam.csv"
     print(fname)
-    df.to_csv(fname)
+    # df.to_csv(fname)
 
     ##-APERIODIC-STARS---------------------------------------------------------
     #print("Loading data...")

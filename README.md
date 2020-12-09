@@ -40,6 +40,12 @@ mc_san_gaia_lam.csv.
 DATA
 ====
 
+Files used in inference.py to construct a prior:
+gaia_mc5_velocities.csv
+
+This file is created in ~/projects/old_stuff/aviary///code/calculate_vxyz.py
+from gaia_mc5.csv which is created in...
+
 Files used in data.py:
 
 *kepler_dr2_1arcsec.fits*: Megan's crossmatched catalog
@@ -49,3 +55,5 @@ Files used in data.py:
 *KeplerRot-LAMOST.csv*: Jason Curtis' LAMOST file.
 
 *Ruth_McQuillan_Masses_Out.csv*: Masses from Travis Berger.
+
+*Table_1_Periodic.txt*: Rotation periods from McQuillan 2014.
