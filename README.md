@@ -1,6 +1,28 @@
 # aviary
 Inferring ages from velocity dispersions
 
+NOTEBOOKS
+=========
+
+*Aperiodoc*: exploring aperiodic stars.
+
+*Are_Asteroseismic_Stars_Aperiodic*: More exploration of aperiodic stars.
+
+*Better_Prior*: Testing the prior.
+
+*Bokeh*: making main Bokeh plots.
+
+*Existing_RVs*: Exploring stats of existing RVs.
+
+*Full_age_comparison*: comparing kinematic ages with benchmark ages.
+
+*Multi-dimensional*: More extensive work on comparisons.
+
+*v_comparison*: Generating the velocity comparison figure for the paper.
+
+*XD*: Applying XD to isochrone data.
+
+*Yu_Liu_AVR*: Coding up Yu and Liu AVR.
 
 AVIARY
 ======
@@ -28,11 +50,10 @@ velocities.
 Calls functions in pymc3_functions_one_star, velocities and
 velocity_pm_conversion.
 
-
-CODE
+OTHER CODE
 ====
 
-*data.py*: Code for assembling data catalogs, used to calculate Kepler
+*code/data.py*: Code for assembling data catalogs, used to calculate Kepler
 velocities and to construct the prior.
 This catalog is called by aviary/pymc3_functions_one_star:
 mc_san_gaia_lam.csv.
