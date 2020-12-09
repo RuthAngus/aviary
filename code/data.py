@@ -320,6 +320,8 @@ if __name__ == "__main__":
     print("Calculating vb velocities")
     df = calc_vb(df)
     print(len(df), "stars")
+    print(len(df.iloc[np.isfinite(df.rv.values) & (df.rv.values != 0.)]),
+          "of those have RV measurements.")
 
     print("Saving file")
     fname = "../aviary/mc_san_gaia_lam.csv"
