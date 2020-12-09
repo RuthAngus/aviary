@@ -4,6 +4,10 @@ Inferring ages from velocity dispersions
 NOTEBOOKS
 =========
 
+*GP_demo*: Fitting the GP gyro relation.
+
+*GP_fit_MEarth*: Fitting the GP gyro relation with MEarth data.
+
 *Aperiodoc*: exploring aperiodic stars.
 
 *Are_Asteroseismic_Stars_Aperiodic*: More exploration of aperiodic stars.
@@ -78,3 +82,12 @@ Files used in data.py:
 *Ruth_McQuillan_Masses_Out.csv*: Masses from Travis Berger.
 
 *Table_1_Periodic.txt*: Rotation periods from McQuillan 2014.
+
+Calibration data:
+
+*dbf12.csv*: Jason's file of cluster data (modified from original .txt
+version).
+
+*Gyro_Benchmark-Field_Stars.csv*: Jason's file of benchmark stars.
+
+*mcquillan_kinematic_data.csv*: My kinematic ages for Kepler stars.
