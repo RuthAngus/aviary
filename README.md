@@ -4,6 +4,8 @@ Inferring ages from velocity dispersions
 NOTEBOOKS
 =========
 
+*GP_demo_hackszors*: mucking around with the GP fit.
+
 *GP_demo*: Fitting the GP gyro relation.
 
 *GP_fit_MEarth*: Fitting the GP gyro relation with MEarth data.
@@ -91,3 +93,5 @@ version).
 *Gyro_Benchmark-Field_Stars.csv*: Jason's file of benchmark stars.
 
 *mcquillan_kinematic_data.csv*: My kinematic ages for Kepler stars.
+
+*Gyrokinage2020_Prot.csv*: Lucy's kinematic ages.
