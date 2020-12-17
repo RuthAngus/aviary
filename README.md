@@ -6,6 +6,8 @@ NOTEBOOKS
 
 *GP_demo_hackszors*: mucking around with the GP fit.
 
+*GP_fit*: a from-scratch version of the GP fit. 
+
 *GP_demo*: Fitting the GP gyro relation.
 
 *GP_fit_MEarth*: Fitting the GP gyro relation with MEarth data.
