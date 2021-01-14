@@ -4,6 +4,8 @@ Inferring ages from velocity dispersions
 NOTEBOOKS
 =========
 
+*Nice_plots*: Making plots for talks.
+
 *GP_demo_hackszors*: mucking around with the GP fit.
 
 *GP_fit*: a from-scratch version of the GP fit. 
