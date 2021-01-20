@@ -21,37 +21,16 @@ period and color are the same age.
 % We discuss the implications of this assumption and cases where it doesn't
 % apply in the Discussion of this paper (section \ref{sec:discussion}).
 
-In this paper, we calculated the kinematic age of {\it each individual star}
-in our sample, by grouping it with its neighbors in \logp--\teff\ space.
-This method is similar to calculating a rolling, or running standard
-deviation and allowed us to assign a unique age to each star.
-However, ages calculated this way are tightly correlated, and their
-correlation depends strongly on bin-size.
-In \citet{lu2021} we optimized the bin-size for calculating kinematic ages
-using a set of asteroseismic stars.
-We use the kinematic ages calculated in that work here.
+In this paper, we use the kinematic ages published in \citet{lu2021}.
+In that work, the kinematic age of each star in our sample was calculated by
+placing it in a bin with other stars with similar rotation periods, effective
+temperatures, absolute Gaia magnitudes and Rossby numbers.
+The kinematic age of each star was estimated by calculating the velocity
+dispersions of stars with these similar parameters, then using an AVR to
+calculate a corresponding age \citep{yu2019}.
+The bin size was optimized using a number of Kepler stars with asteroseismic
+ages.
 
-% To calculate a \vz\ velocity dispersion and kinematic age for each \kepler\
-% rotator, we grouped stars with their neighbors in \logp--\teff\ space.
-% We tested two methods of grouping stars: K-nearest neighbors, and bins in
-% \logp\ and \teff .
-% In the K-nearest neighbors method, each star was grouped with the K-nearest
-% stars in \logp-\teff\ space.
-% Groups created this way spanned a small \logp -\teff\ range where the stellar
-% number density was large, and a large range where the number density was
-% small.
-% In other words, the number of stars was fixed but the window-size changed.
-% In the fixed range method, stars were grouped within a fixed \logp -\teff
-% window.
-% This method created groups with large numbers of stars in densely populated
-% regions of the \logp--\teff\ plane, and small numbers of stars in sparsely
-% populated regions, \ie\ the number of stars changed but the window-size was
-% fixed.
-% To choose the best method, and to optimize for the parameters of each (K and
-% window-size), we conducted a set of tests.
-
-\subsection{Converting velocity dispersion to age with an AVR}
-\label{sec:avr}
 We used the \citet{yu2018} AVR to convert velocity dispersion to age.
 This relation was calibrated using the ages and velocities of red clump stars.
 They divided their sample into metal rich and poor subsets, and calibrated
