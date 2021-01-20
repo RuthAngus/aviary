@@ -8,7 +8,7 @@ NOTEBOOKS
 
 *GP_demo_hackszors*: mucking around with the GP fit.
 
-*GP_fit*: a from-scratch version of the GP fit. 
+*GP_fit*: a from-scratch version of the GP fit. Currently looks pretty good. 
 
 *GP_demo*: Fitting the GP gyro relation.
 
