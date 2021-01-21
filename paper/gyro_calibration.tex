@@ -132,10 +132,19 @@ younger than 0.7 Gyr.
 Hot stars...
 
 \item {\bf Converting kinematic data to a grid.}
-Even with these cuts, we were not able to get a good fit to the data for two
-main reasons.
-Firstly, after these cuts we were left with around 20,000 stars which is a)
-expensive and b) probably overkill.
+Once applying these cuts, 20,000 kinematic stars remained.
+        Given that fitting a GP to such a large dataset is computationally
+        expensive, and given that 20,000 stars is far more than necessary to
+        obtain a reasonably accurate gyrochronology model, it made sense to
+        reduce this data set in one of two ways.
+        We could either have simply subsampled the data, however this would
+        have thrown away
+        information, so we opted instead to take averages of kinematic ages
+        over a grid in rotation period and temperature.
+This provides the additional advantage of reducing the age uncertainties by
+        the square root of the number of data points.
+        This was beneficial because we did not include age uncertainties in
+        our fit (so the smaller the age-uncertainties the better).
 Secondly, we were not including age uncertainties in our fit.
 For the clusters we can maybe get away with this, but the uncertainties on the
 kinematic are non-negligable \citep[likely 1-2 Gyr][]{lu2021}).
