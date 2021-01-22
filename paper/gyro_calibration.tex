@@ -1,28 +1,29 @@
 \subsection{Calibrating a new gyrochronology relation}
 \label{sec:calibration}
 
-To calibrate a new gyrochronology relation we fit an empirical power-law
-relation, augmented with a Gaussian process, to a grid of kinematic ages and
-open cluster stars.
-These cluster stars have precise rotation periods measured from Kepler and K2
-light curves, and well-determined ages from cluster-based isochrone fitting.
-In this section we describe how we fit our model to these data.
+We used a two-dimensional power-law relation, augmented with a Gaussian
+process as our new empirical gyrochronology model.
+This model was fitted to kinematic ages (described above) and open cluster
+stars with precise rotation periods measured from Kepler and K2 light curve
+and well-determined ages from cluster-based isochrone fitting.
+In this section we describe the model, and how we fit it to the data, in more
+detail.
 
-\subsubsection{The model}
+\subsubsection{The Model}
 
 To calibrate a new empirical gyrochronology relation
 we used a composite model, consisting of an underlying mean function,
 augmented with a Gaussian process.
 The mean function is similar to previous empirical gyrochronology models and
 consists of two separable power-law relations: one describing the relationship
-between rotation period and age, and the other between rotation period and
-color \citep[\eg][]{barnes2003, barnes2007, mamajek2008, meibom2015, angus2015,
-angus2019}.
+between rotation period and age, and the other the relationship between
+rotation period and color \citep[\eg][]{barnes2003, barnes2007, mamajek2008,
+meibom2015, angus2015, angus2019}.
 
 Our mean function is comprised of a single power-law in age, $f(t)$, and a
 broken power law in color, $g(C)$:
 \begin{equation}
-P_\mathrm{rot} = f(t) + g(C),
+P_\mathrm{rot} = f(t) g(C),
 \end{equation}
 where $P_\mathrm{rot}$ is rotation period in days, $t$ is age in Gyr, and C is
 Gaia color: $\mathrm{G_{BP} - G_{RP}}$.
@@ -34,9 +35,9 @@ following the functional form first described in \citep{barnes2003}, where $a$
 and $n$ are free parameters.
 The broken power-law in color is defined as,
 \begin{equation}
-g(C) = \delta
+    g(C) = \left[
 \left(\frac{m_1}{1 + e^{s \delta}}\right)
-+ \left(\frac{m_2}{1 + e^{-s \delta}}\right),
+    + \left(\frac{m_2}{1 + e^{-s \delta}}\right)\right]^\delta,
 \end{equation}
 where $s$ is a parameter that determines how smooth the break is, $m_1$ is the
 slope below (bluewards of) the power-law break, $m_2$ is the slope above
@@ -45,12 +46,12 @@ slope below (bluewards of) the power-law break, $m_2$ is the slope above
 \delta = C - C_\mathrm{break},
 \end{equation}
 where $C_\mathrm{break}$ is the color of the power-law break.
-In this model, $s$, $m_1$, $m_2$, and $C_\mathrm{break}$ were all free
+In this model, $s$, $m_1$, $m_2$, and $C_\mathrm{break}$ are all free
 parameters.
 
-A Gaussian process model then distorts this mean model to provide a better fit
-to the data.
-In other words, it models the residuals between the mean model and the data.
+We used a Gaussian process model to `distort' this mean model, providing a
+better fit to the data.
+The GP models the residuals between the mean model and the data.
 We used a simple squared exponential kernel function which has only two free
 parameters, an amplitude, $A$ and a length scale, $l$.
 This kernel function is defined as,
@@ -102,8 +103,8 @@ produced by measurement uncertainties, these data are not well-described by a
 Gaussian process.
 For this reason, we removed M dwarfs with stochastic rotation periods from our
 calibration sample.
-We removed all cluster stars with rotation periods shorter than one day and
-\gcolor\ $>$ 2.2.
+To do this, we removed all cluster stars with rotation periods shorter than
+        one day and \gcolor\ $>$ 2.2.
 We also removed cluster stars with {\it both} \prot\ $<$ 11 days {\it and}
 \gcolor\ $>$ 1.5.
 Although the Pleiades cluster contains a number of stars with measured
@@ -145,17 +146,26 @@ This provides the additional advantage of reducing the age uncertainties by
         the square root of the number of data points.
         This was beneficial because we did not include age uncertainties in
         our fit (so the smaller the age-uncertainties the better).
-Secondly, we were not including age uncertainties in our fit.
 For the clusters we can maybe get away with this, but the uncertainties on the
 kinematic are non-negligable \citep[likely 1-2 Gyr][]{lu2021}).
-To get around this issue, instead of fitting our GP model to the raw data, we
-instead converted it to a grid.
+Figure \ref{fig:grid_points} shows this grid in \prot-color space.
+        Grid points were spaced apart by 0.5 dex in both $\log_{10}$(\prot)
+        and Gaia color, \gcolor.
+The median age of all stars falling in a bin, centered on each grid point, was
+adopted as the age at that grid point.
+Only grid points with more than one data point in the corresponding bin were
+adopted.
+Figure \ref{fig:grid_points} illustrates how this grid is still representative
+of the raw data, while reducing the number of data points in the fit,
+decreasing parameter uncertainties by $\sqrt N$, and providing uniform data
+coverage across the \prot-color plane.
 \end{itemize}
 
 \begin{figure}
 \caption{
 }
   \centering \includegraphics[width=1\textwidth]{grid_points}
+    \label{fig:grid_points}
 \end{figure}
 
 \begin{figure}
@@ -169,4 +179,3 @@ instead converted it to a grid.
 }
   \centering \includegraphics[width=1\textwidth]{gp_fit}
 \end{figure}
-

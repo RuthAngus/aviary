@@ -4,7 +4,10 @@ Inferring ages from velocity dispersions
 NOTEBOOKS
 =========
 
-*Nice_plots*: Making plots for talks.
+*Comparison_with_Spada*: Comparing model with the model of Spada & Lanzafame (2019).
+Didn't get very far, but has code to load pickled results.
+
+*Nice_plots*: Making a plot of kinematic data with cluster data for talks.
 
 *GP_demo_hackszors*: mucking around with the GP fit.
 
