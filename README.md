@@ -4,6 +4,8 @@ Inferring ages from velocity dispersions
 NOTEBOOKS
 =========
 
+*Get_cluster_scatter*: Calculate the scatter in the clusters to estimate errorbars.
+
 *Comparison_with_Spada*: Comparing model with the model of Spada & Lanzafame (2019).
 Didn't get very far, but has code to load pickled results.
 

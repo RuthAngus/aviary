@@ -92,26 +92,24 @@ reasonably representative of the data, and these steps allowed us to achieve
 that goal.
 To obtain a good fit, we applied the following cuts to the data:
 \begin{itemize}
-\item {\bf Trimming the cluster data}.
-We used a number of open clusters to calibrate our model: Praesepe, the
-Hyades, NGC 6811, NGC 6819, and Ruprecht 147.
+\item {\bf The cluster data}.
+We used a number of open clusters to calibrate our model: the Pleiades,
+        Praesepe, the Hyades, NGC 6811, NGC 6819, and Ruprecht 147.
 Although the rotation periods of most G and K stars in these clusters fall on
-a tight sequence, Praesepe contains a number of M dwarfs with measured periods
-that are highly stochastic.
+a tight sequence, the Pleiades and Praesepe contain a number of stars,
+        particularly M dwarfs, with measured periods that are highly
+        stochastic.
 Given that the scatter in M dwarf rotation periods is intrinsic: it is not
 produced by measurement uncertainties, these data are not well-described by a
 Gaussian process.
-For this reason, we removed M dwarfs with stochastic rotation periods from our
+For this reason, we removed stars with stochastic rotation periods from our
 calibration sample.
 To do this, we removed all cluster stars with rotation periods shorter than
         one day and \gcolor\ $>$ 2.2.
 We also removed cluster stars with {\it both} \prot\ $<$ 11 days {\it and}
 \gcolor\ $>$ 1.5.
-Although the Pleiades cluster contains a number of stars with measured
-rotation periods, it is too young to have enough members that have converged
-onto a tight rotation sequence so we were unable to include it in our
-calibration sample in this work.
-\racomment{Will probably need to include Pleiades at some point!}
+We removed all Pleaides members with \gcolor\ $>$ 1.4.
+We also removed three significantly outlying G stars from the Pleiades.
 
 \item {\bf Applying cuts to the kinematic data.}
 As with the cluster data, the kinematic data also needed to be Gaussian
