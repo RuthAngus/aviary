@@ -1,19 +1,21 @@
 # aviary
-Inferring ages from velocity dispersions
+Inferring ages from velocity dispersions and fitting a GP gyrochronology model.
 
 NOTEBOOKS
 =========
 
+*Cross_Validation*: using cross validation to test the quality of the fit.
+
 *Get_cluster_scatter*: Calculate the scatter in the clusters to estimate errorbars.
+
+*GP_fit*: a from-scratch version of the GP fit. Currently looks pretty good.
+
+*Nice_plots*: Making a plot of kinematic data with cluster data for talks.
 
 *Comparison_with_Spada*: Comparing model with the model of Spada & Lanzafame (2019).
 Didn't get very far, but has code to load pickled results.
 
-*Nice_plots*: Making a plot of kinematic data with cluster data for talks.
-
 *GP_demo_hackszors*: mucking around with the GP fit.
-
-*GP_fit*: a from-scratch version of the GP fit. Currently looks pretty good. 
 
 *GP_demo*: Fitting the GP gyro relation.
 
@@ -41,6 +43,9 @@ Didn't get very far, but has code to load pickled results.
 
 AVIARY
 ======
+
+*gp_fit.py*: Fitting Gaussian process model to cluster and kinematic
+data.
 
 *avr.py*:
 Code for applying the Yu and Liu AVR.
@@ -72,6 +77,7 @@ OTHER CODE
 velocities and to construct the prior.
 This catalog is called by aviary/pymc3_functions_one_star:
 mc_san_gaia_lam.csv.
+
 
 DATA
 ====
