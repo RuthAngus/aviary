@@ -44,7 +44,7 @@ def fit_gp(x, age, prot, prot_err, filename):
     xg2 = np.linspace(x2.min(), x2.max(), 10)
     xg2 = np.array([np.log(.12), np.log(.67), np.log(1), np.log(1.6),
                     np.log(2.7), np.log(4), np.log(4.56), np.log(8),
-                    np.log(10)])
+                    np.log(10), np.log(14)])
 
     # The PyMC3 model
     with pm.Model() as model:
