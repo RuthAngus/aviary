@@ -1,10 +1,15 @@
 import numpy as np
+import pickle
+import pandas as pd
+from tqdm import trange
+
+import matplotlib.pyplot as plt
+import matplotlib as mpl
+
 import pymc3 as pm
 import theano.tensor as tt
 import exoplanet as xo
-import pickle
-import matplotlib.pyplot as plt
-import matplotlib as mpl
+import astropy.modeling as apm
 
 
 class AgePosterior(object):
@@ -41,7 +46,122 @@ class AgePosterior(object):
         return np.exp(self.args[self.ind2]), posterior
 
 
-def make_plot(kin, x, prot, prot_err, age, cluster_x, cluster_prot,
+def assemble_data(young_limit, old_limit, hot_limit, dp, dc, cluster_old_err,
+                  kinerr, sun_err, sun_color=.82, sun_prot=26.,
+                  sun_age=4.56):
+    """
+    Load and assemble calibration data using variables that will be varied in
+    cross validation.
+    """
+
+    k = pd.read_csv("../data/mcquillan_kinematic_ages.csv")
+    k_lucy = pd.read_csv("../data/Gyrokinage2020_Prot.csv")
+    kl = pd.DataFrame(dict({"kepid": k_lucy.kepid.values,
+                            "kin_age_lucy": k_lucy.kin_age.values,
+                            "kin_age_err": k_lucy.kin_age_err.values}))
+    k = pd.merge(k, kl, on="kepid", how="left")
+
+    # Remove subgiants and photometric binaries
+    kin = k.iloc[k.flag.values == 1]
+    finite = np.isfinite(kin.Prot.values) \
+        & np.isfinite(kin.bprp_dered.values) \
+        & np.isfinite(kin.kin_age_lucy.values)
+    kin = kin.iloc[finite]
+
+    # Remove stars bluer than 1.5 and with kinematic ages greater than 6 as
+    # these are likely to be subgiants.
+    subs = (kin.bprp_dered.values < 1.5) & (kin.kinematic_age.values > 6)
+    kin = kin.iloc[~subs]
+
+    # Remove stars that fall beneath the lower envelope using the
+    # Angus + (2019) gyro relation and stars kinematically older than
+    # old_limit.
+    no_young = (kin.age.values > young_limit) \
+        & (kin.kin_age_lucy.values < old_limit)
+    kin = kin.iloc[no_young]
+
+    # Remove hot stars as the clusters provide better coverage.
+    cool = kin.bprp_dered.values > hot_limit
+    akin = kin.iloc[cool]
+
+    # Create grid of kinematic data
+    logp = np.log10(akin.Prot.values)
+    pgrid = np.arange(min(logp), max(logp), dp)
+    cgrid = np.arange(min(akin.bprp_dered.values),
+                      max(akin.bprp_dered.values), dc)
+    P, C = np.meshgrid(pgrid, cgrid)
+    A = np.zeros_like(P)
+    prot_errs, npoints = [np.zeros_like(P) for i in range(2)]
+    for i in range(np.shape(A)[0]):
+        for j in range(np.shape(A)[1]):
+            b = (logp - .5*dp < P[i, j]) & (P[i, j] < logp + .5*dp)
+            b &= (akin.bprp_dered.values - .5*dc < C[i, j]) \
+                & (C[i, j] < akin.bprp_dered.values + .5*dc)
+            A[i, j] = np.median(akin.kin_age_lucy.values[b])
+            prot_errs[i, j] = np.sqrt(sum((akin.Prot_err.values[b]
+                                           /akin.Prot.values[b])**2)) \
+                / np.sqrt(float(len(akin.kin_age_lucy.values[b])))
+            npoints[i, j] = len(akin.kin_age_lucy.values[b])
+
+    finite = np.isfinite(C) & np.isfinite(P) & np.isfinite(A) \
+        & np.isfinite(prot_errs)
+    morethan = npoints[finite] > 1
+    C, P, A, prot_errs = C[finite][morethan], P[finite][morethan], \
+        A[finite][morethan], prot_errs[finite][morethan]
+
+    # Load cluster data from Get_cluster_scatter and add the Sun.
+    cluster_uncert = pd.read_csv("../data/clusters_with_uncertainties.csv")
+    cluster_x = np.concatenate((cluster_uncert.bprp.values,
+                                np.array([sun_color])))
+    cluster_prot = np.concatenate((cluster_uncert.prot.values,
+                                   np.array([sun_prot])))
+    cluster_age = np.concatenate((cluster_uncert.age.values,
+                                  np.array([sun_age])))
+    cluster_prot_errs = np.concatenate((cluster_uncert.prot_err.values,
+                                        np.array([sun_err])))
+
+    # Decrease the uncertainties on the oldest clusters to cluster_old_err
+    select_old = cluster_age > 2.
+    cluster_prot_errs[select_old] = np.ones(len(
+        cluster_prot_errs[select_old])) * cluster_old_err
+
+    # Combine clusters with kinematic grid
+    x = np.concatenate((cluster_x, np.ndarray.flatten(C)))
+    prot_err = np.concatenate((cluster_prot_errs,
+                               np.ndarray.flatten(10**P)*kinerr))
+    prot = np.concatenate((cluster_prot, np.ndarray.flatten(10**P)))
+    age = np.concatenate((cluster_age, np.ndarray.flatten(A)))
+    ID = np.concatenate((np.zeros_like(cluster_age),
+                         np.ones_like(np.ndarray.flatten(A))))
+    # 0s are clusters, 1s are kinematics
+    return x, age, prot, prot_err, ID, akin
+
+
+def get_stellar_ages(x, prot, prot_err, filename):
+    """
+    Loop over stars and get maximum a-posteriori ages.
+    """
+
+    ap = AgePosterior(filename)
+
+    # Loop over stars.
+    mu, mu_fit, sig = [np.zeros(len(x)) for i in range(3)]
+    for i in trange(len(x)):
+
+        # Get the age posterior
+        age_array, posterior = ap.get_post(x[i], prot[i], prot_err[i])
+
+        # Adopt MAP as mean
+        mu[i] = age_array[posterior == max(posterior)]
+
+        g_init = apm.models.Gaussian1D(amplitude=1., mean=mu[i], stddev=.5)
+        fit_g = apm.fitting.LevMarLSQFitter()
+        g = fit_g(g_init, age_array, posterior)
+        mu_fit[i], sig[i] = g.mean.value, g.stddev.value
+    return mu, sig, mu_fit
+
+
+def make_plot(kin, x, age, prot, prot_err, cluster_x, cluster_prot,
               cluster_age, filename):
     # Format data for GP fit.
     inds = np.argsort(x)

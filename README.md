@@ -78,6 +78,10 @@ velocities and to construct the prior.
 This catalog is called by aviary/pymc3_functions_one_star:
 mc_san_gaia_lam.csv.
 
+*notebooks/cv_routines.py*: code needed for performing cross validation.
+Contains code for age posteriors and making the main plot, doesn't have
+code for fitting GP model, that's in aviary/gp_fit.py.
+
 
 DATA
 ====
