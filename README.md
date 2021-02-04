@@ -4,6 +4,8 @@ Inferring ages from velocity dispersions and fitting a GP gyrochronology model.
 NOTEBOOKS
 =========
 
+*Add_low_SN*: Experimenting with adding in the low S/N rotators.
+
 *Cross_Validation*: using cross validation to test the quality of the fit.
 
 *Get_cluster_scatter*: Calculate the scatter in the clusters to estimate errorbars.
