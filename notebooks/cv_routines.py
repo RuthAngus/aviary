@@ -136,7 +136,8 @@ def assemble_data(young_limit, old_limit, hot_limit, dp, dc, cluster_old_err,
     ID = np.concatenate((np.zeros_like(cluster_age),
                          np.ones_like(np.ndarray.flatten(A))))
     # 0s are clusters, 1s are kinematics
-    return x, age, prot, prot_err, ID, akin
+    return x, age, prot, prot_err, ID, akin, cluster_x, cluster_prot, \
+        cluster_age
 
 
 def get_stellar_ages(x, prot, prot_err, filename):
