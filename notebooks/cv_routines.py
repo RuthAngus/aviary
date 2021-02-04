@@ -47,7 +47,7 @@ class AgePosterior(object):
 
 
 def assemble_data(young_limit, old_limit, hot_limit, dp, dc, cluster_old_err,
-                  kinerr, sun_err, sun_color=.82, sun_prot=26.,
+                  abs_kinerr, sun_err, sun_color=.82, sun_prot=26.,
                   sun_age=4.56):
     """
     Load and assemble calibration data using variables that will be varied in
@@ -128,7 +128,9 @@ def assemble_data(young_limit, old_limit, hot_limit, dp, dc, cluster_old_err,
     # Combine clusters with kinematic grid
     x = np.concatenate((cluster_x, np.ndarray.flatten(C)))
     prot_err = np.concatenate((cluster_prot_errs,
-                               np.ndarray.flatten(10**P)*kinerr))
+                               np.ones(len(np.ndarray.flatten(10**P)))
+                               *abs_kinerr))
+                               # np.ndarray.flatten(10**P)*kinerr))
     prot = np.concatenate((cluster_prot, np.ndarray.flatten(10**P)))
     age = np.concatenate((cluster_age, np.ndarray.flatten(A)))
     ID = np.concatenate((np.zeros_like(cluster_age),

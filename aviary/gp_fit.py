@@ -10,6 +10,30 @@ import exoplanet as xo
 from tqdm import trange
 import pickle
 
+
+def log_period_model(x2, x2_min, log_period_break_m, log_period_break_b):
+    """
+    2nd-order polynomial describing relationship between period and
+    age. period = m*logage + b
+    """
+    return log_period_break_m * (x2 - x2_min) + log_period_break_b
+
+
+# Mean model
+def gyro_mean_model(x1, x2, log_period_break_m, log_period_break_b,
+                    teff_break, slope_low, slope_high, smooth):
+    """
+    Predict the period at given values of color and age.
+    Use a smoothed broken power law for the period - color relation.
+    Use get_log_period_break for the period - age relation.
+    """
+    delta = x1 - teff_break
+    brk = log_period_model(x2)  # Get the period at this age
+    slope = slope_low / (1 + tt.exp(smooth * delta)) \
+        + slope_high / (1 + tt.exp(-smooth * delta))
+    return slope * delta + brk
+
+
 def fit_gp(x, age, prot, prot_err, filename):
     """
     Fit a GP gyro model to data via optimization. Saves a pickle of the model.
@@ -82,7 +106,8 @@ def fit_gp(x, age, prot, prot_err, filename):
             """
             delta = x1 - teff_break
             brk = get_log_period_break(x2)  # Get the period at this age
-            slope = slope_low / (1 + tt.exp(smooth * delta)) + slope_high / (1 + tt.exp(-smooth * delta))
+            slope = slope_low / (1 + tt.exp(smooth * delta)) \
+                + slope_high / (1 + tt.exp(-smooth * delta))
             return slope * delta + brk
 
         mean_model = get_mean_model(x1, x2)
@@ -96,18 +121,21 @@ def fit_gp(x, age, prot, prot_err, filename):
             X = np.vstack(((x1 - mu1) / sd1, (x2 - mu2) / sd2))
 
             if xp1 is None:
-                dX = (X[:, :, None] - X[:, None, :]) * tt.exp(-log_ell)[:, None, None]
+                dX = (X[:, :, None] - X[:, None, :]) \
+                    * tt.exp(-log_ell)[:, None, None]
                 r2 = tt.sum(dX ** 2, axis=0)
             else:
                 Xp = tt.stack(((xp1 - mu1) / sd1, (xp2 - mu2) / sd2))
-                dX = (Xp[:, :, None] - X[:, None, :]) * tt.exp(-log_ell)[:, None, None]
+                dX = (Xp[:, :, None] - X[:, None, :]) \
+                    * tt.exp(-log_ell)[:, None, None]
                 r2 = tt.sum(dX ** 2, axis=0)
 
             K = tt.exp(log_amp - 0.5 * r2)
             return K
 
         K = get_K(x1, x2)
-        K = tt.inc_subtensor(K[np.diag_indices(len(y))], tt.exp(log_s2) + y_err)
+        K = tt.inc_subtensor(K[np.diag_indices(len(y))],
+                             tt.exp(log_s2) + y_err)
 
         alpha = tt.slinalg.solve(K, y - mean_model)
         pm.Deterministic("alpha", alpha)
@@ -149,4 +177,4 @@ def fit_gp(x, age, prot, prot_err, filename):
     with open(filename, "wb") as f:
         pickle.dump([model, map_soln], f)
 
-    print("done")
+    return map_soln

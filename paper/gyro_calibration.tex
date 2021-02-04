@@ -163,6 +163,17 @@ coverage across the \prot-color plane.
 In order to optimize the choices made above, and to quantify the overall age
 precision that can be expected from this model, we performed cross validation.
 
+For each variable that needed to be optimized, we performed cross validation
+over a grid of values, and selected the value that resulted in the smallest
+root-mean-square (RMS) during cross validation.
+For example, for the uncertainties on the rotation periods of the kinematic
+data, we examined 10 uncertainty values between 1\% and 10\%.
+For each value, the GP model was re-trained and cross validation was
+performed.
+During cross validation we excluded 10 data points, selected at random from
+the combined cluster and kinematic calibration data set, and trained the model
+on the remaining data.
+We then
 
 \begin{figure}
 \caption{
