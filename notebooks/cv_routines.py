@@ -164,6 +164,55 @@ def get_stellar_ages(x, prot, prot_err, filename):
     return mu, sig, mu_fit
 
 
+def train_val(x, y, z, yerr, ID, ind_batch):
+
+    # Divide data into train and validate
+    bools = np.ones(len(x), dtype="bool")
+    bools[ind_batch] = np.zeros(len(bools[ind_batch]), dtype="bool")*1
+    xval, yval, yerrval, zval, IDval = x[ind_batch], y[ind_batch], \
+        yerr[ind_batch], z[ind_batch], ID[ind_batch]
+    xtrain, ytrain, yerrtrain, ztrain, IDtrain = x[bools], y[bools], \
+        yerr[bools], z[bools], ID[bools]
+    return xtrain, xval, ytrain, yval, ztrain, zval, yerrtrain, yerrval, \
+        IDtrain, IDval
+
+def cross_validate(x, age, prot, prot_err, ID, filename, nbatches=10,
+                   nstars=10, seed=42):
+
+    # Randomly select indices for nbatches of data for training and validation.
+    np.random.seed(seed)
+    ind_batches = [np.random.choice(np.arange(len(x)), nstars) for i in
+                   range(nbatches)]
+
+    true_ages, pred_ages, sigmas, ids, results = [], [], [], [], []
+    for i in range(nbatches):  # For each cross validation test
+
+        # Split data into train and validate.
+        x_train, x_val, prot_train, prot_val, age_train, age_val, \
+            prot_err_train, prot_err_val, ID_train, ID_val \
+            = train_val(x, prot, age, prot_err, ID, ind_batches[i])
+
+        # Fit the GP gyro model to training set and get ages for validtn set
+        map_soln = av.fit_gp(x_train, age_train, prot_train, prot_err_train,
+                             filename)
+        mu, sig, mu_fit = get_stellar_ages(x_val, prot_val, prot_err_val,
+                                           filename)
+
+        # Save the results
+        true_ages.append(age_val)
+        pred_ages.append(mu)
+        sigmas.append(sig)
+        ids.append(ID_val)
+        results.append(map_soln)
+
+    # Combine results from all batches.
+    trues = np.array([i for j in true_ages for i in j])
+    preds = np.array([i for j in pred_ages for i in j])
+    sigs = np.array([i for j in sigmas for i in j])
+    idss = np.array([i for j in ids for i in j])
+    return trues, preds, sigs, idss, results
+
+
 def make_plot(kin, x, age, prot, prot_err, cluster_x, cluster_prot,
               cluster_age, filename):
     # Format data for GP fit.
