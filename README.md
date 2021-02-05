@@ -1,47 +1,23 @@
 # aviary
 Inferring ages from velocity dispersions and fitting a GP gyrochronology model.
 
-NOTEBOOKS
-=========
+To calculate velocities:
+----------------------
+*ssh into cluster and navigate to aviary_tests/aviary.
+*Create a new run_.py file and a new pymc3_multi_star.py or edit the get_velocities_general.py.
+*Change the upper and lower indices in the run file, depending on how many stars you want to run on.
+*Change the directory and data file in code/get_velocities_general.py
+*The data file must contain ra, ra_error, dec, dec_error, parallax, parallax_error, pmra, pmra_error, pmdec, pmdec_error.
+*Create a new .sh file and do module load slurm, sbatch <.sh file>. 
+*To watch progress: tail -f slurm-.out
 
-*Add_low_SN*: Experimenting with adding in the low S/N rotators.
+To calculate ages:
+-----------------
+Training the model:
+run gp_fit.py
 
-*Cross_Validation*: using cross validation to test the quality of the fit.
-
-*Get_cluster_scatter*: Calculate the scatter in the clusters to estimate errorbars.
-
-*GP_fit*: a from-scratch version of the GP fit. Currently looks pretty good.
-
-*Nice_plots*: Making a plot of kinematic data with cluster data for talks.
-
-*Comparison_with_Spada*: Comparing model with the model of Spada & Lanzafame (2019).
-Didn't get very far, but has code to load pickled results.
-
-*GP_demo_hackszors*: mucking around with the GP fit.
-
-*GP_demo*: Fitting the GP gyro relation.
-
-*GP_fit_MEarth*: Fitting the GP gyro relation with MEarth data.
-
-*Aperiodoc*: exploring aperiodic stars.
-
-*Are_Asteroseismic_Stars_Aperiodic*: More exploration of aperiodic stars.
-
-*Better_Prior*: Testing the prior.
-
-*Bokeh*: making main Bokeh plots.
-
-*Existing_RVs*: Exploring stats of existing RVs.
-
-*Full_age_comparison*: comparing kinematic ages with benchmark ages.
-
-*Multi-dimensional*: More extensive work on comparisons.
-
-*v_comparison*: Generating the velocity comparison figure for the paper.
-
-*XD*: Applying XD to isochrone data.
-
-*Yu_Liu_AVR*: Coding up Yu and Liu AVR.
+Inferring an age: 
+Currently run Age_posterior in cv_routines.py
 
 AVIARY
 ======
@@ -116,3 +92,46 @@ version).
 *mcquillan_kinematic_data.csv*: My kinematic ages for Kepler stars.
 
 *Gyrokinage2020_Prot.csv*: Lucy's kinematic ages.
+
+
+NOTEBOOKS
+=========
+
+*Add_low_SN*: Experimenting with adding in the low S/N rotators.
+
+*Cross_Validation*: using cross validation to test the quality of the fit.
+
+*Get_cluster_scatter*: Calculate the scatter in the clusters to estimate errorbars.
+
+*GP_fit*: a from-scratch version of the GP fit. Currently looks pretty good.
+
+*Nice_plots*: Making a plot of kinematic data with cluster data for talks.
+
+*Comparison_with_Spada*: Comparing model with the model of Spada & Lanzafame (2019).
+Didn't get very far, but has code to load pickled results.
+
+*GP_demo_hackszors*: mucking around with the GP fit.
+
+*GP_demo*: Fitting the GP gyro relation.
+
+*GP_fit_MEarth*: Fitting the GP gyro relation with MEarth data.
+
+*Aperiodoc*: exploring aperiodic stars.
+
+*Are_Asteroseismic_Stars_Aperiodic*: More exploration of aperiodic stars.
+
+*Better_Prior*: Testing the prior.
+
+*Bokeh*: making main Bokeh plots.
+
+*Existing_RVs*: Exploring stats of existing RVs.
+
+*Full_age_comparison*: comparing kinematic ages with benchmark ages.
+
+*Multi-dimensional*: More extensive work on comparisons.
+
+*v_comparison*: Generating the velocity comparison figure for the paper.
+
+*XD*: Applying XD to isochrone data.
+
+*Yu_Liu_AVR*: Coding up Yu and Liu AVR.
