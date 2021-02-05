@@ -11,6 +11,7 @@ import theano.tensor as tt
 import exoplanet as xo
 import astropy.modeling as apm
 
+import aviary as av
 
 class AgePosterior(object):
 
@@ -175,6 +176,7 @@ def train_val(x, y, z, yerr, ID, ind_batch):
         yerr[bools], z[bools], ID[bools]
     return xtrain, xval, ytrain, yval, ztrain, zval, yerrtrain, yerrval, \
         IDtrain, IDval
+
 
 def cross_validate(x, age, prot, prot_err, ID, filename, nbatches=10,
                    nstars=10, seed=42):
