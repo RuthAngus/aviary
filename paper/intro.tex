@@ -1,24 +1,24 @@
 \section{Introduction}
 
 % Motivation
-Low mass dwarfs are the most common stars in the Milky Way, and their ages
-could reveal the evolution of Galactic stellar populations and planetary
+Main-sequence dwarfs are the most common stars in the Milky Way, and their
+ages could reveal the evolution of Galactic stellar populations and planetary
 systems.
-However, the ages of GKM stars are difficult to measure because their
-luminosities and temperatures evolve slowly on the main sequence.
+However, the ages of low-mass stars, particularly K and M dwarfs are difficult
+to measure because their luminosities and temperatures evolve slowly on the
+main sequence \citep[see][for a review of stellar ages]{soderblom2010}.
 Fortunately, rotation-dating, or `gyrochronology’ provides a promising means
 to measure precise ages for these cool dwarfs.
 \citep[\eg][]{schatzman1962, weber1967, kraft1967, skumanich1972, kawaler1988,
 pinsonneault1989, barnes2003, barnes2007, mamajek2008, barnes2010, meibom2011,
-meibom2015, vansaders2016}.
+epstein2014, meibom2015, vansaders2016, vansaders2018, claytor2020}.
 The rotation periods of GKM stars evolve relatively rapidly, and a fully
 calibrated gyrochronology model that captures the time and mass-dependence of
 stellar spin down could provide ages that are precise to within 20\% for
 millions of Milky Way stars in the time-domain era \citep{epstein2014,
-najita2016, angus2019}.
-However, gyrochronology models are not yet reliably calibrated, especially for
-low-mass and old stars.
-
+najita2016, angus2019, claytor2020}.
+However, gyrochronology models are not yet fully calibrated, especially for
+K and M dwarfs.
 % What do we still not understand?
 % Gyro is still poorly calibrated
 % With the thousands of new photometric rotation period measurements provided by
@@ -27,55 +27,72 @@ low-mass and old stars.
 % towards the ultimate goal for rotation-dating: a fully calibrated
 % gyrochronology relation that is applicable to GKM main-sequence stars of all
 % ages.
-A lack of low-mass and old calibration stars has previously limited the mass
-and age coverage of gyrochronology relations, which require precise age and
-rotation period measurements.
-Historically the calibration sample has been limited to open clusters and
-asteroseismic stars, which can be precisely dated with isochrone fitting and
-main sequence turn off, or precise oscillation frequency analysis.
-The rotation periods of both cluster and asteroseismic stars can be measured
-with precise time-series photometry.
-Magnetically active regions create inhomogeneous surface features and produce
-periodic variability in their integrated, broad-band emission.
-The photometric rotation periods of thousands of stars have been measured with
-the \kepler/\ktwo\ and \tess\ space missions \citep{borucki2010, howell2014,
-ricker2015}.
+A lack of suitable low-mass and old calibration stars limits the reliable mass
+and age coverage of gyrochronology relations.
+For example, the oldest K dwarfs in an open cluster (and therefore having a
+precise age estimate), with measured rotation periods, are those in Ruprecht
+147 (2.7 Gyr) \citep{curtis2020, age_citation}.
+The oldest cluster M dwarfs with measured rotation periods are those in
+Praesepe (600-700 Myr) \citep{douglas2017, rebull2017, age_citation}.
+Gyrochronology relations can therefore be considered untested for K dwarfs
+older than 2.7 Gyr and M dwarfs older than 600-700 Myr.
 
-% Measuring rotation periods from light curves is a research topic in and of
-% itself, but many studies have successfully measured the rotation periods of
-% thousands of stars in clusters and in the field, from \kepler, \ktwo, and
-% \tess\ light curves.
-For the purposes of calibrating gyrochronology, open clusters provide good
-mass coverage for young stars: rotation periods have been measured for F to
-mid M dwarfs up to ages of around 700 Myr.
-In contrast, asteroseismic stars provide reasonable age coverage for hot
-stars: ages and photometric surface rotation periods have been measured for F,
-G and early K dwarfs up to ages of 10 Gyr.
-However, neither asteroseismology nor cluster analysis can provide rotation
-periods and ages for old, late K and M dwarfs.
-In addition, cluster and asteroseismic stars generally provide sparse coverage
-of the rotation period-effective temperature plane, and cannot reveal the
-detailed evolution of stellar rotation rates.
-As a result, most empirical gyrochronology relations are only reliable for G
-dwarfs up to Solar age, K dwarfs up to 2-3 Gyr, and early M dwarfs up to $<$ 1
-Gyr.
-% Old open clusters are generally too distant for photometric rotation period
-% measurements of faint M dwarfs, and asteroseismic analyses suffer from the
-% large magnetic activity signals and low-amplitudes of oscillations for
-% low-mass stars.
+Historically, gyrochronology calibration samples have mainly been comprised of
+stars in open clusters and stars with detectable acoustic pulsations, both of
+which can be precisely dated with stellar evolution models.
+The rotation periods of these calibration stars can often be measured with
+precise time-series photometry, and the Kepler spacecraft has played a leading
+role in providing light curves for stellar rotation studies
+\citep[\eg][]{borucki2010, meibom2011, mcquillan2013, mcquillan2014,
+howell2014, reinhold2014, garcia2014, aigrain2015, meibom2015, douglas2016,
+douglas2017, rebull2016, rebull2017, santos2019, reinhold2019, rebull2020,
+gordon2020, curtis2020, breton2021}.
+Magnetically active regions on the surfaces of stars create dark and bright
+surface features which produce periodic variability in the overall brightness
+of a rotating star.
+This variability is, at most, on the order of 1\% of the star's overall flux.
+The rotation periods of stars can often be measured from their light curves
+using signal-processing techniques.
+TESS, the Transiting Exoplanet Survey Satellite, is continuing the legacy of
+Kepler and will provide rotation periods for many more stars
+\citep{ricker2014}.
 
-The rotational evolution of cool dwarfs is not well understood because few old
-M dwarfs with rotation periods have age measurements.
-However, as we showed in Angus \etal\ (2020), the {\it kinematic} ages of
-field stars observed by \kepler, can provide a calibration sample with broad
-mass and age coverage.
-Although the \kepler\ sample does not include late M dwarfs, it can still be
-used to extend gyrochronology relations to much older ages for late K and
-early M dwarfs.
-By adding the ages and rotation periods of thousands of field stars to the
-open cluster and asteroseismic calibration sample, we can calibrate a
-gyrochronology relation that is applicable to FGK and early M dwarfs between
-the ages of $\sim$500 Myr and 8 Gyr.
+% For the purposes of calibrating gyrochronology, open clusters provide good
+% mass coverage for young stars: rotation periods have been measured for F to
+% mid M dwarfs up to ages of around 700 Myr.
+% In contrast, asteroseismic stars provide reasonable age coverage for hot
+% stars: ages and photometric surface rotation periods have been measured for F,
+% G and early K dwarfs up to ages of 10 Gyr.
+% However, neither asteroseismology nor cluster analysis can provide rotation
+% periods and ages for old, late K and M dwarfs.
+% In addition, cluster and asteroseismic stars generally provide sparse coverage
+% of the rotation period-effective temperature plane, and cannot reveal the
+% detailed evolution of stellar rotation rates.
+% As a result, most empirical gyrochronology relations are only reliable for G
+% dwarfs up to Solar age, K dwarfs up to 2-3 Gyr, and early M dwarfs up to $<$ 1
+% Gyr.
+
+To extend gyrochronology relations to older K and M dwarfs, it may be
+necessary to use alternative dating methods.
+Old open clusters are generally too distant for photometric rotation period
+measurements of faint M dwarfs, and asteroseismic analyses suffer from the
+large magnetic activity signals and low-amplitudes of oscillations for
+low-mass stars.
+There is great promise, however, for binary studies as an alternative method
+for calibrating gyrochronology.
+For example, low-mass K and M dwarfs with a precisely dateable co-moving
+companion (\eg\ a white dwarf, a subgiant, or a star with detectable acoustic
+oscillations) could be good calibrators.
+We have recently investigated the promise of kinematics as an alternative
+age-dating method.
+In \citet{angus2020} we explored the kinematic properties of Kepler field
+stars with measured rotation periods and found that the velocity dispersion of
+stars increase with stellar rotation period, as expected.
+In \citet{lu2021} we used the velocity dispersions of Kepler field stars to
+estimate their ages using an Age-Velocity dispersion Relation (AVR).
+In this work, we use these kinematic ages for around 30,000 Kepler field
+stars to extend the gyrochronology relations into the old K and early M dwarf
+regime.
 
 % % Gyro 101
 % Stars with significant convective envelopes ($\lesssim$ 1.3 M$_\odot$) have
