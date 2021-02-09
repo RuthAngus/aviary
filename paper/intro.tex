@@ -79,10 +79,15 @@ Instead, they should be actively calibrated for stars of all masses and ages.
 Our goal in this paper is to provide a new fully-empirical gyrochronology
 relation that captures the stalled braking behavior of old K and early M
 dwarfs.
-However, our model will not capture the behavior of stars undergoing weakened
-braking because our calibration is not yet suitable for weakened braking
-stars.
-We hope to extend our model to these stars in future
+% However, our model will not capture the behavior of stars undergoing weakened
+% braking because our calibration is not yet suitable for weakened braking
+% stars.
+% Similarly, we do not have any mid or late M dwarfs in our calibration sample,
+% so our model is also unsuitable for those stars.
+% We hope to extend our model to include weakened magnetic braking and mid/late
+% M dwarfs in future.
+% We also note that a fully-empirical model has certain limitations, and we
+% describe the full list of caveats later in this paper.
 
 % The rate at which a star loses angular momentum is thought to chiefly depend
 % on its magnetic field strength.
@@ -114,7 +119,7 @@ We hope to extend our model to these stars in future
 % Kepler and will provide rotation periods for many more stars
 % \citep{ricker2014}.
 
-% For the purposes of calibrating gyrochronology, open clusters provide good
+% For the purposes of calibrating gyrochronology, oen clusters provide good
 % mass coverage for young stars: rotation periods have been measured for F to
 % mid M dwarfs up to ages of around 700 Myr.
 % In contrast, asteroseismic stars provide reasonable age coverage for hot
@@ -154,3 +159,69 @@ In this paper, we use those kinematic ages for around 30,000 Kepler field
 stars to extend the gyrochronology relations into the old K and early M dwarf
 regime.
 
+The star forming molecular gas clouds observed in the Milky Way have a low
+out-of-plane, or vertical, velocity \citep[\eg][]{stark1989, stark2005,
+aumer2009, martig2014, aumer2016}.
+In contrast, the vertical velocities of older stars are observed to be larger
+in magnitude on average \citep{stromberg1946, wielen1977, nordstrom2004,
+holmberg2007, holmberg2009, aumer2009, casagrande2011, ting2019, yu2018}.
+There are two possible explanations for this observed increase in velocity
+dispersion with age: either stars are born kinematically `cool' and their
+orbits are heated over time via interactions with giant molecular clouds
+\citep[see][for a review of secular evolution in the MW]{sellwood2014}, or
+stars formed kinematically `hotter' in the past \citep[\eg][]{bird2013}.
+Either way, the vertical velocity dispersions of thin disk stars are observed
+to increase with stellar age.
+This behavior is codified by Age-Velocity dispersion Relations (AVRs), which
+typically express the relationship between age and velocity dispersion as a
+power law: $\sigma_v \propto t^\beta$, with free parameter, $\beta$
+\citep[\eg][]{holmberg2009, yu2018}.
+These expressions can be used to infer the ages of groups of stars from their
+velocity dispersions.
+
+Kinematic ages have been used to explore the evolution of cool dwarfs for over
+a decade.
+For example, \citet{west2004, west2006} found that the fraction of
+magnetically active M dwarfs decreases over time, by using the vertical
+distances of stars from the Galactic mid-plane as an age proxy, and
+\citet{west2008} used kinematic ages to calculate the expected activity
+lifetime for M dwarfs of different spectral types.
+\citet{faherty2009} used tangential velocities to infer the ages of M, L and T
+dwarfs, and showed that dwarfs with lower surface gravities tended to be
+kinematically younger, and \citet{kiman2019} used velocity dispersion as an
+age proxy to explore the evolution of H$\alpha$ equivalent width (a magnetic
+activity indicator), in M dwarfs.
+
+AVRs are usually calibrated in Galactocentric velocity coordinates (\vx, \vy,
+\vz\ or $UVW$), and these velocities can only be calculated with full 6D
+positional and velocity information, however most \kepler\ rotators do not
+have RV measurements\footnote{Although RVs for most will be released in \gaia\
+DR3}.
+In \citep{angus2020} we used velocity in the direction of Galactic latitude
+(\vb) as a stand-in for \vz\ because, in the {\it Galactic} coordinate system,
+velocities can be calculated from 3D positions and {\it 2D} proper motions.
+The \kepler\ field lies at low Galactic latitude, so \vb\ is a close
+approximation to \vz\ for Kepler stars.
+Although \vb\ velocity dispersion does not equal \vz\ velocity dispersion, it
+still increases monotonically over time and provides accurate age rankings for
+\kepler\ stars.
+In this paper however, we calculate or infer \vz\ for each Kepler star in our
+sample.
+For stars without RV measurements we infer {\it vertical} velocity, \vz, by
+marginalizing over missing RVs using a hierarchical Bayesian model.
+These vertical velocities were used by \citet{lu2020} to calculate velocity
+dispersions of groups of stars with similar properties, which they then
+converted into ages using an AVR \citep{yu2018}.
+In this paper, we use the kinematic ages calculated by \citet{lu2020} to
+calibrate a new gyrochronology relation.
+
+This paper is laid out as follows: in section \ref{sec:data} we describe the
+data set used to calibrate our new gyrochronology model.
+In section \ref{sec:velocities} we describe how we calculated the kinematic
+ages of Kepler stars from their positions, proper motions and parallaxes (and
+RVs where available).
+In section \ref{sec:gyro_calibration} we describe the new model and how we fit
+it to the data.
+In section \ref{sec:results} we test our new model using cross validation and
+test its precision and accuracy, and in section \ref{sec:discussion} we
+discuss the successes and caveats of our new model.

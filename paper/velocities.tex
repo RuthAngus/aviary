@@ -1,29 +1,37 @@
 \section{Stellar Velocities}
 \label{sec:velocities}
 
-It has been demonstrated that the dispersion in vertical velocity, \vz, of a
-population of stars increases with the age of that population
-\citep[\eg][]{stromberg1946, wielen1977, nordstrom2004, holmberg2007,
-holmberg2009, aumer2009, casagrande2011, ting2019, yu2018}.
-However, velocities in Galactocentric coordinates, \vx, \vy\ and \vz, can only
-be calculated with full 6-D position and velocity information, \ie\ proper
-motions, position and radial velocity.
-In Angus \etal\ (2020) we used velocity dispersions to explore rotational
-evolution, however we used velocity in the direction of Galactic latitude,
-\vb, instead of \vz\ because it can be calculated without an RV measurement
-but is a close approximation to \vz\ for \kepler\ stars.
-This is because the \kepler\ field lies at low Galactic latitudes, ($\sim
-5-20$\degrees), so the ${\bf z}$-direction is similar to the ${\bf
-b}$-direction for \kepler\ stars.
+In this section we describe how we calculated full 3D velocities for the field
+stars in our sample, which were then used to calculate kinematic ages using
+the method described in \citet{lu2020}.
+
+% It has been demonstrated that the dispersion in vertical velocity, \vz, of a
+% population of stars increases with the age of that population,
+% \citep[\eg][]{stromberg1946, wielen1977, nordstrom2004, holmberg2007,
+% holmberg2009, aumer2009, casagrande2011, ting2019, yu2018}.
+Most AVRs are calibrated using velocities in Galactocentric coordinates, \vx,
+\vy\ and \vz, which can only be calculated with full 6-D position and velocity
+information, \ie\ proper motions, position and radial velocity.
+In \citet{angus2020} we explored rotational evolution using velocity
+dispersion as an age proxy, however we used velocity in the direction of
+Galactic latitude, \vb, instead of \vz.
+This is because \vb\ can be calculated without an RV measurement but is a
+close approximation to \vz\ for \kepler\ stars due to the orientation of the
+Kepler field.
+The \kepler\ field lies at low Galactic latitudes, ($\sim 5-20$\degrees), so
+the ${\bf z}$-direction is similar to the ${\bf b}$-direction for \kepler\
+stars.
 However, even at such low latitudes, kinematic ages calculated with \vb\
 instead of \vz\ are likely to be systematically larger because of mixing
 between \vz, \vx\ and \vy.
 A direct measurement or precise estimate of \vz\ is necessary to calculate
 accurate kinematic ages.
-Less than 1 in 3 stars in our sample of \kepler\ rotators had a directly
+Less than 1 in 3 stars in our sample of \kepler\ rotators have a directly
 measured RV available, and for these $\sim$11,000 stars we calculated vertical
 velocities, \vz, using the {\tt coordinates} library of {\tt astropy}
 \citep{astropy2013, astropy2018}.
+For the remaining stars we {\it inferred} their vertical velocities by
+marginalizing over their RVs.
 
 % Figure \ref{fig:existing_rvs} shows rotation period vs effective temperature
 % for all stars in the \mct\ and \citet{santos2019} catalogs.
@@ -34,46 +42,46 @@ velocities, \vz, using the {\tt coordinates} library of {\tt astropy}
 % \racomment{Discuss what this plot shows.
 % Perhaps combine into a multi-panelled plot?}
 
-Although RVs were available for almost one in three stars in our \kepler\
-rotation sample, few cool dwarfs had RV measurements because of the selection
-functions of the \gaia\ and \lamost\ surveys.
-In our sample, one in 2.5 stars hotter than 5000 K had RV measurements,
-whereas only one in six stars cooler than 5000 K had RVs.
-\gaia\ DR2 only includes RVs for stars brighter than around 13th magnitude,
-and \lamost\ only provides RVs for \kepler\ stars brighter than around 17th
-magnitude in \gaia\ $G$-band.
-\racomment{Ruth, check the actual LAMOST selection function.}
-Figure \ref{fig:rv_histogram} shows the apparent magnitude and temperature
-distributions of the stars in our sample, with and without RVs.
-This figure reveals the combined selection functions of the \gaia\ DR2 and
-\lamost\ RV surveys and shows that faint and cool stars have fewer RV
-measurements than hot, bright ones.
-\begin{figure}[ht!]
-\caption{
-    The apparent magnitude (left) and temperature (right) distributions of
-    stars in our sample, with and without RV measurements from \gaia\ and
-    \lamost.
-}
-  \centering \includegraphics[width=1\textwidth]{rv_histogram}
-\label{fig:rv_histogram}
-\end{figure}
-Given that rotational evolution is particularly poorly understood for M
-dwarfs, the cool stars with missing RVs are arguably the most interesting.
-To fill-in the low-temperature regime, we inferred velocities for stars
-without RV measurements, by marginalizing over missing RVs.
+% Although RVs are available for almost one in three stars in our \kepler\
+% rotation sample, very few of the coolest stars have RV measurements because of
+% the selection functions of the \gaia\ and \lamost\ surveys.
+% In our sample, one in 2.5 stars hotter than 5000 K had RV measurements,
+% whereas only one in six stars cooler than 5000 K had RVs.
+% \gaia\ DR2 only includes RVs for stars brighter than around 13th magnitude,
+% and \lamost\ only provides RVs for \kepler\ stars brighter than around 17th
+% magnitude in \gaia\ $G$-band.
+% \racomment{Ruth, check the actual LAMOST selection function.}
+% Figure \ref{fig:rv_histogram} shows the apparent magnitude and temperature
+% distributions of the stars in our sample, with and without RVs.
+% This figure reveals the combined selection functions of the \gaia\ DR2 and
+% \lamost\ RV surveys and shows that faint and cool stars have fewer RV
+% measurements than hot, bright ones.
 % \begin{figure}[ht!]
 % \caption{
-% Vertical velocity dispersion as a function of rotation period and effective
-%     temperature for \kepler\ stars with measured rotation periods.
-% Colored points show stars with RV measurements from \gaia\ or \lamost, with
-%     their color indicating their velocity dispersion.
-% Faint grey points show the combined \mct\ and \citet{santos2019} samples,
-%     including stars without RV measurements.
-% The coolest stars in this sample do not have RVs because they are faint.
+%     The apparent magnitude (left) and temperature (right) distributions of
+%     stars in our sample, with and without RV measurements from \gaia\ and
+%     \lamost.
 % }
-%   \centering \includegraphics[width=1\textwidth]{existing_rvs}
-% \label{fig:existing_rvs}
+%   \centering \includegraphics[width=1\textwidth]{rv_histogram}
+% \label{fig:rv_histogram}
 % \end{figure}
+% Given that rotational evolution is particularly poorly understood for M
+% dwarfs, the cool stars with missing RVs are arguably the most interesting.
+% To fill-in the low-temperature regime, we inferred velocities for stars
+% without RV measurements, by marginalizing over missing RVs.
+% % \begin{figure}[ht!]
+% % \caption{
+% % Vertical velocity dispersion as a function of rotation period and effective
+% %     temperature for \kepler\ stars with measured rotation periods.
+% % Colored points show stars with RV measurements from \gaia\ or \lamost, with
+% %     their color indicating their velocity dispersion.
+% % Faint grey points show the combined \mct\ and \citet{santos2019} samples,
+% %     including stars without RV measurements.
+% % The coolest stars in this sample do not have RVs because they are faint.
+% % }
+% %   \centering \includegraphics[width=1\textwidth]{existing_rvs}
+% % \label{fig:existing_rvs}
+% % \end{figure}
 
 \subsection{Inferring 3D velocities (marginalizing over missing RV
 measurements)}
@@ -86,15 +94,15 @@ measurements)}
 % For stars with no measured RV in \gaia\ DR2, \vx, vy, and \vz\ can still be
 % inferred from positions and proper motions alone, by marginalizing over
 % missing RV measurements.
-For each star in our sample, we inferred \vx, \vy, and \vz\ from the 3D
-positions (right ascension, \ra, declination, \dec, and parallax, \parallax)
-and 2D proper motions (\mura and \mudec) provided in the \gaia\ DR2 catalog
-\citep{brown2011}.
+For each star in our sample without an RV measurement, we inferred \vx, \vy,
+and \vz\ from the 3D positions (right ascension, \ra, declination, \dec, and
+parallax, \parallax) and 2D proper motions (\mura and \mudec) provided in the
+\gaia\ DR2 catalog \citep{brown2011}.
 We also simultaneously inferred distance, (instead of using inverse-parallax),
 to model velocities \citep[see \eg][]{bailer-jones2015, bailer-jones2018}.
 
-Using Bayes rule, the posterior probability of the parameters given the data
-can be written:
+Using Bayes rule, the posterior probability of the velocity parameters given
+the Gaia data can be written:
 \begin{equation}
     p({\bf v_{xyz}}, D | \mu_{\alpha}, \mu_{\delta}, \alpha, \delta, \pi) =
     p(\mu_{\alpha}, \mu_{\delta}, \alpha, \delta, \pi | {\bf v_{xyz}}, D)
@@ -104,12 +112,12 @@ where $D$ is distance and ${\bf v_{xyz}}$ is the 3D vector of velocities.
 To evaluate the likelihood function, our model predicted observable data from
 model parameters, \ie\ it converted \vx, \vy\, \vz\ and $D$ to \pmra, \pmdec\
 and \parallax.
-In the first step of the model, cartesian coordinates, \x, \y, and \z\, were
-calculated from \ra\ and \dec\ measurements and $D$ ($1/\pi$) for each star,
-by applying a series of matrix rotations, and a translation to account for the
-Solar position.
-The cartesian Galactocentric velocity parameters, \vx, \vy, and \vz, were then
-converted to equatorial coordinates, \pmra\ and \pmdec, via another rotation.
+In the first step of the model evaluation, cartesian coordinates, \x, \y, and
+\z\, were calculated from \ra\ and \dec\ measurements and $D$ ($1/\pi$) for
+each star, by applying a series of matrix rotations, and a translation to
+account for the Solar position.  The cartesian Galactocentric velocity
+parameters, \vx, \vy, and \vz, were then converted to equatorial coordinates,
+\pmra\ and \pmdec, via another rotation.
 
 As mentioned previously, the specific positioning of the \kepler\ field (at
 low Galactic latitude) allows \vz\ to be well-constrained from proper motion
@@ -147,7 +155,7 @@ covariances to construct a multivariate Gaussian prior over the parameters for
 stars {\it without} RVs.
 Velocity outliers greater than 3-$\sigma$ were removed before calculating the
 means and covariances of the distributions.
-The 2-dimensional log-distance and velocity distributions are displayed in
+The 2-dimensional ln-distance and velocity distributions are displayed in
 figure \ref{fig:prior_distributions_2D}, with 2-$\sigma$ contours shown in
 blue.
 \begin{figure}[ht!]
@@ -167,12 +175,12 @@ using a prior calculated from stars {\it with} RV measurements.
 However, stars with and without RVs are likely to be different populations,
 with parameters that depend on the \gaia\ and \lamost\ selection functions.
 In particular, stars without RV measurements are more likely to be fainter,
-cooler, and further away (\eg\ figure \ref{fig:rv_histogram}).
-Lower-mass stars are, on average, older, and have larger velocity dispersions,
-plus stars in different locations in the Galaxy have different orbital
-velocities.
-So a prior based on the velocity distributions of stars with RVs will not
-necessarily reflect the velocities of those without.
+cooler, and further away.
+% Lower-mass stars are, on average, older, and have larger velocity dispersions,
+% plus stars in different locations in the Galaxy have different orbital
+% velocities.
+For this reason, a prior based on the velocity distributions of stars with RVs
+will not necessarily reflect the velocities of those without.
 However, given that \vx\ and \vz\ are strongly informed by proper motion
 measurements, and therefore likely to be relatively prior-insensitive, the
 prior may not impact our final vertical velocity, and subsequent kinematic
