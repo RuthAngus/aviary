@@ -34,7 +34,9 @@ def gyro_mean_model(x1, x2, log_period_break_m, log_period_break_b,
     return slope * delta + brk
 
 
-def fit_gp(x, age, prot, prot_err, filename):
+def fit_gp(x, age, prot, prot_err, filename,
+           age_grid=np.log(np.array([.12, .67, 1, 1.6, 2.7, 4, 4.56, 8, 10,
+                                     14]))):
     """
     Fit a GP gyro model to data via optimization. Saves a pickle of the model.
 
@@ -65,10 +67,7 @@ def fit_gp(x, age, prot, prot_err, filename):
     xp1 = np.linspace(x1.min() - .2, x1.max() + .2, 1000)
     xp2 = np.linspace(x2.min(), x2.max(), 1000)
     xg1 = np.linspace(x1.min(), x1.max(), 5)
-    xg2 = np.linspace(x2.min(), x2.max(), 10)
-    xg2 = np.array([np.log(.12), np.log(.67), np.log(1), np.log(1.6),
-                    np.log(2.7), np.log(4), np.log(4.56), np.log(8),
-                    np.log(10), np.log(14)])
+    xg2 = age_grid
 
     # The PyMC3 model
     with pm.Model() as model:
@@ -116,6 +115,7 @@ def fit_gp(x, age, prot, prot_err, filename):
         # GP parameters
         log_amp = pm.Normal("log_amp", mu=np.log(np.var(y)), sigma=10.0)
         log_ell = pm.Normal("log_ell1", mu=0.0, sigma=10., shape=2)
+        # log_ell = pm.Uniform("log_ell1", lower=-0.2, upper=1., shape=2)
 
         def get_K(x1, x2, xp1=None, xp2=None):
             X = np.vstack(((x1 - mu1) / sd1, (x2 - mu2) / sd2))
@@ -136,6 +136,8 @@ def fit_gp(x, age, prot, prot_err, filename):
         K = get_K(x1, x2)
         K = tt.inc_subtensor(K[np.diag_indices(len(y))],
                              tt.exp(log_s2) + y_err)
+        # K = tt.inc_subtensor(K[np.diag_indices(len(y))],
+        #                      tt.exp(log_s2))
 
         alpha = tt.slinalg.solve(K, y - mean_model)
         pm.Deterministic("alpha", alpha)
